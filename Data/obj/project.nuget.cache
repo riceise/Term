@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "0Ccs67HQvWcf2lt5iCpmyAt6m37V0HXKLaQm4ojJFr7sDK0rKcnublDajRoryNnvw15XA0reYqNqEV0aiUHYBQ==",
+  "dgSpecHash": "iAQs12cwao4KXX1Y4Mm/snp9iDjh9lLo+DUgLMXkPDdR9xJKn+GKD2uRFb+e/7gGpHgiSljwyRaqM/aF8HtTww==",
   "success": true,
-  "projectFilePath": "D:\\агу\\3\\Курсовая\\term\\Data\\Data.csproj",
+  "projectFilePath": "D:\\агу\\3\\Курсовая\\Term\\Data\\Data.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\nabiu\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\nabiu\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",

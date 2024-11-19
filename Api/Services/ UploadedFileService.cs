@@ -18,6 +18,7 @@ namespace Api.Services
 
         public async Task ProcessSpiskiNaDN(Stream fileStream)
         {
+            var errors = new List<string>();
             var files = new List<SpiskiNaDNFromMODTO>();
 
             using (var workbook = new XLWorkbook(fileStream))
@@ -26,38 +27,66 @@ namespace Api.Services
 
                 foreach (var row in worksheet.RowsUsed().Skip(1))
                 {
-                    DateTime birthDay;
-                    string dateString = row.Cell(5).GetString();
+                    try
+                    {
+                        DateTime birthDay;
+                        string dateString = row.Cell(5).GetString();
 
-                    if (!DateTime.TryParseExact(dateString, 
-                        new[] { "dd.MM.yyyy", "dd.MM.yyyy H:mm:ss", "dd.MM.yyyy HH:mm:ss", "dd.MM.yyyy HH:mm" }, 
-                        null, 
-                        System.Globalization.DateTimeStyles.AssumeUniversal, 
-                        out birthDay))                    
-                    {
-                        Console.WriteLine($"Ошибка: Не удалось распарсить дату '{dateString}' в строке {row.RowNumber()}");
-                        continue; 
+                        if (!DateTime.TryParseExact(dateString, 
+                            new[] { "dd.MM.yyyy", "dd.MM.yyyy H:mm:ss", "dd.MM.yyyy HH:mm:ss", "dd.MM.yyyy HH:mm" }, 
+                            null, 
+                            System.Globalization.DateTimeStyles.AssumeUniversal, 
+                            out birthDay))                    
+                        {
+                            errors.Add($"Ошибка: Поле 'Дата рождения' в строке {row.RowNumber()} имеет неверный формат: '{dateString}'");
+                            continue;
+                        }
+
+                        var fileDto = new SpiskiNaDNFromMODTO
+                        {
+                            Npp = int.Parse(row.Cell(1).GetString()),
+                            LastName = row.Cell(2).GetString(),
+                            Name = row.Cell(3).GetString(),
+                            Patronymic = row.Cell(4).GetString(),
+                            BirthDay = birthDay.ToUniversalTime(),
+                            Snils = row.Cell(6).GetString(),
+                            N_reest = int.Parse(row.Cell(7).GetString()),
+                            Period = int.Parse(row.Cell(8).GetString()),
+                            Organizaciya = row.Cell(9).GetString(),
+                        };
+
+                        // Валидируем модель
+                        var validationContext = new ValidationContext(fileDto);
+                        var validationResults = new List<ValidationResult>();
+                        if (!Validator.TryValidateObject(fileDto, validationContext, validationResults, true))
+                        {
+                            foreach (var validationResult in validationResults)
+                            {
+                                errors.Add($"Ошибка: {validationResult.ErrorMessage} в строке {row.RowNumber()}");
+                            }
+                            continue;
+                        }
+
+                        files.Add(fileDto);
                     }
-                    var fileDto = new SpiskiNaDNFromMODTO
+                    catch (Exception ex)
                     {
-                        Npp = int.Parse(row.Cell(1).GetString()),
-                        LastName = row.Cell(2).GetString(),
-                        Name = row.Cell(3).GetString(),
-                        Patronymic = row.Cell(4).GetString(),
-                        BirthDay = birthDay.ToUniversalTime(),
-                        Snils = row.Cell(6).GetString(),
-                        N_reest = int.Parse(row.Cell(7).GetString()),
-                        Period = int.Parse(row.Cell(8).GetString()),
-                        Organizaciya = row.Cell(9).GetString(),
-                    }; 
-                    
-                    files.Add(fileDto);
+                        errors.Add($"Ошибка в строке {row.RowNumber()}: {ex.Message}");
+                    }
                 }
             }
 
-            var fileEntities = UploadedFileMapper.MapDtoToEntity(files); 
+            // Если есть ошибки, выбросить исключение с их списком
+            if (errors.Any())
+            {
+                throw new ValidationException($"Обнаружены ошибки:\n{string.Join("\n", errors)}");
+            }
 
+            // Если ошибок нет, сохраняем данные
+            var fileEntities = UploadedFileMapper.MapDtoToEntity(files);
             await _repository.AddUploadedFilesAsync(fileEntities);
         }
+
+
     }
 }

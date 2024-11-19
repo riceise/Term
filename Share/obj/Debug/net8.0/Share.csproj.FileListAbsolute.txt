@@ -56,3 +56,4 @@ D:\агу\3\Курсовая\Term\Share\obj\Debug\net8.0\Share.dll
 D:\агу\3\Курсовая\Term\Share\obj\Debug\net8.0\refint\Share.dll
 D:\агу\3\Курсовая\Term\Share\obj\Debug\net8.0\Share.pdb
 D:\агу\3\Курсовая\Term\Share\obj\Debug\net8.0\ref\Share.dll
+D:\агу\3\Курсовая\Term\Share\obj\Debug\net8.0\Share.sourcelink.json

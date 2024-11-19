@@ -32,3 +32,4 @@ D:\агу\3\Курсовая\Term\Data\obj\Debug\net8.0\refint\Data.dll
 D:\агу\3\Курсовая\Term\Data\obj\Debug\net8.0\Data.pdb
 D:\агу\3\Курсовая\Term\Data\obj\Debug\net8.0\Data.genruntimeconfig.cache
 D:\агу\3\Курсовая\Term\Data\obj\Debug\net8.0\ref\Data.dll
+D:\агу\3\Курсовая\Term\Data\obj\Debug\net8.0\Data.sourcelink.json

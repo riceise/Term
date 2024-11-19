@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\агу\\3\\Курсовая\\term\\Share\\Share.csproj",
+      "projectUniqueName": "D:\\агу\\3\\Курсовая\\Term\\Share\\Share.csproj",
       "projectName": "Share",
-      "projectPath": "D:\\агу\\3\\Курсовая\\term\\Share\\Share.csproj",
+      "projectPath": "D:\\агу\\3\\Курсовая\\Term\\Share\\Share.csproj",
       "packagesPath": "C:\\Users\\nabiu\\.nuget\\packages\\",
-      "outputPath": "D:\\агу\\3\\Курсовая\\term\\Share\\obj\\",
+      "outputPath": "D:\\агу\\3\\Курсовая\\Term\\Share\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\nabiu\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -40,6 +40,11 @@
         "warnAsError": [
           "NU1605"
         ]
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
       }
     },
     "frameworks": {

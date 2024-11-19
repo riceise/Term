@@ -308,3 +308,4 @@ D:\агу\3\Курсовая\Term\Api\bin\Debug\net8.0\ExcelNumberFormat.dll
 D:\агу\3\Курсовая\Term\Api\bin\Debug\net8.0\RBush.dll
 D:\агу\3\Курсовая\Term\Api\bin\Debug\net8.0\SixLabors.Fonts.dll
 D:\агу\3\Курсовая\Term\Api\bin\Debug\net8.0\System.IO.Packaging.dll
+D:\агу\3\Курсовая\Term\Api\obj\Debug\net8.0\Api.sourcelink.json

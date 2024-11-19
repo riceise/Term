@@ -8384,11 +8384,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\агу\\3\\Курсовая\\term\\Data\\Data.csproj",
+      "projectUniqueName": "D:\\агу\\3\\Курсовая\\Term\\Data\\Data.csproj",
       "projectName": "Data",
-      "projectPath": "D:\\агу\\3\\Курсовая\\term\\Data\\Data.csproj",
+      "projectPath": "D:\\агу\\3\\Курсовая\\Term\\Data\\Data.csproj",
       "packagesPath": "C:\\Users\\nabiu\\.nuget\\packages\\",
-      "outputPath": "D:\\агу\\3\\Курсовая\\term\\Data\\obj\\",
+      "outputPath": "D:\\агу\\3\\Курсовая\\Term\\Data\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\nabiu\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -8405,8 +8405,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "D:\\агу\\3\\Курсовая\\term\\Share\\Share.csproj": {
-              "projectPath": "D:\\агу\\3\\Курсовая\\term\\Share\\Share.csproj"
+            "D:\\агу\\3\\Курсовая\\Term\\Share\\Share.csproj": {
+              "projectPath": "D:\\агу\\3\\Курсовая\\Term\\Share\\Share.csproj"
             }
           }
         }
@@ -8415,6 +8415,11 @@
         "warnAsError": [
           "NU1605"
         ]
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
       }
     },
     "frameworks": {
