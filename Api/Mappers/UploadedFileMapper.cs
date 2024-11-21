@@ -20,6 +20,22 @@ namespace Api.Mappers
                 Organizaciya = fileDto.Organizaciya
             });
         }
+        public static SpiskiNaDNFromMODTO MapEntityToDto(UploadedFile entity)
+        {
+            return new SpiskiNaDNFromMODTO
+            {
+                Npp = entity.Npp,
+                LastName = entity.LastName,
+                Name = entity.Name,
+                Patronymic = entity.Patronymic,
+                BirthDay = entity.BirthDay,
+                Snils = entity.Snils,
+                N_reest = entity.N_reest,
+                Period = entity.Period,
+                Organizaciya = entity.Organizaciya
+            };
+        }
+        
     }
 }
 
