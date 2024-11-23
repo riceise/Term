@@ -9,9 +9,9 @@
     {
         public class  UploadedFileService : IUploadedFileService
         {
-            private readonly IUploadedFileRepository _repository;
+            private readonly ISpiskiNaDnFromMoRepository _repository;
 
-            public UploadedFileService(IUploadedFileRepository repository)
+            public UploadedFileService(ISpiskiNaDnFromMoRepository repository)
             {
                 _repository = repository;
             }
@@ -83,25 +83,25 @@
                 }
 
                 // Если ошибок нет, сохраняем данные
-                var fileEntities = UploadedFileMapper.MapDtoToEntity(files);
-                await _repository.AddUploadedFilesAsync(fileEntities);
+                var fileEntities = SpiskiNaDNFromMOMapper.MapDtoToEntity(files);
+                await _repository.AddSpiskiNaDNFromMOsAsync(fileEntities);
             }
-            public async Task<SpiskiNaDNFromMODTO> GetByNReestAsync(int nReest)
+            public async Task<IEnumerable<SpiskiNaDNFromMODTO>> GetByNReestAsync(int nReest)
             {
-                var file = await _repository.GetByNReestAsync(nReest);
-                return UploadedFileMapper.MapEntityToDto(file);
+                var files = await _repository.GetByNReestAsync(nReest);
+                return files.Select(SpiskiNaDNFromMOMapper.MapEntityToDto).ToList();
             }
 
             public async Task<SpiskiNaDNFromMODTO> GetByIdAsync(int id)
             {
                 var file = await _repository.GetByIdAsync(id);
-                return UploadedFileMapper.MapEntityToDto(file);
+                return SpiskiNaDNFromMOMapper.MapEntityToDto(file);
             }
 
             public async Task<IEnumerable<SpiskiNaDNFromMODTO>> GetByLastNameAsync(string lastName)
             {
                 var files = await _repository.GetByLastNameAsync(lastName);
-                return files.Select(UploadedFileMapper.MapEntityToDto);
+                return files.Select(SpiskiNaDNFromMOMapper.MapEntityToDto);
             }
 
             public async Task DeleteByIdAsync(int id)

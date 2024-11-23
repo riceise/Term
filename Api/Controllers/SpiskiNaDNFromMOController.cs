@@ -42,11 +42,9 @@ namespace Api.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] SpiskiNaDNFromMODTO dto)
         {
-            // Проверка совпадения ID
             if (id != dto.N_reest)
                 return BadRequest("ID записи не соответствует ID в DTO.");
 
-            // Валидация модели
             if (!ModelState.IsValid)
             {
                 var errors = GetValidationErrors();
@@ -60,8 +58,14 @@ namespace Api.Controllers
         [HttpGet("nreest/{nReest}")]
         public async Task<IActionResult> GetByNReest(int nReest)
         {
-            var result = await _uploadedFileService.GetByNReestAsync(nReest);
-            return result != null ? Ok(result) : NotFound("Запись не найдена.");
+            var results = await _uploadedFileService.GetByNReestAsync(nReest);
+
+            if (results == null || !results.Any())
+            {
+                return NotFound("Записи с указанным номером реестра не найдены.");
+            }
+
+            return Ok(results);
         }
 
         [HttpGet("{id}")]
@@ -81,11 +85,17 @@ namespace Api.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteById(int id)
         {
-            await _uploadedFileService.DeleteByIdAsync(id);
+            var existingRecord = await _uploadedFileService.GetByIdAsync(id);
+
+            if (existingRecord == null)
+            {
+                return NotFound("Запись с указанным ID не найдена.");
+            }
+            
+            _uploadedFileService.DeleteByIdAsync(id);
             return Ok("Запись удалена.");
         }
 
-        // Вспомогательный метод для извлечения ошибок валидации
         private IEnumerable<string> GetValidationErrors()
         {
             return ModelState.Values
