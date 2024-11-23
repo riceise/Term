@@ -4,7 +4,7 @@ using Share.Validations;
 
 namespace Data.Model.Entities.UploadedFile
 {
-    public class UploadedFile
+    public class SpiskiNaDNFromMO
     {
         [Key]
         public int Id { get; set; }

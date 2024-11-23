@@ -11,10 +11,10 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<TFOMSContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("Default")));
+    options.UseSqlServer( builder.Configuration.GetConnectionString("Default")));
 
-builder.Services.AddScoped<IUploadedFileRepository, UploadedFileRepository>();
-builder.Services.AddScoped<IUploadedFileService, UploadedFileService>();
+builder.Services.AddScoped<ISpiskiNaDnFromMoRepository, SpiskiNaDNFromMORepository>();
+builder.Services.AddScoped<ISpiskiNaDNFromMOService, SpiskiNaDnFromMoService>();
 
 var app = builder.Build();
 

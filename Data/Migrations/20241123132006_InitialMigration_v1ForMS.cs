@@ -1,13 +1,12 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
 namespace Data.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration_v1ForNpg : Migration
+    public partial class InitialMigration_v1ForMS : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -29,19 +28,19 @@ namespace Data.Migrations
                 schema: "dict",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     CreateDate = table.Column<DateTime>(type: "date", nullable: false),
-                    EditUserId = table.Column<int>(type: "integer", nullable: false),
+                    EditUserId = table.Column<int>(type: "int", nullable: false),
                     EditDate = table.Column<DateTime>(type: "date", nullable: false),
-                    DeletedUserId = table.Column<int>(type: "integer", nullable: false),
+                    DeletedUserId = table.Column<int>(type: "int", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "date", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
-                    Code = table.Column<int>(type: "integer", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    Code = table.Column<int>(type: "int", nullable: false),
                     BeginDate = table.Column<DateTime>(type: "date", nullable: false),
                     EndDate = table.Column<DateTime>(type: "date", nullable: false),
-                    Name = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false),
-                    Comments = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false),
+                    Comments = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -53,19 +52,19 @@ namespace Data.Migrations
                 schema: "dict",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     CreateDate = table.Column<DateTime>(type: "date", nullable: false),
-                    EditUserId = table.Column<int>(type: "integer", nullable: false),
+                    EditUserId = table.Column<int>(type: "int", nullable: false),
                     EditDate = table.Column<DateTime>(type: "date", nullable: false),
-                    DeletedUserId = table.Column<int>(type: "integer", nullable: false),
+                    DeletedUserId = table.Column<int>(type: "int", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "date", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
-                    Code = table.Column<int>(type: "integer", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    Code = table.Column<int>(type: "int", nullable: false),
                     BeginDate = table.Column<DateTime>(type: "date", nullable: false),
                     EndDate = table.Column<DateTime>(type: "date", nullable: false),
-                    Name = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false),
-                    Comments = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false),
+                    Comments = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -77,20 +76,20 @@ namespace Data.Migrations
                 schema: "dict",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    ShortName = table.Column<string>(type: "character varying(250)", maxLength: 250, nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ShortName = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
                     CreateDate = table.Column<DateTime>(type: "date", nullable: false),
-                    EditUserId = table.Column<int>(type: "integer", nullable: false),
+                    EditUserId = table.Column<int>(type: "int", nullable: false),
                     EditDate = table.Column<DateTime>(type: "date", nullable: false),
-                    DeletedUserId = table.Column<int>(type: "integer", nullable: false),
+                    DeletedUserId = table.Column<int>(type: "int", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "date", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
-                    Code = table.Column<int>(type: "integer", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    Code = table.Column<int>(type: "int", nullable: false),
                     BeginDate = table.Column<DateTime>(type: "date", nullable: false),
                     EndDate = table.Column<DateTime>(type: "date", nullable: false),
-                    Name = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false),
-                    Comments = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false),
+                    Comments = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -102,19 +101,19 @@ namespace Data.Migrations
                 schema: "dict",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     CreateDate = table.Column<DateTime>(type: "date", nullable: false),
-                    EditUserId = table.Column<int>(type: "integer", nullable: false),
+                    EditUserId = table.Column<int>(type: "int", nullable: false),
                     EditDate = table.Column<DateTime>(type: "date", nullable: false),
-                    DeletedUserId = table.Column<int>(type: "integer", nullable: false),
+                    DeletedUserId = table.Column<int>(type: "int", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "date", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
-                    Code = table.Column<int>(type: "integer", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    Code = table.Column<int>(type: "int", nullable: false),
                     BeginDate = table.Column<DateTime>(type: "date", nullable: false),
                     EndDate = table.Column<DateTime>(type: "date", nullable: false),
-                    Name = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false),
-                    Comments = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false),
+                    Comments = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -126,17 +125,17 @@ namespace Data.Migrations
                 schema: "dict",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Code = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Code = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
                     BeginDate = table.Column<DateTime>(type: "date", nullable: false),
                     EndDate = table.Column<DateTime>(type: "date", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
-                    CreateDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    EditDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    DeleteDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    DeletedUserId = table.Column<int>(type: "integer", nullable: true)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EditDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DeleteDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedUserId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -148,20 +147,20 @@ namespace Data.Migrations
                 schema: "dict",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    SchemeCode = table.Column<string>(type: "character varying(4)", maxLength: 4, nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SchemeCode = table.Column<string>(type: "nvarchar(4)", maxLength: 4, nullable: false),
                     CreateDate = table.Column<DateTime>(type: "date", nullable: false),
-                    EditUserId = table.Column<int>(type: "integer", nullable: false),
+                    EditUserId = table.Column<int>(type: "int", nullable: false),
                     EditDate = table.Column<DateTime>(type: "date", nullable: false),
-                    DeletedUserId = table.Column<int>(type: "integer", nullable: false),
+                    DeletedUserId = table.Column<int>(type: "int", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "date", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
-                    Code = table.Column<string>(type: "text", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    Code = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     BeginDate = table.Column<DateTime>(type: "date", nullable: false),
                     EndDate = table.Column<DateTime>(type: "date", nullable: false),
-                    Name = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false),
-                    Comments = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false),
+                    Comments = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -173,19 +172,19 @@ namespace Data.Migrations
                 schema: "dict",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     CreateDate = table.Column<DateTime>(type: "date", nullable: false),
-                    EditUserId = table.Column<int>(type: "integer", nullable: false),
+                    EditUserId = table.Column<int>(type: "int", nullable: false),
                     EditDate = table.Column<DateTime>(type: "date", nullable: false),
-                    DeletedUserId = table.Column<int>(type: "integer", nullable: false),
+                    DeletedUserId = table.Column<int>(type: "int", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "date", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
-                    Code = table.Column<int>(type: "integer", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    Code = table.Column<int>(type: "int", nullable: false),
                     BeginDate = table.Column<DateTime>(type: "date", nullable: false),
                     EndDate = table.Column<DateTime>(type: "date", nullable: false),
-                    Name = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false),
-                    Comments = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false),
+                    Comments = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -197,19 +196,19 @@ namespace Data.Migrations
                 schema: "dict",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     CreateDate = table.Column<DateTime>(type: "date", nullable: false),
-                    EditUserId = table.Column<int>(type: "integer", nullable: false),
+                    EditUserId = table.Column<int>(type: "int", nullable: false),
                     EditDate = table.Column<DateTime>(type: "date", nullable: false),
-                    DeletedUserId = table.Column<int>(type: "integer", nullable: false),
+                    DeletedUserId = table.Column<int>(type: "int", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "date", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
-                    Code = table.Column<int>(type: "integer", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    Code = table.Column<int>(type: "int", nullable: false),
                     BeginDate = table.Column<DateTime>(type: "date", nullable: false),
                     EndDate = table.Column<DateTime>(type: "date", nullable: false),
-                    Name = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false),
-                    Comments = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false),
+                    Comments = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -221,17 +220,17 @@ namespace Data.Migrations
                 schema: "dict",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Code = table.Column<int>(type: "integer", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Code = table.Column<int>(type: "int", nullable: false),
                     BeginDate = table.Column<DateTime>(type: "date", nullable: false),
                     EndDate = table.Column<DateTime>(type: "date", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
-                    CreateDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    EditDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    DeleteDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    DeletedUserId = table.Column<int>(type: "integer", nullable: true)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EditDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DeleteDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedUserId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -243,17 +242,17 @@ namespace Data.Migrations
                 schema: "dict",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Code = table.Column<string>(type: "text", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    ParentId = table.Column<int>(type: "integer", nullable: false),
-                    IsActual = table.Column<bool>(type: "boolean", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
-                    CreateDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    EditDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    DeleteDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    DeletedUserId = table.Column<int>(type: "integer", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Code = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ParentId = table.Column<int>(type: "int", nullable: false),
+                    IsActual = table.Column<bool>(type: "bit", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EditDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DeleteDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedUserId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -265,19 +264,19 @@ namespace Data.Migrations
                 schema: "dict",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     CreateDate = table.Column<DateTime>(type: "date", nullable: false),
-                    EditUserId = table.Column<int>(type: "integer", nullable: false),
+                    EditUserId = table.Column<int>(type: "int", nullable: false),
                     EditDate = table.Column<DateTime>(type: "date", nullable: false),
-                    DeletedUserId = table.Column<int>(type: "integer", nullable: false),
+                    DeletedUserId = table.Column<int>(type: "int", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "date", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
-                    Code = table.Column<int>(type: "integer", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    Code = table.Column<int>(type: "int", nullable: false),
                     BeginDate = table.Column<DateTime>(type: "date", nullable: false),
                     EndDate = table.Column<DateTime>(type: "date", nullable: false),
-                    Name = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false),
-                    Comments = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false),
+                    Comments = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -289,19 +288,19 @@ namespace Data.Migrations
                 schema: "dict",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     CreateDate = table.Column<DateTime>(type: "date", nullable: false),
-                    EditUserId = table.Column<int>(type: "integer", nullable: false),
+                    EditUserId = table.Column<int>(type: "int", nullable: false),
                     EditDate = table.Column<DateTime>(type: "date", nullable: false),
-                    DeletedUserId = table.Column<int>(type: "integer", nullable: false),
+                    DeletedUserId = table.Column<int>(type: "int", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "date", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
-                    Code = table.Column<int>(type: "integer", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    Code = table.Column<int>(type: "int", nullable: false),
                     BeginDate = table.Column<DateTime>(type: "date", nullable: false),
                     EndDate = table.Column<DateTime>(type: "date", nullable: false),
-                    Name = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false),
-                    Comments = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false),
+                    Comments = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -313,21 +312,21 @@ namespace Data.Migrations
                 schema: "dict",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    DocSerFormat = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
-                    DocNumberFormat = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DocSerFormat = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    DocNumberFormat = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     CreateDate = table.Column<DateTime>(type: "date", nullable: false),
-                    EditUserId = table.Column<int>(type: "integer", nullable: false),
+                    EditUserId = table.Column<int>(type: "int", nullable: false),
                     EditDate = table.Column<DateTime>(type: "date", nullable: false),
-                    DeletedUserId = table.Column<int>(type: "integer", nullable: false),
+                    DeletedUserId = table.Column<int>(type: "int", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "date", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
-                    Code = table.Column<int>(type: "integer", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    Code = table.Column<int>(type: "int", nullable: false),
                     BeginDate = table.Column<DateTime>(type: "date", nullable: false),
                     EndDate = table.Column<DateTime>(type: "date", nullable: false),
-                    Name = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false),
-                    Comments = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false),
+                    Comments = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -339,19 +338,19 @@ namespace Data.Migrations
                 schema: "dict",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     CreateDate = table.Column<DateTime>(type: "date", nullable: false),
-                    EditUserId = table.Column<int>(type: "integer", nullable: false),
+                    EditUserId = table.Column<int>(type: "int", nullable: false),
                     EditDate = table.Column<DateTime>(type: "date", nullable: false),
-                    DeletedUserId = table.Column<int>(type: "integer", nullable: false),
+                    DeletedUserId = table.Column<int>(type: "int", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "date", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
-                    Code = table.Column<int>(type: "integer", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    Code = table.Column<int>(type: "int", nullable: false),
                     BeginDate = table.Column<DateTime>(type: "date", nullable: false),
                     EndDate = table.Column<DateTime>(type: "date", nullable: false),
-                    Name = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false),
-                    Comments = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false),
+                    Comments = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -363,19 +362,19 @@ namespace Data.Migrations
                 schema: "dict",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     CreateDate = table.Column<DateTime>(type: "date", nullable: false),
-                    EditUserId = table.Column<int>(type: "integer", nullable: false),
+                    EditUserId = table.Column<int>(type: "int", nullable: false),
                     EditDate = table.Column<DateTime>(type: "date", nullable: false),
-                    DeletedUserId = table.Column<int>(type: "integer", nullable: false),
+                    DeletedUserId = table.Column<int>(type: "int", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "date", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
-                    Code = table.Column<int>(type: "integer", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    Code = table.Column<int>(type: "int", nullable: false),
                     BeginDate = table.Column<DateTime>(type: "date", nullable: false),
                     EndDate = table.Column<DateTime>(type: "date", nullable: false),
-                    Name = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false),
-                    Comments = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false),
+                    Comments = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -387,19 +386,19 @@ namespace Data.Migrations
                 schema: "dict",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     CreateDate = table.Column<DateTime>(type: "date", nullable: false),
-                    EditUserId = table.Column<int>(type: "integer", nullable: false),
+                    EditUserId = table.Column<int>(type: "int", nullable: false),
                     EditDate = table.Column<DateTime>(type: "date", nullable: false),
-                    DeletedUserId = table.Column<int>(type: "integer", nullable: false),
+                    DeletedUserId = table.Column<int>(type: "int", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "date", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
-                    Code = table.Column<int>(type: "integer", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    Code = table.Column<int>(type: "int", nullable: false),
                     BeginDate = table.Column<DateTime>(type: "date", nullable: false),
                     EndDate = table.Column<DateTime>(type: "date", nullable: false),
-                    Name = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false),
-                    Comments = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false),
+                    Comments = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -411,19 +410,19 @@ namespace Data.Migrations
                 schema: "dict",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     CreateDate = table.Column<DateTime>(type: "date", nullable: false),
-                    EditUserId = table.Column<int>(type: "integer", nullable: false),
+                    EditUserId = table.Column<int>(type: "int", nullable: false),
                     EditDate = table.Column<DateTime>(type: "date", nullable: false),
-                    DeletedUserId = table.Column<int>(type: "integer", nullable: false),
+                    DeletedUserId = table.Column<int>(type: "int", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "date", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
-                    Code = table.Column<int>(type: "integer", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    Code = table.Column<int>(type: "int", nullable: false),
                     BeginDate = table.Column<DateTime>(type: "date", nullable: false),
                     EndDate = table.Column<DateTime>(type: "date", nullable: false),
-                    Name = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false),
-                    Comments = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false),
+                    Comments = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -435,19 +434,19 @@ namespace Data.Migrations
                 schema: "dict",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     CreateDate = table.Column<DateTime>(type: "date", nullable: false),
-                    EditUserId = table.Column<int>(type: "integer", nullable: false),
+                    EditUserId = table.Column<int>(type: "int", nullable: false),
                     EditDate = table.Column<DateTime>(type: "date", nullable: false),
-                    DeletedUserId = table.Column<int>(type: "integer", nullable: false),
+                    DeletedUserId = table.Column<int>(type: "int", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "date", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
-                    Code = table.Column<int>(type: "integer", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    Code = table.Column<int>(type: "int", nullable: false),
                     BeginDate = table.Column<DateTime>(type: "date", nullable: false),
                     EndDate = table.Column<DateTime>(type: "date", nullable: false),
-                    Name = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false),
-                    Comments = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false),
+                    Comments = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -459,21 +458,21 @@ namespace Data.Migrations
                 schema: "dict",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    EnglishName = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false),
-                    ParentId = table.Column<int>(type: "integer", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    EnglishName = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false),
+                    ParentId = table.Column<int>(type: "int", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "date", nullable: false),
-                    EditUserId = table.Column<int>(type: "integer", nullable: false),
+                    EditUserId = table.Column<int>(type: "int", nullable: false),
                     EditDate = table.Column<DateTime>(type: "date", nullable: false),
-                    DeletedUserId = table.Column<int>(type: "integer", nullable: false),
+                    DeletedUserId = table.Column<int>(type: "int", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "date", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
-                    Code = table.Column<int>(type: "integer", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    Code = table.Column<int>(type: "int", nullable: false),
                     BeginDate = table.Column<DateTime>(type: "date", nullable: false),
                     EndDate = table.Column<DateTime>(type: "date", nullable: false),
-                    Name = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false),
-                    Comments = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false),
+                    Comments = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -484,19 +483,19 @@ namespace Data.Migrations
                 name: "InsuranceCompanies",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Code = table.Column<string>(type: "character varying(6)", maxLength: 6, nullable: false),
-                    FullName = table.Column<string>(type: "text", nullable: false),
-                    ShortName = table.Column<string>(type: "character varying(250)", maxLength: 250, nullable: false),
-                    INN = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
-                    OGRN = table.Column<string>(type: "character varying(15)", maxLength: 15, nullable: false),
-                    KPP = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: false),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
-                    CreateDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    EditDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    DeleteDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    DeletedUserId = table.Column<int>(type: "integer", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Code = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: false),
+                    FullName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ShortName = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
+                    INN = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    OGRN = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
+                    KPP = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EditDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DeleteDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedUserId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -508,22 +507,22 @@ namespace Data.Migrations
                 schema: "dict",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    FileExt = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: false),
-                    FileType = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: false),
-                    ApiAdress = table.Column<string>(type: "character varying(250)", maxLength: 250, nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FileExt = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    FileType = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    ApiAdress = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
                     CreateDate = table.Column<DateTime>(type: "date", nullable: false),
-                    EditUserId = table.Column<int>(type: "integer", nullable: false),
+                    EditUserId = table.Column<int>(type: "int", nullable: false),
                     EditDate = table.Column<DateTime>(type: "date", nullable: false),
-                    DeletedUserId = table.Column<int>(type: "integer", nullable: false),
+                    DeletedUserId = table.Column<int>(type: "int", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "date", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
-                    Code = table.Column<string>(type: "text", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    Code = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     BeginDate = table.Column<DateTime>(type: "date", nullable: false),
                     EndDate = table.Column<DateTime>(type: "date", nullable: false),
-                    Name = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false),
-                    Comments = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false),
+                    Comments = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -535,22 +534,22 @@ namespace Data.Migrations
                 schema: "LPU",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    FRMOId = table.Column<string>(type: "character varying(45)", maxLength: 45, nullable: false),
-                    ReestrNumber = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
-                    OKATOId = table.Column<int>(type: "integer", nullable: false),
-                    Code = table.Column<string>(type: "character varying(6)", maxLength: 6, nullable: false),
-                    FullName = table.Column<string>(type: "text", nullable: false),
-                    ShortName = table.Column<string>(type: "character varying(2500)", maxLength: 2500, nullable: false),
-                    INN = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
-                    OGRN = table.Column<string>(type: "character varying(15)", maxLength: 15, nullable: false),
-                    KPP = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: false),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
-                    CreateDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    EditDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    DeleteDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    DeletedUserId = table.Column<int>(type: "integer", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FRMOId = table.Column<string>(type: "nvarchar(45)", maxLength: 45, nullable: false),
+                    ReestrNumber = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    OKATOId = table.Column<int>(type: "int", nullable: false),
+                    Code = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: false),
+                    FullName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ShortName = table.Column<string>(type: "nvarchar(2500)", maxLength: 2500, nullable: false),
+                    INN = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    OGRN = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
+                    KPP = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EditDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DeleteDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedUserId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -562,19 +561,19 @@ namespace Data.Migrations
                 schema: "dict",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Code = table.Column<string>(type: "text", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    IsActual = table.Column<bool>(type: "boolean", nullable: false),
-                    RZN = table.Column<string>(type: "text", nullable: false),
-                    IsNPA = table.Column<bool>(type: "boolean", nullable: false),
-                    ParentId = table.Column<int>(type: "integer", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
-                    CreateDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    EditDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    DeleteDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    DeletedUserId = table.Column<int>(type: "integer", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Code = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsActual = table.Column<bool>(type: "bit", nullable: false),
+                    RZN = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsNPA = table.Column<bool>(type: "bit", nullable: false),
+                    ParentId = table.Column<int>(type: "int", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EditDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DeleteDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedUserId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -586,17 +585,17 @@ namespace Data.Migrations
                 schema: "dict",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Code = table.Column<string>(type: "text", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    IsActual = table.Column<bool>(type: "boolean", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Code = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsActual = table.Column<bool>(type: "bit", nullable: false),
                     DateOut = table.Column<DateTime>(type: "date", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
-                    CreateDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    EditDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    DeleteDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    DeletedUserId = table.Column<int>(type: "integer", nullable: true)
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EditDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DeleteDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedUserId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -608,19 +607,19 @@ namespace Data.Migrations
                 schema: "dict",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     CreateDate = table.Column<DateTime>(type: "date", nullable: false),
-                    EditUserId = table.Column<int>(type: "integer", nullable: false),
+                    EditUserId = table.Column<int>(type: "int", nullable: false),
                     EditDate = table.Column<DateTime>(type: "date", nullable: false),
-                    DeletedUserId = table.Column<int>(type: "integer", nullable: false),
+                    DeletedUserId = table.Column<int>(type: "int", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "date", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
-                    Code = table.Column<string>(type: "text", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    Code = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     BeginDate = table.Column<DateTime>(type: "date", nullable: false),
                     EndDate = table.Column<DateTime>(type: "date", nullable: false),
-                    Name = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false),
-                    Comments = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false),
+                    Comments = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -632,19 +631,19 @@ namespace Data.Migrations
                 schema: "dict",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     CreateDate = table.Column<DateTime>(type: "date", nullable: false),
-                    EditUserId = table.Column<int>(type: "integer", nullable: false),
+                    EditUserId = table.Column<int>(type: "int", nullable: false),
                     EditDate = table.Column<DateTime>(type: "date", nullable: false),
-                    DeletedUserId = table.Column<int>(type: "integer", nullable: false),
+                    DeletedUserId = table.Column<int>(type: "int", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "date", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
-                    Code = table.Column<int>(type: "integer", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    Code = table.Column<int>(type: "int", nullable: false),
                     BeginDate = table.Column<DateTime>(type: "date", nullable: false),
                     EndDate = table.Column<DateTime>(type: "date", nullable: false),
-                    Name = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false),
-                    Comments = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false),
+                    Comments = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -656,21 +655,21 @@ namespace Data.Migrations
                 schema: "dict",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    NameSpec = table.Column<string>(type: "text", nullable: false),
-                    CodeJobNSI = table.Column<int>(type: "integer", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    NameSpec = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CodeJobNSI = table.Column<int>(type: "int", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "date", nullable: false),
-                    EditUserId = table.Column<int>(type: "integer", nullable: false),
+                    EditUserId = table.Column<int>(type: "int", nullable: false),
                     EditDate = table.Column<DateTime>(type: "date", nullable: false),
-                    DeletedUserId = table.Column<int>(type: "integer", nullable: false),
+                    DeletedUserId = table.Column<int>(type: "int", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "date", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
-                    Code = table.Column<int>(type: "integer", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    Code = table.Column<int>(type: "int", nullable: false),
                     BeginDate = table.Column<DateTime>(type: "date", nullable: false),
                     EndDate = table.Column<DateTime>(type: "date", nullable: false),
-                    Name = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false),
-                    Comments = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false),
+                    Comments = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -682,28 +681,28 @@ namespace Data.Migrations
                 schema: "dict",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    RegionCode = table.Column<string>(type: "character varying(3)", maxLength: 3, nullable: false),
-                    VillageCounsilCode = table.Column<string>(type: "character varying(3)", maxLength: 3, nullable: false),
-                    VillageCode = table.Column<string>(type: "character varying(3)", maxLength: 3, nullable: false),
-                    SectionCode = table.Column<string>(type: "character varying(1)", maxLength: 1, nullable: false),
-                    AdditionalInfo = table.Column<string>(type: "character varying(80)", maxLength: 80, nullable: false),
-                    ChangeNumber = table.Column<decimal>(type: "numeric", nullable: false),
-                    Status = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
-                    DateApproval = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    DateEffective = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    RegionCode = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: false),
+                    VillageCounsilCode = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: false),
+                    VillageCode = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: false),
+                    SectionCode = table.Column<string>(type: "nvarchar(1)", maxLength: 1, nullable: false),
+                    AdditionalInfo = table.Column<string>(type: "nvarchar(80)", maxLength: 80, nullable: false),
+                    ChangeNumber = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    DateApproval = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateEffective = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "date", nullable: false),
-                    EditUserId = table.Column<int>(type: "integer", nullable: false),
+                    EditUserId = table.Column<int>(type: "int", nullable: false),
                     EditDate = table.Column<DateTime>(type: "date", nullable: false),
-                    DeletedUserId = table.Column<int>(type: "integer", nullable: false),
+                    DeletedUserId = table.Column<int>(type: "int", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "date", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
-                    Code = table.Column<string>(type: "text", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    Code = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     BeginDate = table.Column<DateTime>(type: "date", nullable: false),
                     EndDate = table.Column<DateTime>(type: "date", nullable: false),
-                    Name = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false),
-                    Comments = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false),
+                    Comments = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -715,14 +714,14 @@ namespace Data.Migrations
                 schema: "LPU",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "character varying(250)", maxLength: 250, nullable: false),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
-                    CreateDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    EditDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    DeleteDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    DeletedUserId = table.Column<int>(type: "integer", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EditDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DeleteDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedUserId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -734,17 +733,17 @@ namespace Data.Migrations
                 schema: "dict",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Code = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Code = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     BeginDate = table.Column<DateTime>(type: "date", nullable: false),
                     EndDate = table.Column<DateTime>(type: "date", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
-                    CreateDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    EditDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    DeleteDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    DeletedUserId = table.Column<int>(type: "integer", nullable: true)
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EditDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DeleteDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedUserId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -756,19 +755,19 @@ namespace Data.Migrations
                 schema: "dict",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     CreateDate = table.Column<DateTime>(type: "date", nullable: false),
-                    EditUserId = table.Column<int>(type: "integer", nullable: false),
+                    EditUserId = table.Column<int>(type: "int", nullable: false),
                     EditDate = table.Column<DateTime>(type: "date", nullable: false),
-                    DeletedUserId = table.Column<int>(type: "integer", nullable: false),
+                    DeletedUserId = table.Column<int>(type: "int", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "date", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
-                    Code = table.Column<int>(type: "integer", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    Code = table.Column<int>(type: "int", nullable: false),
                     BeginDate = table.Column<DateTime>(type: "date", nullable: false),
                     EndDate = table.Column<DateTime>(type: "date", nullable: false),
-                    Name = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false),
-                    Comments = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false),
+                    Comments = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -779,21 +778,21 @@ namespace Data.Migrations
                 name: "Persons",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    PersonId = table.Column<string>(type: "character varying(36)", maxLength: 36, nullable: false),
-                    Surname = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    Name1 = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    Name2 = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    Sex = table.Column<int>(type: "integer", nullable: false),
-                    Birthday = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    SNILS = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    ENP = table.Column<string>(type: "character varying(16)", maxLength: 16, nullable: false),
-                    IsBad = table.Column<bool>(type: "boolean", nullable: false),
-                    Hash = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    PersonId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false),
+                    Surname = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Name1 = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Name2 = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Sex = table.Column<int>(type: "int", nullable: false),
+                    Birthday = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    SNILS = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    ENP = table.Column<string>(type: "nvarchar(16)", maxLength: 16, nullable: false),
+                    IsBad = table.Column<bool>(type: "bit", nullable: false),
+                    Hash = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
                     CreateDate = table.Column<DateTime>(type: "date", nullable: false),
                     EditDate = table.Column<DateTime>(type: "date", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "date", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -805,19 +804,19 @@ namespace Data.Migrations
                 schema: "dict",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     CreateDate = table.Column<DateTime>(type: "date", nullable: false),
-                    EditUserId = table.Column<int>(type: "integer", nullable: false),
+                    EditUserId = table.Column<int>(type: "int", nullable: false),
                     EditDate = table.Column<DateTime>(type: "date", nullable: false),
-                    DeletedUserId = table.Column<int>(type: "integer", nullable: false),
+                    DeletedUserId = table.Column<int>(type: "int", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "date", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
-                    Code = table.Column<int>(type: "integer", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    Code = table.Column<int>(type: "int", nullable: false),
                     BeginDate = table.Column<DateTime>(type: "date", nullable: false),
                     EndDate = table.Column<DateTime>(type: "date", nullable: false),
-                    Name = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false),
-                    Comments = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false),
+                    Comments = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -829,19 +828,19 @@ namespace Data.Migrations
                 schema: "dict",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     CreateDate = table.Column<DateTime>(type: "date", nullable: false),
-                    EditUserId = table.Column<int>(type: "integer", nullable: false),
+                    EditUserId = table.Column<int>(type: "int", nullable: false),
                     EditDate = table.Column<DateTime>(type: "date", nullable: false),
-                    DeletedUserId = table.Column<int>(type: "integer", nullable: false),
+                    DeletedUserId = table.Column<int>(type: "int", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "date", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
-                    Code = table.Column<int>(type: "integer", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    Code = table.Column<int>(type: "int", nullable: false),
                     BeginDate = table.Column<DateTime>(type: "date", nullable: false),
                     EndDate = table.Column<DateTime>(type: "date", nullable: false),
-                    Name = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false),
-                    Comments = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false),
+                    Comments = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -853,19 +852,19 @@ namespace Data.Migrations
                 schema: "dict",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     CreateDate = table.Column<DateTime>(type: "date", nullable: false),
-                    EditUserId = table.Column<int>(type: "integer", nullable: false),
+                    EditUserId = table.Column<int>(type: "int", nullable: false),
                     EditDate = table.Column<DateTime>(type: "date", nullable: false),
-                    DeletedUserId = table.Column<int>(type: "integer", nullable: false),
+                    DeletedUserId = table.Column<int>(type: "int", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "date", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
-                    Code = table.Column<int>(type: "integer", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    Code = table.Column<int>(type: "int", nullable: false),
                     BeginDate = table.Column<DateTime>(type: "date", nullable: false),
                     EndDate = table.Column<DateTime>(type: "date", nullable: false),
-                    Name = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false),
-                    Comments = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false),
+                    Comments = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -877,23 +876,23 @@ namespace Data.Migrations
                 schema: "dict",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Code = table.Column<int>(type: "integer", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Code = table.Column<int>(type: "int", nullable: false),
                     BeginDate = table.Column<DateTime>(type: "date", nullable: false),
                     EndDate = table.Column<DateTime>(type: "date", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    Comments = table.Column<string>(type: "text", nullable: false),
-                    CodeTypeControl = table.Column<string>(type: "text", nullable: false),
-                    Reason = table.Column<string>(type: "text", nullable: false),
-                    CoefNonPayment = table.Column<decimal>(type: "numeric", nullable: false),
-                    CoefPenalty = table.Column<decimal>(type: "numeric", nullable: false),
-                    CodePD = table.Column<string>(type: "text", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
-                    CreateDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    EditDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    DeleteDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    DeletedUserId = table.Column<int>(type: "integer", nullable: true)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Comments = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CodeTypeControl = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Reason = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CoefNonPayment = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    CoefPenalty = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    CodePD = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EditDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DeleteDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedUserId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -905,19 +904,19 @@ namespace Data.Migrations
                 schema: "dict",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     CreateDate = table.Column<DateTime>(type: "date", nullable: false),
-                    EditUserId = table.Column<int>(type: "integer", nullable: false),
+                    EditUserId = table.Column<int>(type: "int", nullable: false),
                     EditDate = table.Column<DateTime>(type: "date", nullable: false),
-                    DeletedUserId = table.Column<int>(type: "integer", nullable: false),
+                    DeletedUserId = table.Column<int>(type: "int", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "date", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
-                    Code = table.Column<int>(type: "integer", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    Code = table.Column<int>(type: "int", nullable: false),
                     BeginDate = table.Column<DateTime>(type: "date", nullable: false),
                     EndDate = table.Column<DateTime>(type: "date", nullable: false),
-                    Name = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false),
-                    Comments = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false),
+                    Comments = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -925,23 +924,44 @@ namespace Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "SpiskiNaDNFromMO",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Npp = table.Column<int>(type: "int", nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Patronymic = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    BirthDay = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Snils = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    N_reest = table.Column<int>(type: "int", nullable: false),
+                    Period = table.Column<int>(type: "int", nullable: false),
+                    Organizaciya = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SpiskiNaDNFromMO", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "SurgeryTypes",
                 schema: "dict",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     CreateDate = table.Column<DateTime>(type: "date", nullable: false),
-                    EditUserId = table.Column<int>(type: "integer", nullable: false),
+                    EditUserId = table.Column<int>(type: "int", nullable: false),
                     EditDate = table.Column<DateTime>(type: "date", nullable: false),
-                    DeletedUserId = table.Column<int>(type: "integer", nullable: false),
+                    DeletedUserId = table.Column<int>(type: "int", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "date", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
-                    Code = table.Column<int>(type: "integer", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    Code = table.Column<int>(type: "int", nullable: false),
                     BeginDate = table.Column<DateTime>(type: "date", nullable: false),
                     EndDate = table.Column<DateTime>(type: "date", nullable: false),
-                    Name = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false),
-                    Comments = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false),
+                    Comments = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -953,19 +973,19 @@ namespace Data.Migrations
                 schema: "dict",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     CreateDate = table.Column<DateTime>(type: "date", nullable: false),
-                    EditUserId = table.Column<int>(type: "integer", nullable: false),
+                    EditUserId = table.Column<int>(type: "int", nullable: false),
                     EditDate = table.Column<DateTime>(type: "date", nullable: false),
-                    DeletedUserId = table.Column<int>(type: "integer", nullable: false),
+                    DeletedUserId = table.Column<int>(type: "int", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "date", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
-                    Code = table.Column<int>(type: "integer", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    Code = table.Column<int>(type: "int", nullable: false),
                     BeginDate = table.Column<DateTime>(type: "date", nullable: false),
                     EndDate = table.Column<DateTime>(type: "date", nullable: false),
-                    Name = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false),
-                    Comments = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false),
+                    Comments = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -977,20 +997,20 @@ namespace Data.Migrations
                 schema: "dict",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    ValidResultDisp = table.Column<string>(type: "text", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ValidResultDisp = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "date", nullable: false),
-                    EditUserId = table.Column<int>(type: "integer", nullable: false),
+                    EditUserId = table.Column<int>(type: "int", nullable: false),
                     EditDate = table.Column<DateTime>(type: "date", nullable: false),
-                    DeletedUserId = table.Column<int>(type: "integer", nullable: false),
+                    DeletedUserId = table.Column<int>(type: "int", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "date", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
-                    Code = table.Column<string>(type: "text", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    Code = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     BeginDate = table.Column<DateTime>(type: "date", nullable: false),
                     EndDate = table.Column<DateTime>(type: "date", nullable: false),
-                    Name = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false),
-                    Comments = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false),
+                    Comments = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1002,19 +1022,19 @@ namespace Data.Migrations
                 schema: "dict",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     CreateDate = table.Column<DateTime>(type: "date", nullable: false),
-                    EditUserId = table.Column<int>(type: "integer", nullable: false),
+                    EditUserId = table.Column<int>(type: "int", nullable: false),
                     EditDate = table.Column<DateTime>(type: "date", nullable: false),
-                    DeletedUserId = table.Column<int>(type: "integer", nullable: false),
+                    DeletedUserId = table.Column<int>(type: "int", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "date", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
-                    Code = table.Column<int>(type: "integer", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    Code = table.Column<int>(type: "int", nullable: false),
                     BeginDate = table.Column<DateTime>(type: "date", nullable: false),
                     EndDate = table.Column<DateTime>(type: "date", nullable: false),
-                    Name = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false),
-                    Comments = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false),
+                    Comments = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1026,27 +1046,27 @@ namespace Data.Migrations
                 schema: "dict",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    ShortName = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    PrintName = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    Measurement = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    UCUMCode = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    Coefficient = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
-                    ConversionId = table.Column<int>(type: "integer", nullable: false),
-                    ConversionName = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    OKEICode = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ShortName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    PrintName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Measurement = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    UCUMCode = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Coefficient = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    ConversionId = table.Column<int>(type: "int", nullable: false),
+                    ConversionName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    OKEICode = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     CreateDate = table.Column<DateTime>(type: "date", nullable: false),
-                    EditUserId = table.Column<int>(type: "integer", nullable: false),
+                    EditUserId = table.Column<int>(type: "int", nullable: false),
                     EditDate = table.Column<DateTime>(type: "date", nullable: false),
-                    DeletedUserId = table.Column<int>(type: "integer", nullable: false),
+                    DeletedUserId = table.Column<int>(type: "int", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "date", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
-                    Code = table.Column<int>(type: "integer", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    Code = table.Column<int>(type: "int", nullable: false),
                     BeginDate = table.Column<DateTime>(type: "date", nullable: false),
                     EndDate = table.Column<DateTime>(type: "date", nullable: false),
-                    Name = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false),
-                    Comments = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false),
+                    Comments = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1054,44 +1074,23 @@ namespace Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UploadedFiles",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Npp = table.Column<int>(type: "integer", nullable: false),
-                    LastName = table.Column<string>(type: "text", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    Patronymic = table.Column<string>(type: "text", nullable: false),
-                    BirthDay = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Snils = table.Column<string>(type: "text", nullable: false),
-                    N_reest = table.Column<int>(type: "integer", nullable: false),
-                    Period = table.Column<int>(type: "integer", nullable: false),
-                    Organizaciya = table.Column<string>(type: "text", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UploadedFiles", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "VidPoms",
                 schema: "dict",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     CreateDate = table.Column<DateTime>(type: "date", nullable: false),
-                    EditUserId = table.Column<int>(type: "integer", nullable: false),
+                    EditUserId = table.Column<int>(type: "int", nullable: false),
                     EditDate = table.Column<DateTime>(type: "date", nullable: false),
-                    DeletedUserId = table.Column<int>(type: "integer", nullable: false),
+                    DeletedUserId = table.Column<int>(type: "int", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "date", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
-                    Code = table.Column<int>(type: "integer", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    Code = table.Column<int>(type: "int", nullable: false),
                     BeginDate = table.Column<DateTime>(type: "date", nullable: false),
                     EndDate = table.Column<DateTime>(type: "date", nullable: false),
-                    Name = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false),
-                    Comments = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false),
+                    Comments = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1103,18 +1102,18 @@ namespace Data.Migrations
                 schema: "dict",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Code = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    VMPGrupNumber = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Code = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    VMPGrupNumber = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     BeginDate = table.Column<DateTime>(type: "date", nullable: false),
                     EndDate = table.Column<DateTime>(type: "date", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
-                    CreateDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    EditDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    DeleteDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    DeletedUserId = table.Column<int>(type: "integer", nullable: true)
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EditDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DeleteDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedUserId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -1126,19 +1125,19 @@ namespace Data.Migrations
                 schema: "dict",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     CreateDate = table.Column<DateTime>(type: "date", nullable: false),
-                    EditUserId = table.Column<int>(type: "integer", nullable: false),
+                    EditUserId = table.Column<int>(type: "int", nullable: false),
                     EditDate = table.Column<DateTime>(type: "date", nullable: false),
-                    DeletedUserId = table.Column<int>(type: "integer", nullable: false),
+                    DeletedUserId = table.Column<int>(type: "int", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "date", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
-                    Code = table.Column<string>(type: "text", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    Code = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     BeginDate = table.Column<DateTime>(type: "date", nullable: false),
                     EndDate = table.Column<DateTime>(type: "date", nullable: false),
-                    Name = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false),
-                    Comments = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false),
+                    Comments = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1150,21 +1149,21 @@ namespace Data.Migrations
                 schema: "dict",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    CancerMarkerId = table.Column<int>(type: "integer", nullable: false),
-                    Result = table.Column<string>(type: "character varying(250)", maxLength: 250, nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CancerMarkerId = table.Column<int>(type: "int", nullable: false),
+                    Result = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
                     CreateDate = table.Column<DateTime>(type: "date", nullable: false),
-                    EditUserId = table.Column<int>(type: "integer", nullable: false),
+                    EditUserId = table.Column<int>(type: "int", nullable: false),
                     EditDate = table.Column<DateTime>(type: "date", nullable: false),
-                    DeletedUserId = table.Column<int>(type: "integer", nullable: false),
+                    DeletedUserId = table.Column<int>(type: "int", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "date", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
-                    Code = table.Column<int>(type: "integer", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    Code = table.Column<int>(type: "int", nullable: false),
                     BeginDate = table.Column<DateTime>(type: "date", nullable: false),
                     EndDate = table.Column<DateTime>(type: "date", nullable: false),
-                    Name = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false),
-                    Comments = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false),
+                    Comments = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1175,7 +1174,7 @@ namespace Data.Migrations
                         principalSchema: "dict",
                         principalTable: "CancerMarkers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -1183,21 +1182,21 @@ namespace Data.Migrations
                 schema: "dict",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    MCode = table.Column<string>(type: "character varying(5)", maxLength: 5, nullable: false),
-                    DiagnosisId = table.Column<int>(type: "integer", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    MCode = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: false),
+                    DiagnosisId = table.Column<int>(type: "int", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "date", nullable: false),
-                    EditUserId = table.Column<int>(type: "integer", nullable: false),
+                    EditUserId = table.Column<int>(type: "int", nullable: false),
                     EditDate = table.Column<DateTime>(type: "date", nullable: false),
-                    DeletedUserId = table.Column<int>(type: "integer", nullable: false),
+                    DeletedUserId = table.Column<int>(type: "int", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "date", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
-                    Code = table.Column<int>(type: "integer", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    Code = table.Column<int>(type: "int", nullable: false),
                     BeginDate = table.Column<DateTime>(type: "date", nullable: false),
                     EndDate = table.Column<DateTime>(type: "date", nullable: false),
-                    Name = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false),
-                    Comments = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false),
+                    Comments = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1208,7 +1207,7 @@ namespace Data.Migrations
                         principalSchema: "dict",
                         principalTable: "Diagnoses",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -1216,19 +1215,19 @@ namespace Data.Migrations
                 schema: "dict",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Code = table.Column<int>(type: "integer", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Code = table.Column<int>(type: "int", nullable: false),
                     BeginDate = table.Column<DateTime>(type: "date", nullable: false),
                     EndDate = table.Column<DateTime>(type: "date", nullable: false),
-                    NCode = table.Column<string>(type: "character varying(5)", maxLength: 5, nullable: false),
-                    Name = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
-                    DiagnosisId = table.Column<int>(type: "integer", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
-                    CreateDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    EditDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    DeleteDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    DeletedUserId = table.Column<int>(type: "integer", nullable: true)
+                    NCode = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    DiagnosisId = table.Column<int>(type: "int", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EditDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DeleteDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedUserId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -1239,7 +1238,7 @@ namespace Data.Migrations
                         principalSchema: "dict",
                         principalTable: "Diagnoses",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -1247,20 +1246,20 @@ namespace Data.Migrations
                 schema: "dict",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    DiagnosisId = table.Column<int>(type: "integer", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DiagnosisId = table.Column<int>(type: "int", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "date", nullable: false),
-                    EditUserId = table.Column<int>(type: "integer", nullable: false),
+                    EditUserId = table.Column<int>(type: "int", nullable: false),
                     EditDate = table.Column<DateTime>(type: "date", nullable: false),
-                    DeletedUserId = table.Column<int>(type: "integer", nullable: false),
+                    DeletedUserId = table.Column<int>(type: "int", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "date", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
-                    Code = table.Column<int>(type: "integer", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    Code = table.Column<int>(type: "int", nullable: false),
                     BeginDate = table.Column<DateTime>(type: "date", nullable: false),
                     EndDate = table.Column<DateTime>(type: "date", nullable: false),
-                    Name = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false),
-                    Comments = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false),
+                    Comments = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1271,7 +1270,7 @@ namespace Data.Migrations
                         principalSchema: "dict",
                         principalTable: "Diagnoses",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -1279,19 +1278,19 @@ namespace Data.Migrations
                 schema: "dict",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Code = table.Column<int>(type: "integer", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Code = table.Column<int>(type: "int", nullable: false),
                     BeginDate = table.Column<DateTime>(type: "date", nullable: false),
                     EndDate = table.Column<DateTime>(type: "date", nullable: false),
-                    TCode = table.Column<string>(type: "character varying(5)", maxLength: 5, nullable: false),
-                    Name = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
-                    DiagnosisId = table.Column<int>(type: "integer", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
-                    CreateDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    EditDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    DeleteDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    DeletedUserId = table.Column<int>(type: "integer", nullable: true)
+                    TCode = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    DiagnosisId = table.Column<int>(type: "int", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EditDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DeleteDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedUserId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -1302,7 +1301,7 @@ namespace Data.Migrations
                         principalSchema: "dict",
                         principalTable: "Diagnoses",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -1310,27 +1309,27 @@ namespace Data.Migrations
                 schema: "dict",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    UidExpert = table.Column<string>(type: "text", nullable: false),
-                    ReestrNumberExpert = table.Column<string>(type: "text", nullable: false),
-                    CodeExpert = table.Column<string>(type: "text", nullable: false),
-                    OKTMO = table.Column<string>(type: "text", nullable: false),
-                    NameSubject = table.Column<string>(type: "text", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UidExpert = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ReestrNumberExpert = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CodeExpert = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    OKTMO = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    NameSubject = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     BeginDateExpert = table.Column<DateTime>(type: "date", nullable: false),
                     ExcludingDateExpert = table.Column<DateTime>(type: "date", nullable: false),
-                    ExcludingExpertId = table.Column<int>(type: "integer", nullable: false),
-                    CountExamination = table.Column<int>(type: "integer", nullable: false),
-                    CountSluch = table.Column<int>(type: "integer", nullable: false),
-                    CountMedicalCompany = table.Column<int>(type: "integer", nullable: false),
-                    CountIncorrectConclusion = table.Column<int>(type: "integer", nullable: false),
+                    ExcludingExpertId = table.Column<int>(type: "int", nullable: false),
+                    CountExamination = table.Column<int>(type: "int", nullable: false),
+                    CountSluch = table.Column<int>(type: "int", nullable: false),
+                    CountMedicalCompany = table.Column<int>(type: "int", nullable: false),
+                    CountIncorrectConclusion = table.Column<int>(type: "int", nullable: false),
                     BeginDate = table.Column<DateTime>(type: "date", nullable: false),
                     EndDate = table.Column<DateTime>(type: "date", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
-                    CreateDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    EditDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    DeleteDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    DeletedUserId = table.Column<int>(type: "integer", nullable: true)
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EditDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DeleteDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedUserId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -1341,7 +1340,7 @@ namespace Data.Migrations
                         principalSchema: "dict",
                         principalTable: "ExcludingExperts",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -1349,31 +1348,31 @@ namespace Data.Migrations
                 schema: "dict",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    HistologicalFeatureId = table.Column<int>(type: "integer", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    HistologicalFeatureId = table.Column<int>(type: "int", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "date", nullable: false),
-                    EditUserId = table.Column<int>(type: "integer", nullable: false),
+                    EditUserId = table.Column<int>(type: "int", nullable: false),
                     EditDate = table.Column<DateTime>(type: "date", nullable: false),
-                    DeletedUserId = table.Column<int>(type: "integer", nullable: false),
+                    DeletedUserId = table.Column<int>(type: "int", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "date", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
-                    Code = table.Column<int>(type: "integer", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    Code = table.Column<int>(type: "int", nullable: false),
                     BeginDate = table.Column<DateTime>(type: "date", nullable: false),
                     EndDate = table.Column<DateTime>(type: "date", nullable: false),
-                    Name = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false),
-                    Comments = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false),
+                    Comments = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_HistologicalExaminationResults", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_HistologicalExaminationResults_HistologicalFeatures_Histolo~",
+                        name: "FK_HistologicalExaminationResults_HistologicalFeatures_HistologicalFeatureId",
                         column: x => x.HistologicalFeatureId,
                         principalSchema: "dict",
                         principalTable: "HistologicalFeatures",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -1381,23 +1380,23 @@ namespace Data.Migrations
                 schema: "inv",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    MedicalCompanyId = table.Column<int>(type: "integer", nullable: false),
-                    InvDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    TotalSum = table.Column<decimal>(type: "numeric", nullable: false),
-                    SankSum = table.Column<decimal>(type: "numeric", nullable: false),
-                    PaySum = table.Column<decimal>(type: "numeric", nullable: false),
-                    FileName = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    BatchNumberId = table.Column<int>(type: "integer", nullable: false),
-                    WeekNumber = table.Column<int>(type: "integer", nullable: false),
-                    Period = table.Column<int>(type: "integer", nullable: false),
-                    Year = table.Column<int>(type: "integer", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
-                    CreateDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    EditDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    DeleteDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    DeletedUserId = table.Column<int>(type: "integer", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    MedicalCompanyId = table.Column<int>(type: "int", nullable: false),
+                    InvDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    TotalSum = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    SankSum = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    PaySum = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    FileName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    BatchNumberId = table.Column<int>(type: "int", nullable: false),
+                    WeekNumber = table.Column<int>(type: "int", nullable: false),
+                    Period = table.Column<int>(type: "int", nullable: false),
+                    Year = table.Column<int>(type: "int", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EditDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DeleteDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedUserId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -1408,14 +1407,14 @@ namespace Data.Migrations
                         principalSchema: "dict",
                         principalTable: "BatchNumbers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_MainInvoices_MedicalCompanies_MedicalCompanyId",
                         column: x => x.MedicalCompanyId,
                         principalSchema: "LPU",
                         principalTable: "MedicalCompanies",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -1423,21 +1422,21 @@ namespace Data.Migrations
                 schema: "LPU",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    MedicalCompanyId = table.Column<int>(type: "integer", nullable: false),
-                    Code = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
-                    OldCode = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
-                    CodeMain = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    FRMOId = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    MedicalCompanyId = table.Column<int>(type: "int", nullable: false),
+                    Code = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    OldCode = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    CodeMain = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FRMOId = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     BeginDate = table.Column<DateTime>(type: "date", nullable: false),
                     EndDate = table.Column<DateTime>(type: "date", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
-                    CreateDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    EditDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    DeleteDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    DeletedUserId = table.Column<int>(type: "integer", nullable: true)
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EditDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DeleteDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedUserId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -1448,27 +1447,27 @@ namespace Data.Migrations
                         principalSchema: "LPU",
                         principalTable: "MedicalCompanies",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Policies",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    PersonId = table.Column<Guid>(type: "uuid", nullable: false),
-                    PolicyTypeId = table.Column<int>(type: "integer", nullable: false),
-                    Series = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: false),
-                    Number = table.Column<string>(type: "character varying(16)", maxLength: 16, nullable: false),
-                    ENP = table.Column<string>(type: "character varying(16)", maxLength: 16, nullable: false),
-                    OKATO = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: false),
-                    InsuranceCompanyId = table.Column<int>(type: "integer", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
-                    CreateDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    EditDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    DeleteDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    DeletedUserId = table.Column<int>(type: "integer", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PersonId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    PolicyTypeId = table.Column<int>(type: "int", nullable: false),
+                    Series = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    Number = table.Column<string>(type: "nvarchar(16)", maxLength: 16, nullable: false),
+                    ENP = table.Column<string>(type: "nvarchar(16)", maxLength: 16, nullable: false),
+                    OKATO = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    InsuranceCompanyId = table.Column<int>(type: "int", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EditDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DeleteDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedUserId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -1478,14 +1477,14 @@ namespace Data.Migrations
                         column: x => x.PersonId,
                         principalTable: "Persons",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Policies_PolicyTypes_PolicyTypeId",
                         column: x => x.PolicyTypeId,
                         principalSchema: "dict",
                         principalTable: "PolicyTypes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -1493,20 +1492,20 @@ namespace Data.Migrations
                 schema: "dict",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    UMPId = table.Column<int>(type: "integer", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UMPId = table.Column<int>(type: "int", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "date", nullable: false),
-                    EditUserId = table.Column<int>(type: "integer", nullable: false),
+                    EditUserId = table.Column<int>(type: "int", nullable: false),
                     EditDate = table.Column<DateTime>(type: "date", nullable: false),
-                    DeletedUserId = table.Column<int>(type: "integer", nullable: false),
+                    DeletedUserId = table.Column<int>(type: "int", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "date", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
-                    Code = table.Column<int>(type: "integer", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    Code = table.Column<int>(type: "int", nullable: false),
                     BeginDate = table.Column<DateTime>(type: "date", nullable: false),
                     EndDate = table.Column<DateTime>(type: "date", nullable: false),
-                    Name = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false),
-                    Comments = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false),
+                    Comments = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1517,7 +1516,7 @@ namespace Data.Migrations
                         principalSchema: "dict",
                         principalTable: "UMPs",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -1525,21 +1524,21 @@ namespace Data.Migrations
                 schema: "dict",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Coefficient = table.Column<decimal>(type: "numeric", nullable: false),
-                    UMPId = table.Column<int>(type: "integer", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Coefficient = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    UMPId = table.Column<int>(type: "int", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "date", nullable: false),
-                    EditUserId = table.Column<int>(type: "integer", nullable: false),
+                    EditUserId = table.Column<int>(type: "int", nullable: false),
                     EditDate = table.Column<DateTime>(type: "date", nullable: false),
-                    DeletedUserId = table.Column<int>(type: "integer", nullable: false),
+                    DeletedUserId = table.Column<int>(type: "int", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "date", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
-                    Code = table.Column<string>(type: "text", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    Code = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     BeginDate = table.Column<DateTime>(type: "date", nullable: false),
                     EndDate = table.Column<DateTime>(type: "date", nullable: false),
-                    Name = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false),
-                    Comments = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false),
+                    Comments = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1550,7 +1549,7 @@ namespace Data.Migrations
                         principalSchema: "dict",
                         principalTable: "UMPs",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -1558,21 +1557,21 @@ namespace Data.Migrations
                 schema: "dict",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Coefficient = table.Column<decimal>(type: "numeric", nullable: false),
-                    UMPId = table.Column<int>(type: "integer", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Coefficient = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    UMPId = table.Column<int>(type: "int", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "date", nullable: false),
-                    EditUserId = table.Column<int>(type: "integer", nullable: false),
+                    EditUserId = table.Column<int>(type: "int", nullable: false),
                     EditDate = table.Column<DateTime>(type: "date", nullable: false),
-                    DeletedUserId = table.Column<int>(type: "integer", nullable: false),
+                    DeletedUserId = table.Column<int>(type: "int", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "date", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
-                    Code = table.Column<string>(type: "text", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    Code = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     BeginDate = table.Column<DateTime>(type: "date", nullable: false),
                     EndDate = table.Column<DateTime>(type: "date", nullable: false),
-                    Name = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false),
-                    Comments = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false),
+                    Comments = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1583,7 +1582,7 @@ namespace Data.Migrations
                         principalSchema: "dict",
                         principalTable: "UMPs",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -1591,21 +1590,21 @@ namespace Data.Migrations
                 schema: "dict",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    UMPId = table.Column<int>(type: "integer", nullable: false),
-                    Value = table.Column<decimal>(type: "numeric(18,5)", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UMPId = table.Column<int>(type: "int", nullable: false),
+                    Value = table.Column<decimal>(type: "decimal(18,5)", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "date", nullable: false),
-                    EditUserId = table.Column<int>(type: "integer", nullable: false),
+                    EditUserId = table.Column<int>(type: "int", nullable: false),
                     EditDate = table.Column<DateTime>(type: "date", nullable: false),
-                    DeletedUserId = table.Column<int>(type: "integer", nullable: false),
+                    DeletedUserId = table.Column<int>(type: "int", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "date", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
-                    Code = table.Column<int>(type: "integer", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    Code = table.Column<int>(type: "int", nullable: false),
                     BeginDate = table.Column<DateTime>(type: "date", nullable: false),
                     EndDate = table.Column<DateTime>(type: "date", nullable: false),
-                    Name = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false),
-                    Comments = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false),
+                    Comments = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1616,7 +1615,7 @@ namespace Data.Migrations
                         principalSchema: "dict",
                         principalTable: "UMPs",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -1624,20 +1623,20 @@ namespace Data.Migrations
                 schema: "dict",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    UMPId = table.Column<int>(type: "integer", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UMPId = table.Column<int>(type: "int", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "date", nullable: false),
-                    EditUserId = table.Column<int>(type: "integer", nullable: false),
+                    EditUserId = table.Column<int>(type: "int", nullable: false),
                     EditDate = table.Column<DateTime>(type: "date", nullable: false),
-                    DeletedUserId = table.Column<int>(type: "integer", nullable: false),
+                    DeletedUserId = table.Column<int>(type: "int", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "date", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
-                    Code = table.Column<int>(type: "integer", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    Code = table.Column<int>(type: "int", nullable: false),
                     BeginDate = table.Column<DateTime>(type: "date", nullable: false),
                     EndDate = table.Column<DateTime>(type: "date", nullable: false),
-                    Name = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false),
-                    Comments = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false),
+                    Comments = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1648,7 +1647,7 @@ namespace Data.Migrations
                         principalSchema: "dict",
                         principalTable: "UMPs",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -1656,32 +1655,32 @@ namespace Data.Migrations
                 schema: "dict",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    UMPId = table.Column<int>(type: "integer", nullable: false),
-                    IsPos = table.Column<bool>(type: "boolean", nullable: false),
-                    IsObr = table.Column<bool>(type: "boolean", nullable: false),
-                    IsCZ = table.Column<bool>(type: "boolean", nullable: false),
-                    IsGem = table.Column<bool>(type: "boolean", nullable: false),
-                    IsKons = table.Column<bool>(type: "boolean", nullable: false),
-                    IsDisp = table.Column<bool>(type: "boolean", nullable: false),
-                    IsReab = table.Column<bool>(type: "boolean", nullable: false),
-                    IsVMP = table.Column<bool>(type: "boolean", nullable: false),
-                    IsProf = table.Column<bool>(type: "boolean", nullable: false),
-                    IsMob = table.Column<bool>(type: "boolean", nullable: false),
-                    IsConsDiagn = table.Column<bool>(type: "boolean", nullable: false),
-                    IsTelemed = table.Column<bool>(type: "boolean", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UMPId = table.Column<int>(type: "int", nullable: false),
+                    IsPos = table.Column<bool>(type: "bit", nullable: false),
+                    IsObr = table.Column<bool>(type: "bit", nullable: false),
+                    IsCZ = table.Column<bool>(type: "bit", nullable: false),
+                    IsGem = table.Column<bool>(type: "bit", nullable: false),
+                    IsKons = table.Column<bool>(type: "bit", nullable: false),
+                    IsDisp = table.Column<bool>(type: "bit", nullable: false),
+                    IsReab = table.Column<bool>(type: "bit", nullable: false),
+                    IsVMP = table.Column<bool>(type: "bit", nullable: false),
+                    IsProf = table.Column<bool>(type: "bit", nullable: false),
+                    IsMob = table.Column<bool>(type: "bit", nullable: false),
+                    IsConsDiagn = table.Column<bool>(type: "bit", nullable: false),
+                    IsTelemed = table.Column<bool>(type: "bit", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "date", nullable: false),
-                    EditUserId = table.Column<int>(type: "integer", nullable: false),
+                    EditUserId = table.Column<int>(type: "int", nullable: false),
                     EditDate = table.Column<DateTime>(type: "date", nullable: false),
-                    DeletedUserId = table.Column<int>(type: "integer", nullable: false),
+                    DeletedUserId = table.Column<int>(type: "int", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "date", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
-                    Code = table.Column<int>(type: "integer", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    Code = table.Column<int>(type: "int", nullable: false),
                     BeginDate = table.Column<DateTime>(type: "date", nullable: false),
                     EndDate = table.Column<DateTime>(type: "date", nullable: false),
-                    Name = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false),
-                    Comments = table.Column<string>(type: "character varying(350)", maxLength: 350, nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false),
+                    Comments = table.Column<string>(type: "nvarchar(350)", maxLength: 350, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1692,7 +1691,7 @@ namespace Data.Migrations
                         principalSchema: "dict",
                         principalTable: "UMPs",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -1700,22 +1699,22 @@ namespace Data.Migrations
                 schema: "dict",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Code = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    DS = table.Column<string>(type: "text", nullable: false),
-                    VidVMPId = table.Column<int>(type: "integer", nullable: false),
-                    HGR = table.Column<string>(type: "text", nullable: false),
-                    HMODP = table.Column<string>(type: "text", nullable: false),
-                    PatientVMPModelId = table.Column<int>(type: "integer", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Code = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DS = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    VidVMPId = table.Column<int>(type: "int", nullable: false),
+                    HGR = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    HMODP = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PatientVMPModelId = table.Column<int>(type: "int", nullable: false),
                     BeginDate = table.Column<DateTime>(type: "date", nullable: false),
                     EndDate = table.Column<DateTime>(type: "date", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
-                    CreateDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    EditDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    DeleteDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    DeletedUserId = table.Column<int>(type: "integer", nullable: true)
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EditDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DeleteDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedUserId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -1726,14 +1725,14 @@ namespace Data.Migrations
                         principalSchema: "dict",
                         principalTable: "PatientVMPModels",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_VMPMethods_VidVMPs_VidVMPId",
                         column: x => x.VidVMPId,
                         principalSchema: "dict",
                         principalTable: "VidVMPs",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -1741,25 +1740,25 @@ namespace Data.Migrations
                 schema: "inv",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    MedicalCompanyId = table.Column<int>(type: "integer", nullable: false),
-                    InvDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    TotalSum = table.Column<decimal>(type: "numeric", nullable: false),
-                    SankSum = table.Column<decimal>(type: "numeric", nullable: false),
-                    PaySum = table.Column<decimal>(type: "numeric", nullable: false),
-                    FileName = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    MainInvoiceId = table.Column<int>(type: "integer", nullable: false),
-                    InvNumber = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
-                    RecordsNumber = table.Column<int>(type: "integer", nullable: false),
-                    Version = table.Column<string>(type: "character varying(5)", maxLength: 5, nullable: false),
-                    TypeDispId = table.Column<int>(type: "integer", nullable: false),
-                    InvoiceFileTypeId = table.Column<int>(type: "integer", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
-                    CreateDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    EditDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    DeleteDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    DeletedUserId = table.Column<int>(type: "integer", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    MedicalCompanyId = table.Column<int>(type: "int", nullable: false),
+                    InvDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    TotalSum = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    SankSum = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    PaySum = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    FileName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    MainInvoiceId = table.Column<int>(type: "int", nullable: false),
+                    InvNumber = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    RecordsNumber = table.Column<int>(type: "int", nullable: false),
+                    Version = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: false),
+                    TypeDispId = table.Column<int>(type: "int", nullable: false),
+                    InvoiceFileTypeId = table.Column<int>(type: "int", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EditDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DeleteDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedUserId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -1770,28 +1769,28 @@ namespace Data.Migrations
                         principalSchema: "dict",
                         principalTable: "InvoiceFileTypes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Invoices_MainInvoices_MainInvoiceId",
                         column: x => x.MainInvoiceId,
                         principalSchema: "inv",
                         principalTable: "MainInvoices",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Invoices_MedicalCompanies_MedicalCompanyId",
                         column: x => x.MedicalCompanyId,
                         principalSchema: "LPU",
                         principalTable: "MedicalCompanies",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Invoices_TypeDisps_TypeDispId",
                         column: x => x.TypeDispId,
                         principalSchema: "dict",
                         principalTable: "TypeDisps",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -1799,23 +1798,23 @@ namespace Data.Migrations
                 schema: "LPU",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    MedicalCompanyId = table.Column<int>(type: "integer", nullable: false),
-                    MedicalCompanyUnitId = table.Column<int>(type: "integer", nullable: false),
-                    OldCode = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
-                    Code = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
-                    Name = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    MedicalCompanyId = table.Column<int>(type: "int", nullable: false),
+                    MedicalCompanyUnitId = table.Column<int>(type: "int", nullable: false),
+                    OldCode = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    Code = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     BeginDate = table.Column<DateTime>(type: "date", nullable: false),
                     EndDate = table.Column<DateTime>(type: "date", nullable: false),
-                    MedProfileId = table.Column<int>(type: "integer", nullable: false),
-                    UMPId = table.Column<int>(type: "integer", nullable: false),
-                    VidPomId = table.Column<int>(type: "integer", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
-                    CreateDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    EditDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    DeleteDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    DeletedUserId = table.Column<int>(type: "integer", nullable: true)
+                    MedProfileId = table.Column<int>(type: "int", nullable: false),
+                    UMPId = table.Column<int>(type: "int", nullable: false),
+                    VidPomId = table.Column<int>(type: "int", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EditDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DeleteDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedUserId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -1826,35 +1825,35 @@ namespace Data.Migrations
                         principalSchema: "dict",
                         principalTable: "MedProfiles",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_MedicalCompanyDepartments_MedicalCompanies_MedicalCompanyId",
                         column: x => x.MedicalCompanyId,
                         principalSchema: "LPU",
                         principalTable: "MedicalCompanies",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_MedicalCompanyDepartments_MedicalCompanyUnits_MedicalCompan~",
+                        name: "FK_MedicalCompanyDepartments_MedicalCompanyUnits_MedicalCompanyUnitId",
                         column: x => x.MedicalCompanyUnitId,
                         principalSchema: "LPU",
                         principalTable: "MedicalCompanyUnits",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_MedicalCompanyDepartments_UMPs_UMPId",
                         column: x => x.UMPId,
                         principalSchema: "dict",
                         principalTable: "UMPs",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_MedicalCompanyDepartments_VidPoms_VidPomId",
                         column: x => x.VidPomId,
                         principalSchema: "dict",
                         principalTable: "VidPoms",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -1862,44 +1861,44 @@ namespace Data.Migrations
                 schema: "zap",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Number = table.Column<int>(type: "integer", nullable: false),
-                    IsEdited = table.Column<bool>(type: "boolean", nullable: false),
-                    PersonId = table.Column<Guid>(type: "uuid", nullable: false),
-                    PolicyId = table.Column<int>(type: "integer", nullable: false),
-                    InvGroup = table.Column<int>(type: "integer", nullable: false),
-                    IsMSE = table.Column<bool>(type: "boolean", nullable: false),
-                    NewBorn = table.Column<string>(type: "character varying(9)", maxLength: 9, nullable: false),
-                    NewBornWeight = table.Column<string>(type: "text", nullable: false),
-                    InvoiceId = table.Column<int>(type: "integer", nullable: false),
-                    NumberCase = table.Column<int>(type: "integer", nullable: false),
-                    VidSluchId = table.Column<int>(type: "integer", nullable: false),
-                    UMPId = table.Column<int>(type: "integer", nullable: false),
-                    VidPomId = table.Column<int>(type: "integer", nullable: false),
-                    FormPomId = table.Column<int>(type: "integer", nullable: false),
-                    DirectedMOId = table.Column<int>(type: "integer", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Number = table.Column<int>(type: "int", nullable: false),
+                    IsEdited = table.Column<bool>(type: "bit", nullable: false),
+                    PersonId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    PolicyId = table.Column<int>(type: "int", nullable: false),
+                    InvGroup = table.Column<int>(type: "int", nullable: false),
+                    IsMSE = table.Column<bool>(type: "bit", nullable: false),
+                    NewBorn = table.Column<string>(type: "nvarchar(9)", maxLength: 9, nullable: false),
+                    NewBornWeight = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    InvoiceId = table.Column<int>(type: "int", nullable: false),
+                    NumberCase = table.Column<int>(type: "int", nullable: false),
+                    VidSluchId = table.Column<int>(type: "int", nullable: false),
+                    UMPId = table.Column<int>(type: "int", nullable: false),
+                    VidPomId = table.Column<int>(type: "int", nullable: false),
+                    FormPomId = table.Column<int>(type: "int", nullable: false),
+                    DirectedMOId = table.Column<int>(type: "int", nullable: false),
                     DirectedDate = table.Column<DateTime>(type: "date", nullable: false),
-                    MedicalCompanyId = table.Column<int>(type: "integer", nullable: false),
-                    IsMobileMedicalTeam = table.Column<bool>(type: "boolean", nullable: false),
-                    IsRefusal = table.Column<bool>(type: "boolean", nullable: false),
+                    MedicalCompanyId = table.Column<int>(type: "int", nullable: false),
+                    IsMobileMedicalTeam = table.Column<bool>(type: "bit", nullable: false),
+                    IsRefusal = table.Column<bool>(type: "bit", nullable: false),
                     StartTreatmentDate = table.Column<DateTime>(type: "date", nullable: false),
                     EndTreatmentDate = table.Column<DateTime>(type: "date", nullable: false),
-                    DurationHospitalization = table.Column<int>(type: "integer", nullable: false),
-                    ResultId = table.Column<int>(type: "integer", nullable: false),
-                    ResultDispId = table.Column<int>(type: "integer", nullable: false),
-                    IshodId = table.Column<int>(type: "integer", nullable: false),
-                    IsSpecialCase = table.Column<string>(type: "text", nullable: false),
-                    IsIntrahospitalTransfer = table.Column<bool>(type: "boolean", nullable: false),
-                    PaymentMethodId = table.Column<int>(type: "integer", nullable: false),
-                    TotalSum = table.Column<decimal>(type: "numeric", nullable: false),
-                    Pay = table.Column<int>(type: "integer", nullable: false),
-                    PaySum = table.Column<decimal>(type: "numeric", nullable: false),
-                    SankSum = table.Column<decimal>(type: "numeric", nullable: false),
-                    IsPay = table.Column<bool>(type: "boolean", nullable: false),
+                    DurationHospitalization = table.Column<int>(type: "int", nullable: false),
+                    ResultId = table.Column<int>(type: "int", nullable: false),
+                    ResultDispId = table.Column<int>(type: "int", nullable: false),
+                    IshodId = table.Column<int>(type: "int", nullable: false),
+                    IsSpecialCase = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsIntrahospitalTransfer = table.Column<bool>(type: "bit", nullable: false),
+                    PaymentMethodId = table.Column<int>(type: "int", nullable: false),
+                    TotalSum = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Pay = table.Column<int>(type: "int", nullable: false),
+                    PaySum = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    SankSum = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    IsPay = table.Column<bool>(type: "bit", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "date", nullable: false),
                     EditDate = table.Column<DateTime>(type: "date", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "date", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -1910,89 +1909,89 @@ namespace Data.Migrations
                         principalSchema: "dict",
                         principalTable: "FormPoms",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_ZAPMainRecords_Invoices_InvoiceId",
                         column: x => x.InvoiceId,
                         principalSchema: "inv",
                         principalTable: "Invoices",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_ZAPMainRecords_Ishods_IshodId",
                         column: x => x.IshodId,
                         principalSchema: "dict",
                         principalTable: "Ishods",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_ZAPMainRecords_MedicalCompanies_DirectedMOId",
                         column: x => x.DirectedMOId,
                         principalSchema: "LPU",
                         principalTable: "MedicalCompanies",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_ZAPMainRecords_MedicalCompanies_MedicalCompanyId",
                         column: x => x.MedicalCompanyId,
                         principalSchema: "LPU",
                         principalTable: "MedicalCompanies",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_ZAPMainRecords_PaymentMethods_PaymentMethodId",
                         column: x => x.PaymentMethodId,
                         principalSchema: "dict",
                         principalTable: "PaymentMethods",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_ZAPMainRecords_Persons_PersonId",
                         column: x => x.PersonId,
                         principalTable: "Persons",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_ZAPMainRecords_Policies_PolicyId",
                         column: x => x.PolicyId,
                         principalTable: "Policies",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_ZAPMainRecords_ResultDisps_ResultDispId",
                         column: x => x.ResultDispId,
                         principalSchema: "dict",
                         principalTable: "ResultDisps",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_ZAPMainRecords_Results_ResultId",
                         column: x => x.ResultId,
                         principalSchema: "dict",
                         principalTable: "Results",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_ZAPMainRecords_UMPs_UMPId",
                         column: x => x.UMPId,
                         principalSchema: "dict",
                         principalTable: "UMPs",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_ZAPMainRecords_VidPoms_VidPomId",
                         column: x => x.VidPomId,
                         principalSchema: "dict",
                         principalTable: "VidPoms",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_ZAPMainRecords_VidSluchs_VidSluchId",
                         column: x => x.VidSluchId,
                         principalSchema: "dict",
                         principalTable: "VidSluchs",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -2000,20 +1999,20 @@ namespace Data.Migrations
                 schema: "zap",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    SanctionId = table.Column<string>(type: "character varying(36)", maxLength: 36, nullable: false),
-                    TotalSum = table.Column<decimal>(type: "numeric", nullable: false),
-                    ControlTypeId = table.Column<int>(type: "integer", nullable: false),
-                    RefusalReasonId = table.Column<int>(type: "integer", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    SanctionId = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false),
+                    TotalSum = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    ControlTypeId = table.Column<int>(type: "int", nullable: false),
+                    RefusalReasonId = table.Column<int>(type: "int", nullable: false),
                     ActDate = table.Column<DateTime>(type: "date", nullable: false),
-                    ActNumber = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
-                    Comments = table.Column<string>(type: "character varying(2500)", maxLength: 2500, nullable: false),
-                    Source = table.Column<bool>(type: "boolean", nullable: false),
-                    ZAPMainRecordId = table.Column<Guid>(type: "uuid", nullable: false),
+                    ActNumber = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    Comments = table.Column<string>(type: "nvarchar(2500)", maxLength: 2500, nullable: false),
+                    Source = table.Column<bool>(type: "bit", nullable: false),
+                    ZAPMainRecordId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "date", nullable: false),
                     EditDate = table.Column<DateTime>(type: "date", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "date", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -2024,21 +2023,21 @@ namespace Data.Migrations
                         principalSchema: "dict",
                         principalTable: "ControlTypes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Sanctions_RefusalReasons_RefusalReasonId",
                         column: x => x.RefusalReasonId,
                         principalSchema: "dict",
                         principalTable: "RefusalReasons",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Sanctions_ZAPMainRecords_ZAPMainRecordId",
                         column: x => x.ZAPMainRecordId,
                         principalSchema: "zap",
                         principalTable: "ZAPMainRecords",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -2046,43 +2045,43 @@ namespace Data.Migrations
                 schema: "zap",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    IdCase = table.Column<string>(type: "text", nullable: false),
-                    MedicalCompanyUnitId = table.Column<int>(type: "integer", nullable: false),
-                    MedicalCompanyDepartmentId = table.Column<int>(type: "integer", nullable: false),
-                    VidVMPId = table.Column<int>(type: "integer", nullable: false),
-                    VMPMethodId = table.Column<int>(type: "integer", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    IdCase = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    MedicalCompanyUnitId = table.Column<int>(type: "int", nullable: false),
+                    MedicalCompanyDepartmentId = table.Column<int>(type: "int", nullable: false),
+                    VidVMPId = table.Column<int>(type: "int", nullable: false),
+                    VMPMethodId = table.Column<int>(type: "int", nullable: false),
                     TicketReceiveDate = table.Column<DateTime>(type: "date", nullable: false),
-                    TicketNumber = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
+                    TicketNumber = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     PlannedHospitalizationDate = table.Column<DateTime>(type: "date", nullable: false),
-                    MedProfileId = table.Column<int>(type: "integer", nullable: false),
-                    BedMedProfileId = table.Column<int>(type: "integer", nullable: false),
-                    IsChildrenProfile = table.Column<bool>(type: "boolean", nullable: false),
-                    VisitPurposeId = table.Column<int>(type: "integer", nullable: false),
-                    NumberHistory = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    TransferSign = table.Column<int>(type: "integer", nullable: false),
+                    MedProfileId = table.Column<int>(type: "int", nullable: false),
+                    BedMedProfileId = table.Column<int>(type: "int", nullable: false),
+                    IsChildrenProfile = table.Column<bool>(type: "bit", nullable: false),
+                    VisitPurposeId = table.Column<int>(type: "int", nullable: false),
+                    NumberHistory = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    TransferSign = table.Column<int>(type: "int", nullable: false),
                     StartTreatmentDate = table.Column<DateTime>(type: "date", nullable: false),
                     EndTreatmentDate = table.Column<DateTime>(type: "date", nullable: false),
-                    DurationHospitalization = table.Column<int>(type: "integer", nullable: false),
-                    CharacterDiseaseId = table.Column<int>(type: "integer", nullable: false),
-                    IsCancer = table.Column<bool>(type: "boolean", nullable: false),
-                    DispensaryObservation = table.Column<int>(type: "integer", nullable: false),
-                    MedicalCareStandard = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
-                    ConcomitantMedicalCareStandard = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
-                    IsRehabilitation = table.Column<bool>(type: "boolean", nullable: false),
-                    DoctorSpecialtyId = table.Column<int>(type: "integer", nullable: false),
-                    MedSpecialVersion = table.Column<string>(type: "character varying(4)", maxLength: 4, nullable: false),
-                    DoctorId = table.Column<string>(type: "character varying(25)", maxLength: 25, nullable: false),
-                    PayUnits = table.Column<decimal>(type: "numeric", nullable: false),
-                    Rate = table.Column<decimal>(type: "numeric", nullable: false),
-                    TotalSum = table.Column<decimal>(type: "numeric", nullable: false),
-                    Comments = table.Column<string>(type: "character varying(250)", maxLength: 250, nullable: false),
-                    Weight = table.Column<decimal>(type: "numeric", nullable: false),
-                    ZapMainRecordId = table.Column<Guid>(type: "uuid", nullable: false),
+                    DurationHospitalization = table.Column<int>(type: "int", nullable: false),
+                    CharacterDiseaseId = table.Column<int>(type: "int", nullable: false),
+                    IsCancer = table.Column<bool>(type: "bit", nullable: false),
+                    DispensaryObservation = table.Column<int>(type: "int", nullable: false),
+                    MedicalCareStandard = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    ConcomitantMedicalCareStandard = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    IsRehabilitation = table.Column<bool>(type: "bit", nullable: false),
+                    DoctorSpecialtyId = table.Column<int>(type: "int", nullable: false),
+                    MedSpecialVersion = table.Column<string>(type: "nvarchar(4)", maxLength: 4, nullable: false),
+                    DoctorId = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
+                    PayUnits = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Rate = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    TotalSum = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Comments = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
+                    Weight = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    ZapMainRecordId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "date", nullable: false),
                     EditDate = table.Column<DateTime>(type: "date", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "date", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -2093,70 +2092,70 @@ namespace Data.Migrations
                         principalSchema: "dict",
                         principalTable: "BedMedProfiles",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_SLCases_CharacterDiseases_CharacterDiseaseId",
                         column: x => x.CharacterDiseaseId,
                         principalSchema: "dict",
                         principalTable: "CharacterDiseases",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_SLCases_MedProfiles_MedProfileId",
                         column: x => x.MedProfileId,
                         principalSchema: "dict",
                         principalTable: "MedProfiles",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_SLCases_MedSpecials_DoctorSpecialtyId",
                         column: x => x.DoctorSpecialtyId,
                         principalSchema: "dict",
                         principalTable: "MedSpecials",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_SLCases_MedicalCompanyDepartments_MedicalCompanyDepartmentId",
                         column: x => x.MedicalCompanyDepartmentId,
                         principalSchema: "LPU",
                         principalTable: "MedicalCompanyDepartments",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_SLCases_MedicalCompanyUnits_MedicalCompanyUnitId",
                         column: x => x.MedicalCompanyUnitId,
                         principalSchema: "LPU",
                         principalTable: "MedicalCompanyUnits",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_SLCases_VMPMethods_VMPMethodId",
                         column: x => x.VMPMethodId,
                         principalSchema: "dict",
                         principalTable: "VMPMethods",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_SLCases_VidVMPs_VidVMPId",
                         column: x => x.VidVMPId,
                         principalSchema: "dict",
                         principalTable: "VidVMPs",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_SLCases_VisitPurposes_VisitPurposeId",
                         column: x => x.VisitPurposeId,
                         principalSchema: "dict",
                         principalTable: "VisitPurposes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_SLCases_ZAPMainRecords_ZapMainRecordId",
                         column: x => x.ZapMainRecordId,
                         principalSchema: "zap",
                         principalTable: "ZAPMainRecords",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -2164,13 +2163,13 @@ namespace Data.Migrations
                 schema: "zap",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    ExpertReestrId = table.Column<int>(type: "integer", nullable: false),
-                    SanctionId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ExpertReestrId = table.Column<int>(type: "int", nullable: false),
+                    SanctionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "date", nullable: false),
                     EditDate = table.Column<DateTime>(type: "date", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "date", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -2181,14 +2180,14 @@ namespace Data.Migrations
                         principalSchema: "dict",
                         principalTable: "ExpertReestrs",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_SanctionExperts_Sanctions_SanctionId",
                         column: x => x.SanctionId,
                         principalSchema: "zap",
                         principalTable: "Sanctions",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -2196,14 +2195,14 @@ namespace Data.Migrations
                 schema: "zap",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    ConsultationPurposeId = table.Column<int>(type: "integer", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ConsultationPurposeId = table.Column<int>(type: "int", nullable: false),
                     Date = table.Column<DateTime>(type: "date", nullable: false),
-                    SLCaseId = table.Column<Guid>(type: "uuid", nullable: false),
+                    SLCaseId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "date", nullable: false),
                     EditDate = table.Column<DateTime>(type: "date", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "date", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -2214,14 +2213,14 @@ namespace Data.Migrations
                         principalSchema: "dict",
                         principalTable: "ConsultationPurposes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Сonciliums_SLCases_SLCaseId",
                         column: x => x.SLCaseId,
                         principalSchema: "zap",
                         principalTable: "SLCases",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -2229,23 +2228,23 @@ namespace Data.Migrations
                 schema: "zap",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    ReasonAppealId = table.Column<int>(type: "integer", nullable: false),
-                    StageId = table.Column<int>(type: "integer", nullable: false),
-                    TumorId = table.Column<int>(type: "integer", nullable: false),
-                    NodusId = table.Column<int>(type: "integer", nullable: false),
-                    MetastasisId = table.Column<int>(type: "integer", nullable: false),
-                    IsMetastasis = table.Column<bool>(type: "boolean", nullable: false),
-                    TotalFocalDose = table.Column<decimal>(type: "numeric(6,2)", nullable: false),
-                    FractionsNumber = table.Column<int>(type: "integer", nullable: false),
-                    Weight = table.Column<decimal>(type: "numeric(4,1)", nullable: false),
-                    Height = table.Column<int>(type: "integer", nullable: false),
-                    BodyArea = table.Column<decimal>(type: "numeric(3,2)", nullable: false),
-                    SLCaseId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ReasonAppealId = table.Column<int>(type: "int", nullable: false),
+                    StageId = table.Column<int>(type: "int", nullable: false),
+                    TumorId = table.Column<int>(type: "int", nullable: false),
+                    NodusId = table.Column<int>(type: "int", nullable: false),
+                    MetastasisId = table.Column<int>(type: "int", nullable: false),
+                    IsMetastasis = table.Column<bool>(type: "bit", nullable: false),
+                    TotalFocalDose = table.Column<decimal>(type: "decimal(6,2)", nullable: false),
+                    FractionsNumber = table.Column<int>(type: "int", nullable: false),
+                    Weight = table.Column<decimal>(type: "decimal(4,1)", nullable: false),
+                    Height = table.Column<int>(type: "int", nullable: false),
+                    BodyArea = table.Column<decimal>(type: "decimal(3,2)", nullable: false),
+                    SLCaseId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "date", nullable: false),
                     EditDate = table.Column<DateTime>(type: "date", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "date", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -2256,42 +2255,42 @@ namespace Data.Migrations
                         principalSchema: "dict",
                         principalTable: "Metastasises",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_CancerCases_Noduses_NodusId",
                         column: x => x.NodusId,
                         principalSchema: "dict",
                         principalTable: "Noduses",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_CancerCases_ReasonAppeals_ReasonAppealId",
                         column: x => x.ReasonAppealId,
                         principalSchema: "dict",
                         principalTable: "ReasonAppeals",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_CancerCases_SLCases_SLCaseId",
                         column: x => x.SLCaseId,
                         principalSchema: "zap",
                         principalTable: "SLCases",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_CancerCases_Stages_StageId",
                         column: x => x.StageId,
                         principalSchema: "dict",
                         principalTable: "Stages",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_CancerCases_Tumors_TumorId",
                         column: x => x.TumorId,
                         principalSchema: "dict",
                         principalTable: "Tumors",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -2299,15 +2298,15 @@ namespace Data.Migrations
                 schema: "zap",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    DiagnosisId = table.Column<int>(type: "integer", nullable: false),
-                    IsFirstInstalled = table.Column<bool>(type: "boolean", nullable: false),
-                    DispensaryObservation = table.Column<int>(type: "integer", nullable: false),
-                    SLCaseId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    DiagnosisId = table.Column<int>(type: "int", nullable: false),
+                    IsFirstInstalled = table.Column<bool>(type: "bit", nullable: false),
+                    DispensaryObservation = table.Column<int>(type: "int", nullable: false),
+                    SLCaseId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "date", nullable: false),
                     EditDate = table.Column<DateTime>(type: "date", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "date", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -2318,14 +2317,14 @@ namespace Data.Migrations
                         principalSchema: "dict",
                         principalTable: "Diagnoses",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_ConcomitantDiseases_SLCases_SLCaseId",
                         column: x => x.SLCaseId,
                         principalSchema: "zap",
                         principalTable: "SLCases",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -2333,22 +2332,22 @@ namespace Data.Migrations
                 schema: "zap",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Number = table.Column<int>(type: "integer", nullable: false),
-                    ReferralType = table.Column<int>(type: "integer", nullable: false),
-                    DoctorId = table.Column<string>(type: "character varying(14)", maxLength: 14, nullable: false),
-                    MedSpecialId = table.Column<int>(type: "integer", nullable: false),
-                    DiagnosticResearchMethodId = table.Column<int>(type: "integer", nullable: false),
-                    MedicalServiceId = table.Column<int>(type: "integer", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Number = table.Column<int>(type: "int", nullable: false),
+                    ReferralType = table.Column<int>(type: "int", nullable: false),
+                    DoctorId = table.Column<string>(type: "nvarchar(14)", maxLength: 14, nullable: false),
+                    MedSpecialId = table.Column<int>(type: "int", nullable: false),
+                    DiagnosticResearchMethodId = table.Column<int>(type: "int", nullable: false),
+                    MedicalServiceId = table.Column<int>(type: "int", nullable: false),
                     Date = table.Column<DateTime>(type: "date", nullable: false),
-                    MedicalCompanyId = table.Column<int>(type: "integer", nullable: false),
-                    MedProfileId = table.Column<int>(type: "integer", nullable: false),
-                    BedMedProfileId = table.Column<int>(type: "integer", nullable: false),
-                    SLCaseId = table.Column<Guid>(type: "uuid", nullable: false),
+                    MedicalCompanyId = table.Column<int>(type: "int", nullable: false),
+                    MedProfileId = table.Column<int>(type: "int", nullable: false),
+                    BedMedProfileId = table.Column<int>(type: "int", nullable: false),
+                    SLCaseId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "date", nullable: false),
                     EditDate = table.Column<DateTime>(type: "date", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "date", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -2359,49 +2358,49 @@ namespace Data.Migrations
                         principalSchema: "dict",
                         principalTable: "BedMedProfiles",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_DispensaryReferrals_DiagnosticMethods_DiagnosticResearchMet~",
+                        name: "FK_DispensaryReferrals_DiagnosticMethods_DiagnosticResearchMethodId",
                         column: x => x.DiagnosticResearchMethodId,
                         principalSchema: "dict",
                         principalTable: "DiagnosticMethods",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_DispensaryReferrals_MedProfiles_MedProfileId",
                         column: x => x.MedProfileId,
                         principalSchema: "dict",
                         principalTable: "MedProfiles",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_DispensaryReferrals_MedSpecials_MedSpecialId",
                         column: x => x.MedSpecialId,
                         principalSchema: "dict",
                         principalTable: "MedSpecials",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_DispensaryReferrals_MedicalCompanies_MedicalCompanyId",
                         column: x => x.MedicalCompanyId,
                         principalSchema: "LPU",
                         principalTable: "MedicalCompanies",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_DispensaryReferrals_MedicalServices_MedicalServiceId",
                         column: x => x.MedicalServiceId,
                         principalSchema: "dict",
                         principalTable: "MedicalServices",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_DispensaryReferrals_SLCases_SLCaseId",
                         column: x => x.SLCaseId,
                         principalSchema: "zap",
                         principalTable: "SLCases",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -2409,23 +2408,23 @@ namespace Data.Migrations
                 schema: "zap",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    KSGId = table.Column<int>(type: "integer", nullable: false),
-                    KSGModel = table.Column<int>(type: "integer", nullable: false),
-                    IsSubgroupKSG = table.Column<bool>(type: "boolean", nullable: false),
-                    KPGId = table.Column<int>(type: "integer", nullable: false),
-                    CostCoefficient = table.Column<decimal>(type: "numeric(7,5)", nullable: false),
-                    ManagementCoefficient = table.Column<decimal>(type: "numeric(7,5)", nullable: false),
-                    BaseRate = table.Column<decimal>(type: "numeric(8,2)", nullable: false),
-                    DifferentiationCoefficient = table.Column<decimal>(type: "numeric(7,5)", nullable: false),
-                    LevelCoefficient = table.Column<decimal>(type: "numeric(7,5)", nullable: false),
-                    IsKSLP = table.Column<bool>(type: "boolean", nullable: false),
-                    DifficultyCoefficient = table.Column<decimal>(type: "numeric(6,5)", nullable: false),
-                    SlCaseId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    KSGId = table.Column<int>(type: "int", nullable: false),
+                    KSGModel = table.Column<int>(type: "int", nullable: false),
+                    IsSubgroupKSG = table.Column<bool>(type: "bit", nullable: false),
+                    KPGId = table.Column<int>(type: "int", nullable: false),
+                    CostCoefficient = table.Column<decimal>(type: "decimal(7,5)", nullable: false),
+                    ManagementCoefficient = table.Column<decimal>(type: "decimal(7,5)", nullable: false),
+                    BaseRate = table.Column<decimal>(type: "decimal(8,2)", nullable: false),
+                    DifferentiationCoefficient = table.Column<decimal>(type: "decimal(7,5)", nullable: false),
+                    LevelCoefficient = table.Column<decimal>(type: "decimal(7,5)", nullable: false),
+                    IsKSLP = table.Column<bool>(type: "bit", nullable: false),
+                    DifficultyCoefficient = table.Column<decimal>(type: "decimal(6,5)", nullable: false),
+                    SlCaseId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "date", nullable: false),
                     EditDate = table.Column<DateTime>(type: "date", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "date", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -2436,21 +2435,21 @@ namespace Data.Migrations
                         principalSchema: "dict",
                         principalTable: "KPGs",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_KSGKPGs_KSGs_KSGId",
                         column: x => x.KSGId,
                         principalSchema: "dict",
                         principalTable: "KSGs",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_KSGKPGs_SLCases_SlCaseId",
                         column: x => x.SlCaseId,
                         principalSchema: "zap",
                         principalTable: "SLCases",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -2458,59 +2457,59 @@ namespace Data.Migrations
                 schema: "zap",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Date = table.Column<DateTime>(type: "date", nullable: false),
-                    CombinationTreatmentId = table.Column<int>(type: "integer", nullable: false),
-                    MedicationId = table.Column<int>(type: "integer", nullable: false),
-                    LabelCode = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    UnitId = table.Column<int>(type: "integer", nullable: false),
-                    UnitValue = table.Column<decimal>(type: "numeric(7,2)", nullable: false),
-                    InjectionMethodId = table.Column<int>(type: "integer", nullable: false),
-                    InjectionsNumber = table.Column<int>(type: "integer", nullable: false),
-                    SLCaseId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CombinationTreatmentId = table.Column<int>(type: "int", nullable: false),
+                    MedicationId = table.Column<int>(type: "int", nullable: false),
+                    LabelCode = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    UnitId = table.Column<int>(type: "int", nullable: false),
+                    UnitValue = table.Column<decimal>(type: "decimal(7,2)", nullable: false),
+                    InjectionMethodId = table.Column<int>(type: "int", nullable: false),
+                    InjectionsNumber = table.Column<int>(type: "int", nullable: false),
+                    SLCaseId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "date", nullable: false),
                     EditDate = table.Column<DateTime>(type: "date", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "date", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_MedicinalProducts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_MedicinalProducts_CombinationTreatments_CombinationTreatmen~",
+                        name: "FK_MedicinalProducts_CombinationTreatments_CombinationTreatmentId",
                         column: x => x.CombinationTreatmentId,
                         principalSchema: "dict",
                         principalTable: "CombinationTreatments",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_MedicinalProducts_InjectionMethods_InjectionMethodId",
                         column: x => x.InjectionMethodId,
                         principalSchema: "dict",
                         principalTable: "InjectionMethods",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_MedicinalProducts_Medications_MedicationId",
                         column: x => x.MedicationId,
                         principalSchema: "dict",
                         principalTable: "Medications",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_MedicinalProducts_SLCases_SLCaseId",
                         column: x => x.SLCaseId,
                         principalSchema: "zap",
                         principalTable: "SLCases",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_MedicinalProducts_Units_UnitId",
                         column: x => x.UnitId,
                         principalSchema: "dict",
                         principalTable: "Units",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -2518,17 +2517,17 @@ namespace Data.Migrations
                 schema: "zap",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Date = table.Column<DateTime>(type: "date", nullable: false),
-                    MedicalCompanyId = table.Column<int>(type: "integer", nullable: false),
-                    DirectionTypeId = table.Column<int>(type: "integer", nullable: false),
-                    DiagnosticResearchMethodId = table.Column<int>(type: "integer", nullable: false),
-                    MedicalServiceId = table.Column<int>(type: "integer", nullable: false),
-                    SLCaseId = table.Column<Guid>(type: "uuid", nullable: false),
+                    MedicalCompanyId = table.Column<int>(type: "int", nullable: false),
+                    DirectionTypeId = table.Column<int>(type: "int", nullable: false),
+                    DiagnosticResearchMethodId = table.Column<int>(type: "int", nullable: false),
+                    MedicalServiceId = table.Column<int>(type: "int", nullable: false),
+                    SLCaseId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "date", nullable: false),
                     EditDate = table.Column<DateTime>(type: "date", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "date", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -2539,35 +2538,35 @@ namespace Data.Migrations
                         principalSchema: "dict",
                         principalTable: "DiagnosticMethods",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Referrals_DirectionTypes_DirectionTypeId",
                         column: x => x.DirectionTypeId,
                         principalSchema: "dict",
                         principalTable: "DirectionTypes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Referrals_MedicalCompanies_MedicalCompanyId",
                         column: x => x.MedicalCompanyId,
                         principalSchema: "LPU",
                         principalTable: "MedicalCompanies",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Referrals_MedicalServices_MedicalServiceId",
                         column: x => x.MedicalServiceId,
                         principalSchema: "dict",
                         principalTable: "MedicalServices",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Referrals_SLCases_SLCaseId",
                         column: x => x.SLCaseId,
                         principalSchema: "zap",
                         principalTable: "SLCases",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -2575,15 +2574,15 @@ namespace Data.Migrations
                 schema: "zap",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    SLCaseId = table.Column<Guid>(type: "uuid", nullable: false),
-                    DiagnosisType = table.Column<int>(type: "integer", nullable: false),
-                    DiagnosisId = table.Column<int>(type: "integer", nullable: false),
-                    IsFirstInstalled = table.Column<bool>(type: "boolean", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    SLCaseId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    DiagnosisType = table.Column<int>(type: "int", nullable: false),
+                    DiagnosisId = table.Column<int>(type: "int", nullable: false),
+                    IsFirstInstalled = table.Column<bool>(type: "bit", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "date", nullable: false),
                     EditDate = table.Column<DateTime>(type: "date", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "date", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -2594,14 +2593,14 @@ namespace Data.Migrations
                         principalSchema: "dict",
                         principalTable: "Diagnoses",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_SLCaseDiagnoses_SLCases_SLCaseId",
                         column: x => x.SLCaseId,
                         principalSchema: "zap",
                         principalTable: "SLCases",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -2609,13 +2608,13 @@ namespace Data.Migrations
                 schema: "zap",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    SLCaseId = table.Column<Guid>(type: "uuid", nullable: false),
-                    SanctionId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    SLCaseId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    SanctionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "date", nullable: false),
                     EditDate = table.Column<DateTime>(type: "date", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "date", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -2626,14 +2625,14 @@ namespace Data.Migrations
                         principalSchema: "zap",
                         principalTable: "SLCases",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_SLCaseSanctions_Sanctions_SanctionId",
                         column: x => x.SanctionId,
                         principalSchema: "zap",
                         principalTable: "Sanctions",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -2641,32 +2640,32 @@ namespace Data.Migrations
                 schema: "zap",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    IdService = table.Column<string>(type: "character varying(36)", maxLength: 36, nullable: false),
-                    MedicalCompanyUnitId = table.Column<int>(type: "integer", nullable: false),
-                    MedicalCompanyDepartmentId = table.Column<int>(type: "integer", nullable: false),
-                    MedicalCompanyId = table.Column<int>(type: "integer", nullable: false),
-                    MedProfileId = table.Column<int>(type: "integer", nullable: false),
-                    MedicalInterventionTypeId = table.Column<int>(type: "integer", nullable: false),
-                    VMPMethodId = table.Column<int>(type: "integer", nullable: false),
-                    MedicalServiceId = table.Column<int>(type: "integer", nullable: false),
-                    IsChildrenProfile = table.Column<bool>(type: "boolean", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    IdService = table.Column<string>(type: "nvarchar(36)", maxLength: 36, nullable: false),
+                    MedicalCompanyUnitId = table.Column<int>(type: "int", nullable: false),
+                    MedicalCompanyDepartmentId = table.Column<int>(type: "int", nullable: false),
+                    MedicalCompanyId = table.Column<int>(type: "int", nullable: false),
+                    MedProfileId = table.Column<int>(type: "int", nullable: false),
+                    MedicalInterventionTypeId = table.Column<int>(type: "int", nullable: false),
+                    VMPMethodId = table.Column<int>(type: "int", nullable: false),
+                    MedicalServiceId = table.Column<int>(type: "int", nullable: false),
+                    IsChildrenProfile = table.Column<bool>(type: "bit", nullable: false),
                     BeginDate = table.Column<DateTime>(type: "date", nullable: false),
                     EndDate = table.Column<DateTime>(type: "date", nullable: false),
-                    IsRefusal = table.Column<bool>(type: "boolean", nullable: false),
-                    DiagnosisId = table.Column<int>(type: "integer", nullable: false),
-                    NumberServices = table.Column<decimal>(type: "numeric", nullable: false),
-                    Rate = table.Column<decimal>(type: "numeric", nullable: false),
-                    TotalSum = table.Column<decimal>(type: "numeric", nullable: false),
-                    MedSpecialId = table.Column<int>(type: "integer", nullable: false),
-                    DoctorId = table.Column<string>(type: "character varying(25)", maxLength: 25, nullable: false),
-                    IncompleteVolume = table.Column<int>(type: "integer", nullable: false),
-                    Comments = table.Column<string>(type: "character varying(250)", maxLength: 250, nullable: false),
-                    SlCaseId = table.Column<Guid>(type: "uuid", nullable: false),
+                    IsRefusal = table.Column<bool>(type: "bit", nullable: false),
+                    DiagnosisId = table.Column<int>(type: "int", nullable: false),
+                    NumberServices = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Rate = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    TotalSum = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    MedSpecialId = table.Column<int>(type: "int", nullable: false),
+                    DoctorId = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
+                    IncompleteVolume = table.Column<int>(type: "int", nullable: false),
+                    Comments = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
+                    SlCaseId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "date", nullable: false),
                     EditDate = table.Column<DateTime>(type: "date", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "date", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -2677,70 +2676,70 @@ namespace Data.Migrations
                         principalSchema: "dict",
                         principalTable: "Diagnoses",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_USLServices_MedProfiles_MedProfileId",
                         column: x => x.MedProfileId,
                         principalSchema: "dict",
                         principalTable: "MedProfiles",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_USLServices_MedSpecials_MedSpecialId",
                         column: x => x.MedSpecialId,
                         principalSchema: "dict",
                         principalTable: "MedSpecials",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_USLServices_MedicalCompanies_MedicalCompanyId",
                         column: x => x.MedicalCompanyId,
                         principalSchema: "LPU",
                         principalTable: "MedicalCompanies",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_USLServices_MedicalCompanyDepartments_MedicalCompanyDepartm~",
+                        name: "FK_USLServices_MedicalCompanyDepartments_MedicalCompanyDepartmentId",
                         column: x => x.MedicalCompanyDepartmentId,
                         principalSchema: "LPU",
                         principalTable: "MedicalCompanyDepartments",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_USLServices_MedicalCompanyUnits_MedicalCompanyUnitId",
                         column: x => x.MedicalCompanyUnitId,
                         principalSchema: "LPU",
                         principalTable: "MedicalCompanyUnits",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_USLServices_MedicalServices_MedicalInterventionTypeId",
                         column: x => x.MedicalInterventionTypeId,
                         principalSchema: "dict",
                         principalTable: "MedicalServices",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_USLServices_MedicalServices_MedicalServiceId",
                         column: x => x.MedicalServiceId,
                         principalSchema: "dict",
                         principalTable: "MedicalServices",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_USLServices_SLCases_SlCaseId",
                         column: x => x.SlCaseId,
                         principalSchema: "zap",
                         principalTable: "SLCases",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_USLServices_VMPMethods_VMPMethodId",
                         column: x => x.VMPMethodId,
                         principalSchema: "dict",
                         principalTable: "VMPMethods",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -2748,18 +2747,18 @@ namespace Data.Migrations
                 schema: "zap",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    TreatmentTypeId = table.Column<int>(type: "integer", nullable: false),
-                    SurgeryTypeId = table.Column<int>(type: "integer", nullable: false),
-                    DrugTherapyLineId = table.Column<int>(type: "integer", nullable: false),
-                    DrugTherapyCycleId = table.Column<int>(type: "integer", nullable: false),
-                    IsPreventingNausea = table.Column<bool>(type: "boolean", nullable: false),
-                    RadiationTherapyTypeId = table.Column<int>(type: "integer", nullable: false),
-                    CancerCaseId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TreatmentTypeId = table.Column<int>(type: "int", nullable: false),
+                    SurgeryTypeId = table.Column<int>(type: "int", nullable: false),
+                    DrugTherapyLineId = table.Column<int>(type: "int", nullable: false),
+                    DrugTherapyCycleId = table.Column<int>(type: "int", nullable: false),
+                    IsPreventingNausea = table.Column<bool>(type: "bit", nullable: false),
+                    RadiationTherapyTypeId = table.Column<int>(type: "int", nullable: false),
+                    CancerCaseId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "date", nullable: false),
                     EditDate = table.Column<DateTime>(type: "date", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "date", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -2770,42 +2769,42 @@ namespace Data.Migrations
                         principalSchema: "zap",
                         principalTable: "CancerCases",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_CancerServices_DrugTherapyCycles_DrugTherapyCycleId",
                         column: x => x.DrugTherapyCycleId,
                         principalSchema: "dict",
                         principalTable: "DrugTherapyCycles",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_CancerServices_DrugTherapyLines_DrugTherapyLineId",
                         column: x => x.DrugTherapyLineId,
                         principalSchema: "dict",
                         principalTable: "DrugTherapyLines",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_CancerServices_RadiationTherapyTypes_RadiationTherapyTypeId",
                         column: x => x.RadiationTherapyTypeId,
                         principalSchema: "dict",
                         principalTable: "RadiationTherapyTypes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_CancerServices_SurgeryTypes_SurgeryTypeId",
                         column: x => x.SurgeryTypeId,
                         principalSchema: "dict",
                         principalTable: "SurgeryTypes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_CancerServices_TreatmentTypes_TreatmentTypeId",
                         column: x => x.TreatmentTypeId,
                         principalSchema: "dict",
                         principalTable: "TreatmentTypes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -2813,14 +2812,14 @@ namespace Data.Migrations
                 schema: "zap",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    ContraindicationId = table.Column<int>(type: "integer", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ContraindicationId = table.Column<int>(type: "int", nullable: false),
                     Date = table.Column<DateTime>(type: "date", nullable: false),
-                    CancerCaseId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CancerCaseId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "date", nullable: false),
                     EditDate = table.Column<DateTime>(type: "date", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "date", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -2831,14 +2830,14 @@ namespace Data.Migrations
                         principalSchema: "zap",
                         principalTable: "CancerCases",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_ContraindicationBlocks_Contraindications_ContraindicationId",
                         column: x => x.ContraindicationId,
                         principalSchema: "dict",
                         principalTable: "Contraindications",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -2846,19 +2845,19 @@ namespace Data.Migrations
                 schema: "zap",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Date = table.Column<DateTime>(type: "date", nullable: false),
-                    DiagnosticIndicatorType = table.Column<int>(type: "integer", nullable: false),
-                    HistologicalFeatureId = table.Column<int>(type: "integer", nullable: false),
-                    CancerMarkerId = table.Column<int>(type: "integer", nullable: false),
-                    HistologicalExaminationResultId = table.Column<int>(type: "integer", nullable: false),
-                    CancerMarkerValueId = table.Column<int>(type: "integer", nullable: false),
-                    IsResultReceive = table.Column<bool>(type: "boolean", nullable: false),
-                    CancerCaseId = table.Column<Guid>(type: "uuid", nullable: false),
+                    DiagnosticIndicatorType = table.Column<int>(type: "int", nullable: false),
+                    HistologicalFeatureId = table.Column<int>(type: "int", nullable: false),
+                    CancerMarkerId = table.Column<int>(type: "int", nullable: false),
+                    HistologicalExaminationResultId = table.Column<int>(type: "int", nullable: false),
+                    CancerMarkerValueId = table.Column<int>(type: "int", nullable: false),
+                    IsResultReceive = table.Column<bool>(type: "bit", nullable: false),
+                    CancerCaseId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "date", nullable: false),
                     EditDate = table.Column<DateTime>(type: "date", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "date", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -2869,35 +2868,35 @@ namespace Data.Migrations
                         principalSchema: "zap",
                         principalTable: "CancerCases",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_DiagnosticBlocks_CancerMarkerValues_CancerMarkerValueId",
                         column: x => x.CancerMarkerValueId,
                         principalSchema: "dict",
                         principalTable: "CancerMarkerValues",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_DiagnosticBlocks_CancerMarkers_CancerMarkerId",
                         column: x => x.CancerMarkerId,
                         principalSchema: "dict",
                         principalTable: "CancerMarkers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_DiagnosticBlocks_HistologicalExaminationResults_Histologica~",
+                        name: "FK_DiagnosticBlocks_HistologicalExaminationResults_HistologicalExaminationResultId",
                         column: x => x.HistologicalExaminationResultId,
                         principalSchema: "dict",
                         principalTable: "HistologicalExaminationResults",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_DiagnosticBlocks_HistologicalFeatures_HistologicalFeatureId",
                         column: x => x.HistologicalFeatureId,
                         principalSchema: "dict",
                         principalTable: "HistologicalFeatures",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -2905,14 +2904,14 @@ namespace Data.Migrations
                 schema: "zap",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    KSLPId = table.Column<int>(type: "integer", nullable: false),
-                    Value = table.Column<decimal>(type: "numeric(18,5)", nullable: false),
-                    KSGKPGId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    KSLPId = table.Column<int>(type: "int", nullable: false),
+                    Value = table.Column<decimal>(type: "decimal(18,5)", nullable: false),
+                    KSGKPGId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "date", nullable: false),
                     EditDate = table.Column<DateTime>(type: "date", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "date", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -2923,14 +2922,14 @@ namespace Data.Migrations
                         principalSchema: "zap",
                         principalTable: "KSGKPGs",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_DifficultyCoefficients_KSLPs_KSLPId",
                         column: x => x.KSLPId,
                         principalSchema: "dict",
                         principalTable: "KSLPs",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -2938,31 +2937,31 @@ namespace Data.Migrations
                 schema: "zap",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    KSGKPGId = table.Column<Guid>(type: "uuid", nullable: false),
-                    ClassificationCriterionId = table.Column<int>(type: "integer", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    KSGKPGId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ClassificationCriterionId = table.Column<int>(type: "int", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "date", nullable: false),
                     EditDate = table.Column<DateTime>(type: "date", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "date", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_KSGKPGClassificationCriterions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_KSGKPGClassificationCriterions_ClassificationCriterions_Cla~",
+                        name: "FK_KSGKPGClassificationCriterions_ClassificationCriterions_ClassificationCriterionId",
                         column: x => x.ClassificationCriterionId,
                         principalSchema: "dict",
                         principalTable: "ClassificationCriterions",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_KSGKPGClassificationCriterions_KSGKPGs_KSGKPGId",
                         column: x => x.KSGKPGId,
                         principalSchema: "zap",
                         principalTable: "KSGKPGs",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -2970,15 +2969,15 @@ namespace Data.Migrations
                 schema: "zap",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Date = table.Column<DateTime>(type: "date", nullable: false),
-                    MedicalDeviceTypeId = table.Column<int>(type: "integer", nullable: false),
-                    SerialNumber = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    USLServiceId = table.Column<Guid>(type: "uuid", nullable: false),
+                    MedicalDeviceTypeId = table.Column<int>(type: "int", nullable: false),
+                    SerialNumber = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    USLServiceId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "date", nullable: false),
                     EditDate = table.Column<DateTime>(type: "date", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "date", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -2989,14 +2988,14 @@ namespace Data.Migrations
                         principalSchema: "dict",
                         principalTable: "MedicalDeviceTypes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Implants_USLServices_USLServiceId",
                         column: x => x.USLServiceId,
                         principalSchema: "zap",
                         principalTable: "USLServices",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -3004,15 +3003,15 @@ namespace Data.Migrations
                 schema: "zap",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    MedicationId = table.Column<int>(type: "integer", nullable: false),
-                    Date = table.Column<string>(type: "text", nullable: false),
-                    DrugRegimenCodeId = table.Column<int>(type: "integer", nullable: false),
-                    CancerServiceId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    MedicationId = table.Column<int>(type: "int", nullable: false),
+                    Date = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DrugRegimenCodeId = table.Column<int>(type: "int", nullable: false),
+                    CancerServiceId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "date", nullable: false),
                     EditDate = table.Column<DateTime>(type: "date", nullable: false),
                     DeleteDate = table.Column<DateTime>(type: "date", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -3023,21 +3022,21 @@ namespace Data.Migrations
                         principalSchema: "zap",
                         principalTable: "CancerServices",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_CancerMedicinalProducts_ClassificationCriterions_DrugRegime~",
+                        name: "FK_CancerMedicinalProducts_ClassificationCriterions_DrugRegimenCodeId",
                         column: x => x.DrugRegimenCodeId,
                         principalSchema: "dict",
                         principalTable: "ClassificationCriterions",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_CancerMedicinalProducts_Medications_MedicationId",
                         column: x => x.MedicationId,
                         principalSchema: "dict",
                         principalTable: "Medications",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -4134,7 +4133,7 @@ namespace Data.Migrations
                 schema: "zap");
 
             migrationBuilder.DropTable(
-                name: "UploadedFiles");
+                name: "SpiskiNaDNFromMO");
 
             migrationBuilder.DropTable(
                 name: "ConsultationPurposes",

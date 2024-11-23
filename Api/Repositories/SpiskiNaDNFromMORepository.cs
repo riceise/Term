@@ -4,16 +4,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Api.Repositories
 {
-    public class SpiskiNaDNFromMORepository : ISpiskiNaDNFromMORepository
+    public class SpiskiNaDNFromMORepository : ISpiskiNaDnFromMoRepository
     {
         private readonly TFOMSContext _context;
 
-        public UploadedFileRepository(TFOMSContext context)
+        public SpiskiNaDNFromMORepository(TFOMSContext context)
         {
             _context = context;
         }
 
-        public async Task AddUploadedFilesAsync(IEnumerable<SpiskiNaDNFromMO> files)
+        public async Task AddSpiskiNaDNFromMOsAsync(IEnumerable<SpiskiNaDNFromMO> files)
         {
             await _context.Set<SpiskiNaDNFromMO>().AddRangeAsync(files);
             await _context.SaveChangesAsync();

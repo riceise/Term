@@ -4,14 +4,15 @@
     using Api.Mappers;
     using Data.Model.Entities.UploadedFile;
     using System.ComponentModel.DataAnnotations;
+    using System.Text.RegularExpressions;
 
     namespace Api.Services
     {
-        public class  UploadedFileService : IUploadedFileService
+        public class  SpiskiNaDnFromMoService : ISpiskiNaDNFromMOService
         {
             private readonly ISpiskiNaDnFromMoRepository _repository;
 
-            public UploadedFileService(ISpiskiNaDnFromMoRepository repository)
+            public SpiskiNaDnFromMoService(ISpiskiNaDnFromMoRepository repository)
             {
                 _repository = repository;
             }
@@ -29,36 +30,76 @@
                     {
                         try
                         {
+                            int npp;
+                            if (!int.TryParse(row.Cell(1).GetString(), out npp))
+                            {
+                                errors.Add($"Ошибка: Поле '№ п/п' в строке {row.RowNumber()} имеет неверный формат.");
+                                continue;
+                            }
+
+                            string lastName = row.Cell(2).GetString();
+                            if (string.IsNullOrEmpty(lastName))
+                            {
+                                errors.Add($"Ошибка: Поле 'Фамилия' в строке {row.RowNumber()} обязательно.");
+                                continue;
+                            }
+
+                            string name = row.Cell(3).GetString();
+                            if (string.IsNullOrEmpty(name))
+                            {
+                                errors.Add($"Ошибка: Поле 'Имя' в строке {row.RowNumber()} обязательно.");
+                                continue;
+                            }
+
                             DateTime birthDay;
                             string dateString = row.Cell(5).GetString();
-
-                            if (!DateTime.TryParseExact(dateString, 
-                                new[] { "dd.MM.yyyy", "dd.MM.yyyy H:mm:ss", "dd.MM.yyyy HH:mm:ss", "dd.MM.yyyy HH:mm" }, 
+                            if (!DateTime.TryParseExact(dateString,
+                                new[] { "dd.MM.yyyy", "dd.MM.yyyy H:mm:ss", "dd.MM.yyyy HH:mm:ss", "dd.MM.yyyy HH:mm" },
                                 null, 
-                                System.Globalization.DateTimeStyles.AssumeUniversal, 
-                                out birthDay))                    
+                                System.Globalization.DateTimeStyles.None, 
+                                out birthDay))
                             {
                                 errors.Add($"Ошибка: Поле 'Дата рождения' в строке {row.RowNumber()} имеет неверный формат: '{dateString}'");
                                 continue;
                             }
 
+                            string snils = row.Cell(6).GetString();
+                            if (string.IsNullOrWhiteSpace(snils))
+                            {
+                                errors.Add($"Ошибка: Поле 'СНИЛС' в строке {row.RowNumber()} обязательно.");
+                                continue;
+                            }
+
+                            int n_reest;
+                            if (!int.TryParse(row.Cell(7).GetString(), out n_reest) || !Regex.IsMatch(n_reest.ToString(), @"^\d{6}$"))
+                            {
+                                errors.Add($"Ошибка: Поле '№ реестра' в строке {row.RowNumber()} должно содержать 6 цифр.");
+                                continue;
+                            }
+
+                            int period;
+                            if (!int.TryParse(row.Cell(8).GetString(), out period))
+                            {
+                                errors.Add($"Ошибка: Поле 'Период' в строке {row.RowNumber()} имеет неверный формат.");
+                                continue;
+                            }
+
                             var fileDto = new SpiskiNaDNFromMODTO
                             {
-                                Npp = int.Parse(row.Cell(1).GetString()),
-                                LastName = row.Cell(2).GetString(),
-                                Name = row.Cell(3).GetString(),
-                                Patronymic = row.Cell(4).GetString(),
-                                BirthDay = birthDay.ToUniversalTime(),
-                                Snils = row.Cell(6).GetString(),
-                                N_reest = int.Parse(row.Cell(7).GetString()),
-                                Period = int.Parse(row.Cell(8).GetString()),
-                                Organizaciya = row.Cell(9).GetString(),
+                                Npp = npp,
+                                LastName = lastName,
+                                Name = name,
+                                Patronymic = row.Cell(4).GetString(), 
+                                BirthDay = birthDay,
+                                Snils = snils,
+                                N_reest = n_reest,
+                                Period = period,
+                                Organizaciya = row.Cell(9).GetString()
                             };
 
-                            // Валидируем модель
                             var validationContext = new ValidationContext(fileDto);
                             var validationResults = new List<ValidationResult>();
-                            if (!Validator.TryValidateObject(fileDto, validationContext, validationResults, true))
+                            if (!Validator.TryValidateObject(fileDto, validationContext, validationResults, validateAllProperties: true))
                             {
                                 foreach (var validationResult in validationResults)
                                 {
@@ -71,18 +112,16 @@
                         }
                         catch (Exception ex)
                         {
-                            errors.Add($"Ошибка в строке {row.RowNumber()}: {ex.Message}");
+                            errors.Add($"Неожиданная ошибка в строке {row.RowNumber()}: {ex.Message}");
                         }
                     }
                 }
 
-                // Если есть ошибки, выбросить исключение с их списком
                 if (errors.Any())
                 {
                     throw new ValidationException($"Обнаружены ошибки:\n{string.Join("\n", errors)}");
                 }
 
-                // Если ошибок нет, сохраняем данные
                 var fileEntities = SpiskiNaDNFromMOMapper.MapDtoToEntity(files);
                 await _repository.AddSpiskiNaDNFromMOsAsync(fileEntities);
             }
@@ -111,7 +150,7 @@
 
             public async Task UpdateAsync(SpiskiNaDNFromMODTO dto)
             {
-                var entity = await _repository.GetByIdAsync(dto.N_reest);
+                var entity = await _repository.GetByIdAsync(dto.Id);
                 if (entity == null)
                 {
                     throw new ValidationException("Запись с указанным ID не найдена.");
@@ -126,7 +165,7 @@
                 entity.N_reest = dto.N_reest;
                 entity.Period = dto.Period;
                 entity.Organizaciya = dto.Organizaciya;
-
+                
                 await _repository.UpdateAsync(entity);
             }
         }

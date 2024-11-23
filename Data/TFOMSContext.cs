@@ -5,6 +5,7 @@ using Data.Model.Entities.Person;
 using Data.Model.Entities.Policy;
 using Data.Model.Entities.UploadedFile;
 using Microsoft.EntityFrameworkCore;
+using Share.DTOs;
 
 namespace Data
 {
@@ -21,7 +22,7 @@ namespace Data
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("DESKTOP-PVQM84B\\SQLEXPRESS;Database=test;User Id=sa;Password=5456;Trusted_Connection=True;Encrypt=True;TrustServerCertificate=True;");
+                optionsBuilder.UseSqlServer("server=DESKTOP-PVQM84B\\SQLEXPRESS;Database=testim;User Id=sa;Password=5456;Trusted_Connection=True;Encrypt=True;TrustServerCertificate=True;");
             }
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -143,7 +144,9 @@ namespace Data
         #endregion
 
 
-        public DbSet<UploadedFile> UploadedFiles => Set<UploadedFile>();
+        public DbSet<SpiskiNaDNFromMO> SpiskiNaDNFromMO => Set<SpiskiNaDNFromMO>();
+        
+       
 
 
     }

@@ -9,13 +9,13 @@ namespace Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UploadedFileController : ControllerBase
+    public class SpiskiNaDNFromMOController : ControllerBase
     {
-        private readonly IUploadedFileService _uploadedFileService;
+        private readonly ISpiskiNaDNFromMOService _spiskiNaDnFromMoService;
 
-        public UploadedFileController(IUploadedFileService uploadedFileService)
+        public SpiskiNaDNFromMOController(ISpiskiNaDNFromMOService spiskiNaDnFromMoService)
         {
-            _uploadedFileService = uploadedFileService;
+            _spiskiNaDnFromMoService = spiskiNaDnFromMoService;
         }
         [HttpPost("upload")]    
         public async Task<IActionResult> UploadFile(IFormFile file)
@@ -30,7 +30,7 @@ namespace Api.Controllers
 
                 try
                 {
-                    await _uploadedFileService.ProcessSpiskiNaDN(stream);
+                    await _spiskiNaDnFromMoService.ProcessSpiskiNaDN(stream);
                 }
                 catch (ValidationException ex)
                 {
@@ -40,59 +40,63 @@ namespace Api.Controllers
             return Ok("Файл успешно загружен.");
         }
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] SpiskiNaDNFromMODTO dto)
+        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] SpiskiNaDNFromMODTO dto)
         {
-            if (id != dto.N_reest)
-                return BadRequest("ID записи не соответствует ID в DTO.");
-
+            var existingRecord = await _spiskiNaDnFromMoService.GetByIdAsync(id);
+            if (existingRecord == null)
+            {
+                return NotFound();
+            }
             if (!ModelState.IsValid)
             {
                 var errors = GetValidationErrors();
                 return BadRequest(new { message = "Ошибка валидации", errors });
             }
 
-            await _uploadedFileService.UpdateAsync(dto);
-            return Ok("Запись обновлена.");
+            dto.Id = id;
+            
+            await _spiskiNaDnFromMoService.UpdateAsync(dto);
+            return Ok(dto);
         }
 
         [HttpGet("nreest/{nReest}")]
         public async Task<IActionResult> GetByNReest(int nReest)
         {
-            var results = await _uploadedFileService.GetByNReestAsync(nReest);
+            var results = await _spiskiNaDnFromMoService.GetByNReestAsync(nReest);
 
             if (results == null || !results.Any())
             {
                 return NotFound("Записи с указанным номером реестра не найдены.");
             }
-
+            
             return Ok(results);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var result = await _uploadedFileService.GetByIdAsync(id);
+            var result = await _spiskiNaDnFromMoService.GetByIdAsync(id);
             return result != null ? Ok(result) : NotFound("Запись не найдена.");
         }
 
         [HttpGet("lastname/{lastName}")]
         public async Task<IActionResult> GetByLastName(string lastName)
         {
-            var results = await _uploadedFileService.GetByLastNameAsync(lastName);
+            var results = await _spiskiNaDnFromMoService.GetByLastNameAsync(lastName);
             return Ok(results);
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteById(int id)
         {
-            var existingRecord = await _uploadedFileService.GetByIdAsync(id);
+            var existingRecord = await _spiskiNaDnFromMoService.GetByIdAsync(id);
 
             if (existingRecord == null)
             {
                 return NotFound("Запись с указанным ID не найдена.");
             }
             
-            _uploadedFileService.DeleteByIdAsync(id);
+            _spiskiNaDnFromMoService.DeleteByIdAsync(id);
             return Ok("Запись удалена.");
         }
 

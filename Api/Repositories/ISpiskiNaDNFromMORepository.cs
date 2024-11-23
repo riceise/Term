@@ -3,7 +3,7 @@
 
 namespace Api.Repositories
 {
-    public interface IUploadedFileRepository
+    public interface ISpiskiNaDnFromMoRepository
     {
         Task AddSpiskiNaDNFromMOsAsync(IEnumerable<SpiskiNaDNFromMO> files);
         Task<IEnumerable<SpiskiNaDNFromMO>> GetByNReestAsync(int nReest); 
