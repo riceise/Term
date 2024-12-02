@@ -1,0 +1,107 @@
+﻿@page "/nreest"
+@inject HttpClient Http
+@using Share.DTOs
+@using Ui.Components.Helper
+@using System.ComponentModel.DataAnnotations
+@using Microsoft.AspNetCore.Components.Forms
+
+<h3>Поиск по номеру реестра</h3>
+
+<EditForm Model="@_searchModel" OnValidSubmit="@SearchByNReest">
+    <div class="form-group">
+        <label for="nreest">Номер реестра:</label>
+        <InputNumber id="nreest" @bind-Value="_searchModel.NReest" class="form-control" />
+        <ValidationMessage For="@(() => _searchModel.NReest)" />
+    </div>
+    <button type="submit" class="btn btn-primary">Найти</button>
+</EditForm>
+
+@if (_isLoading)
+{
+    <p>Загрузка...</p>
+}
+else if (_errorMessage != null)
+{
+    <div class="alert alert-danger" role="alert">@_errorMessage</div>
+}
+else if (_items != null && _items.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ПП</th>
+                <th>Имя</th>
+                <th>Фамилия</th>
+                <th>Отчество</th>
+                <th>Дата рождения</th>
+                <th>СНИЛС</th>
+                <th>Номер реестра</th>
+                <th>Период</th>
+                <th>Организация</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in _items)
+            {
+                <tr>
+                    <td>@item.Npp</td>
+                    <td>@item.Name</td>
+                    <td>@item.LastName</td>
+                    <td>@item.Patronymic</td>
+                    <td>@item.BirthDay.ToString("yyyy-MM-dd")</td>
+                    <td>@item.Snils</td>
+                    <td>@item.N_reest</td>
+                    <td>@item.Period</td>
+                    <td>@item.Organizaciya</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+@code {
+    private SearchModel _searchModel = new();
+    private List<SpiskiNaDNFromMODTO>? _items;
+    private string? _errorMessage;
+    private bool _isLoading;
+
+    private async Task SearchByNReest()
+    {
+        _isLoading = true;
+        _errorMessage = null;
+        _items = null;
+
+        try
+        {
+            var response = await Http.GetAsync($"{Helper.BaseApiUrl}/api/SpiskiNaDNFromMO/nreest/{_searchModel.NReest}");
+            if (response.IsSuccessStatusCode)
+            {
+                _items = await response.Content.ReadFromJsonAsync<List<SpiskiNaDNFromMODTO>>();
+            }
+            else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                _errorMessage = "Записи не найдены.";
+            }
+            else
+            {
+                _errorMessage = $"Ошибка: {response.StatusCode}";
+            }
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = $"Ошибка: {ex.Message}";
+        }
+        finally
+        {
+            _isLoading = false;
+        }
+    }
+
+
+    public class SearchModel
+    {
+        [Required(ErrorMessage = "Введите номер реестра")]
+        public int NReest { get; set; }
+    }
+}

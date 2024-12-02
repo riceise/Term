@@ -15,7 +15,7 @@ namespace Api.Services
 
         Task DeleteByIdAsync(int id);
         
-        Task UpdateAsync(SpiskiNaDNFromMODTO dto);
+        Task UpdateAsync( SpiskiNaDNFromMODTO dto);
 
     }
 }

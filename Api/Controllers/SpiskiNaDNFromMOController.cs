@@ -12,7 +12,7 @@ namespace Api.Controllers
     public class SpiskiNaDNFromMOController : ControllerBase
     {
         private readonly ISpiskiNaDNFromMOService _spiskiNaDnFromMoService;
-
+        
         public SpiskiNaDNFromMOController(ISpiskiNaDNFromMOService spiskiNaDnFromMoService)
         {
             _spiskiNaDnFromMoService = spiskiNaDnFromMoService;
@@ -40,7 +40,7 @@ namespace Api.Controllers
             return Ok("Файл успешно загружен.");
         }
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] SpiskiNaDNFromMODTO dto)
+        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateSpiskiNaDNFromMODTO dto)
         {
             var existingRecord = await _spiskiNaDnFromMoService.GetByIdAsync(id);
             if (existingRecord == null)
@@ -53,10 +53,23 @@ namespace Api.Controllers
                 return BadRequest(new { message = "Ошибка валидации", errors });
             }
 
-            dto.Id = id;
-            
-            await _spiskiNaDnFromMoService.UpdateAsync(dto);
-            return Ok(dto);
+            var updatedDto = new SpiskiNaDNFromMODTO
+            {
+                Id = id, 
+                Npp = dto.Npp,
+                LastName = dto.LastName,
+                Name = dto.Name,
+                Patronymic = dto.Patronymic,
+                BirthDay = dto.BirthDay,
+                Snils = dto.Snils,
+                N_reest = dto.N_reest,
+                Period = dto.Period,
+                Organizaciya = dto.Organizaciya
+            };
+
+            await _spiskiNaDnFromMoService.UpdateAsync(updatedDto);
+
+            return Ok(updatedDto);
         }
 
         [HttpGet("nreest/{nReest}")]
@@ -83,6 +96,10 @@ namespace Api.Controllers
         public async Task<IActionResult> GetByLastName(string lastName)
         {
             var results = await _spiskiNaDnFromMoService.GetByLastNameAsync(lastName);
+            if (results == null || !results.Any())
+            {
+                return NotFound($"Записи с фамилией {lastName} не найдены");
+            }
             return Ok(results);
         }
 

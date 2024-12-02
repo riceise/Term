@@ -1,0 +1,223 @@
+﻿@page "/search"
+@inject HttpClient Http
+@using System.Net
+@using Share.DTOs
+@using Ui.Components.Helper
+
+<h3>Поиск по ID</h3>
+<div class="form-group">
+    <label for="Id">Введите ID элемента:</label>
+    <InputNumber @bind-Value="_id" id="Id" class="form-control" />
+</div>
+<button class="btn btn-primary" @onclick="SearchItem">Найти элемент</button>
+
+@if (_isloading)
+{
+    <p>Загрузка...</p>
+}
+else if (!string.IsNullOrEmpty(_errorMessage))
+{
+    <div class="alert alert-danger">@_errorMessage</div>
+}
+else if (_item != null)
+{
+    <h4>Найденный элемент:</h4>
+    <table class="table">
+        <tbody>
+        <tr>
+            <td><strong>Порядковый номер в записи:</strong></td>
+            <td>@if (_isEditing) { <InputNumber @bind-Value="_item.Npp" class="form-control" /> } else { @_item.Npp }</td>
+        </tr>
+        <tr>
+            <td><strong>Имя:</strong></td>
+            <td>@if (_isEditing) { <InputText @bind-Value="_item.Name" class="form-control" /> } else { @_item.Name }</td>
+        </tr>
+        <tr>
+            <td><strong>Фамилия:</strong></td>
+            <td>@if (_isEditing) { <InputText @bind-Value="_item.LastName" class="form-control" /> } else { @_item.LastName }</td>
+        </tr>
+        <tr>
+            <td><strong>Отчество:</strong></td>
+            <td>@if (_isEditing) { <InputText @bind-Value="_item.Patronymic" class="form-control" /> } else { @_item.Patronymic }</td>
+        </tr>
+        <tr>
+            <td><strong>Дата рождения:</strong></td>
+            <td>@if (_isEditing) { <InputDate @bind-Value="_item.BirthDay" class="form-control" /> } else { @_item.BirthDay.ToString("yyyy-MM-dd") }</td>
+        </tr>
+        <tr>
+            <td><strong>Снилс:</strong></td>
+            <td>@if (_isEditing) { <InputText @bind-Value="_item.Snils" class="form-control" /> } else { @_item.Snils }</td>
+        </tr>
+        <tr>
+            <td><strong>Номер реестра:</strong></td>
+            <td>@if (_isEditing) { <InputNumber @bind-Value="_item.N_reest" class="form-control" /> } else { @_item.N_reest }</td>
+        </tr>
+        <tr>
+            <td><strong>Период:</strong></td>
+            <td>@if (_isEditing) { <InputNumber @bind-Value="_item.Period" class="form-control" /> } else { @_item.Period }</td>
+        </tr>
+        <tr>
+            <td><strong>Организация:</strong></td>
+            <td>@if (_isEditing) { <InputText @bind-Value="_item.Organizaciya" class="form-control" /> } else { @_item.Organizaciya }</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <button class="btn btn-danger me-2" @onclick="DeleteItem">Удалить</button>
+    <button class="btn btn-primary me-3" @onclick="StartEdit">Изменить</button>
+    @if (_isEditing)
+    {
+        <button class="btn btn-success me-2" @onclick="SaveEdit">Сохранить изменения</button>
+        <button class="btn btn-secondary me-2" @onclick="CancelEdit">Отмена</button>
+    }
+    
+    
+}
+
+@code
+{
+    private int _id;
+    private SpiskiNaDNFromMODTO? _item;
+    private SpiskiNaDNFromMODTO? _editedItem;
+    private string? _errorMessage;
+    private bool _isloading;
+    private bool _isEditing;
+    private string? _message;
+
+    private async Task SearchItem()
+    {
+        if (_id <= 0)
+        {
+            _errorMessage = "Пожалуйста, введите корректный ID.";
+            return;
+        }
+
+        try
+        {
+            _isloading = true;
+            _errorMessage = string.Empty;
+
+            var response = await Http.GetAsync($"{Helper.BaseApiUrl}/api/SpiskiNaDNFromMO/{_id}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                _item = await response.Content.ReadFromJsonAsync<SpiskiNaDNFromMODTO>();
+            }
+            else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                _errorMessage = "Элемент не найден.";
+                _item = null;
+            }
+            else
+            {
+                _errorMessage = $"Ошибка при поиске элемента: {response.StatusCode}";
+                _item = null;
+            }
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = $"Произошла ошибка: {ex.Message}";
+            _item = null;
+        }
+        finally
+        {
+            _isloading = false;
+        }
+    }
+
+    private async Task DeleteItem()
+    {
+        try
+        {
+            _isloading = true;
+            _errorMessage = string.Empty;
+
+            var response = await Http.DeleteAsync($"{Helper.BaseApiUrl}/api/SpiskiNaDNFromMO/{_id}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                _item = null;
+                _errorMessage = "Элемент успешно удален.";
+            }
+            else
+            {
+                _errorMessage = $"Ошибка при удалении элемента: {response.StatusCode}";
+            }
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = $"Произошла ошибка: {ex.Message}";
+        }
+        finally
+        {
+            _isloading = false;
+        }
+    }
+
+    private void StartEdit()
+    {
+        _isEditing = true;
+        if (_item != null)
+        {
+            _isEditing = true;
+            _editedItem = new SpiskiNaDNFromMODTO
+            {
+                Id = _item.Id,
+                Name = _item.Name,
+                LastName = _item.LastName,
+                Patronymic = _item.Patronymic,
+                BirthDay = _item.BirthDay,
+                Snils = _item.Snils,
+                N_reest = _item.N_reest,
+                Period = _item.Period,
+                Organizaciya = _item.Organizaciya
+            };
+        }
+    }
+
+    private async Task SaveEdit()
+    {
+        if (_editedItem == null)
+        {
+            _errorMessage = "Данные для изменения не найдены.";
+            return;
+        }
+
+        try
+        {
+            _isloading = true;
+            _errorMessage = string.Empty;
+            
+            var response = await Http.PutAsJsonAsync($"{Helper.BaseApiUrl}/api/SpiskiNaDNFromMO/{_editedItem.Id}", _item);
+            
+            string json = System.Text.Json.JsonSerializer.Serialize(_editedItem);
+            Console.WriteLine($"Sending JSON: {json}");
+            
+            if (response.IsSuccessStatusCode)
+            {
+                _item = await response.Content.ReadFromJsonAsync<SpiskiNaDNFromMODTO>();
+                _isEditing = false;
+             }
+            else
+            {
+                _errorMessage = $"Ошибка при сохранении изменений: {response.StatusCode}";
+            }
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = $"Произошла ошибка: {ex.Message}";
+        }
+        finally
+        {
+            _isloading = false;
+            StateHasChanged();
+        }
+    }
+    private void CancelEdit()
+    {
+        _isEditing = false;
+        Console.WriteLine($"ID before search: {_id}");
+        SearchItem(); 
+    }
+
+}

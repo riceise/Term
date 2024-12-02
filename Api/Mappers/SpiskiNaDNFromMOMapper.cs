@@ -24,6 +24,7 @@ namespace Api.Mappers
         {
             return new SpiskiNaDNFromMODTO
             {
+                Id = entity.Id,
                 Npp = entity.Npp,
                 LastName = entity.LastName,
                 Name = entity.Name,
@@ -35,7 +36,24 @@ namespace Api.Mappers
                 Organizaciya = entity.Organizaciya
             };
         }
-        
+
+        public static SpiskiNaDNFromMODTO SpisokWithId(this SpiskiNaDNFromMODTO dto)
+        {
+            return new SpiskiNaDNFromMODTO
+            {
+                Id = dto.Id,
+                Npp = dto.Npp,
+                LastName = dto.LastName,
+                Name = dto.Name,
+                Patronymic = dto.Patronymic,
+                BirthDay = dto.BirthDay,
+                Snils = dto.Snils,
+                N_reest = dto.N_reest,
+                Period = dto.Period,
+                Organizaciya = dto.Organizaciya
+            };
+        }
+
     }
 }
 

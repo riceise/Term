@@ -83,6 +83,13 @@
                                 errors.Add($"Ошибка: Поле 'Период' в строке {row.RowNumber()} имеет неверный формат.");
                                 continue;
                             }
+                            
+                            string organizaciya = row.Cell(9).GetString();
+                            if (string.IsNullOrEmpty(organizaciya))
+                            {
+                                errors.Add($"Ошибка: Поле 'Организация' в строке {row.RowNumber()} обязательно.");
+                                continue;
+                            }
 
                             var fileDto = new SpiskiNaDNFromMODTO
                             {
@@ -133,8 +140,8 @@
 
             public async Task<SpiskiNaDNFromMODTO> GetByIdAsync(int id)
             {
-                var file = await _repository.GetByIdAsync(id);
-                return SpiskiNaDNFromMOMapper.MapEntityToDto(file);
+                var item = await _repository.GetByIdAsync(id);
+                return SpiskiNaDNFromMOMapper.MapEntityToDto(item);
             }
 
             public async Task<IEnumerable<SpiskiNaDNFromMODTO>> GetByLastNameAsync(string lastName)
@@ -147,6 +154,7 @@
             {
                 await _repository.DeleteByIdAsync(id);
             }
+            
 
             public async Task UpdateAsync(SpiskiNaDNFromMODTO dto)
             {

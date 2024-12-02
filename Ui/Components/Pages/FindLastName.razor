@@ -1,0 +1,269 @@
+﻿@page "/lastname"
+@inject HttpClient Http
+@inject IJSRuntime JSRuntime
+@using Share.DTOs
+@using Ui.Components.Helper
+@using System.ComponentModel.DataAnnotations
+
+<h3>Поиск по фамилии</h3>
+
+<EditForm Model="@_searchModel" OnValidSubmit="@SearchByLastName">
+    <div class="form-group">
+        <label for="lastname">Фамилия:</label>
+        <InputText id="lastname" @bind-Value="_searchModel.LastName" class="form-control" />
+        <ValidationMessage For="@(() => _searchModel.LastName)" />
+    </div>
+    <button type="submit" class="btn btn-primary" disabled="@_isLoading">
+        @if (_isLoading)
+        {
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        }
+        else
+        {
+            <span>Найти</span>
+        }
+    </button>
+</EditForm>
+
+@if (_isLoading)
+{
+    <p>Загрузка...</p>
+}
+else if (!string.IsNullOrEmpty(_errorMessage))
+{
+    <div class="alert alert-danger" role="alert">@_errorMessage</div>
+}
+else if (_items != null && _items.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>НПП</th>
+                <th>Имя</th>
+                <th>Фамилия</th>
+                <th>Отчество</th>
+                <th>Дата рождения</th>
+                <th>СНИЛС</th>
+                <th>Номер реестра</th>
+                <th>Период</th>
+                <th>Организация</th>
+                <th>Действия</th> 
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in _items)
+            {
+                @if (_isEditing && _selectedItem == item)
+                {
+                    <tr class="vertical-table-row">
+                        <td colspan="10"> 
+                            <table class="table table-borderless">
+                                <tbody>
+                                    <tr>
+                                        <th>Порядковый номер:</th>
+                                        <td><InputNumber @bind-Value="item.Npp" class="form-control" /></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Имя:</th>
+                                        <td><InputText @bind-Value="item.Name" class="form-control" /></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Фамилия:</th>
+                                        <td><InputText @bind-Value="item.LastName" class="form-control" /></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Отчество:</th>
+                                        <td><InputText @bind-Value="item.Patronymic" class="form-control" /></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Дата рождения:</th>
+                                        <td><InputDate @bind-Value="item.BirthDay" class="form-control" /></td>
+                                    </tr>
+                                    <tr>
+                                        <th>СНИЛС:</th>
+                                        <td><InputText @bind-Value="item.Snils" class="form-control" /></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Номер реестра:</th>
+                                        <td><InputNumber @bind-Value="item.N_reest" class="form-control" /></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Период:</th>
+                                        <td><InputNumber @bind-Value="item.Period" class="form-control" /></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Организация:</th>
+                                        <td><InputText @bind-Value="item.Organizaciya" class="form-control" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <button @onclick="@(async () => await SaveEdit(item))" class="btn btn-success me-2">Сохранить</button>
+                                            <button @onclick="CancelEdit" class="btn btn-secondary me-2">Отмена</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <td>@item.Npp</td>
+                        <td>@item.Name</td>
+                        <td>@item.LastName</td>
+                        <td>@item.Patronymic</td>
+                        <td>@item.BirthDay.ToString("yyyy-MM-dd")</td>
+                        <td>@item.Snils</td>
+                        <td>@item.N_reest</td>
+                        <td>@item.Period</td>
+                        <td>@item.Organizaciya</td>
+                        <td> 
+                            <button @onclick="@(() => StartEdit(item))" class="btn btn-primary me-2">Изменить</button>
+                            <button class="btn btn-danger me-2" @onclick="@(async () => await DeleteItem(item))">Удалить</button>
+                        </td> 
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+}
+
+<style>
+    .vertical-table-row > td {
+        vertical-align: top;
+    }
+
+    .vertical-table-row > td > table {
+        width: auto;
+        margin: 0;
+    }
+</style>
+
+@code {
+    private SearchModel _searchModel = new();
+    private List<SpiskiNaDNFromMODTO>? _items;
+    private string? _errorMessage;
+    private bool _isLoading;
+    private SpiskiNaDNFromMODTO? _selectedItem;
+    private bool _isEditing;
+    
+    private async Task SearchByLastName()
+    {
+        _isLoading = true;
+        _errorMessage = null;
+        _items = null; 
+
+        try
+        {
+            var response = await Http.GetAsync($"{Helper.BaseApiUrl}/api/SpiskiNaDNFromMO/lastname/{_searchModel.LastName}");
+            if (response.IsSuccessStatusCode)
+            {
+                _items = await response.Content.ReadFromJsonAsync<List<SpiskiNaDNFromMODTO>>();
+            }
+            else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                _errorMessage = "Записи не найдены.";
+            }
+            else
+            {
+                _errorMessage = $"Ошибка: {response.StatusCode}";
+            }
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = $"Ошибка: {ex.Message}";
+        }
+        finally
+        {
+            _isLoading = false;
+        }
+    }
+    
+    private void StartEdit(SpiskiNaDNFromMODTO item)
+    {
+        _isEditing = true;
+        _selectedItem = item;
+        StateHasChanged();
+    }
+
+
+    private async Task SaveEdit(SpiskiNaDNFromMODTO item)
+    {
+        try
+        {
+            _isLoading = true;
+            _errorMessage = null;
+
+            var response = await Http.PutAsJsonAsync($"{Helper.BaseApiUrl}/api/SpiskiNaDNFromMO/{item.Id}", item);
+            string json = System.Text.Json.JsonSerializer.Serialize(item);
+            Console.WriteLine($"Sending JSON: {json}");
+            
+            if (response.IsSuccessStatusCode)
+            {
+                _isEditing = false;
+                _selectedItem = null;
+                await SearchByLastName();
+            }
+            else
+            {
+                 _errorMessage = $"Ошибка при сохранении изменений: {response.StatusCode}";
+            }
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = $"Произошла ошибка: {ex.Message}";
+        }
+        finally
+        {
+            _isLoading = false;
+            StateHasChanged();
+        }
+    }
+
+    private void CancelEdit()
+    {
+        _isEditing = false;
+        _selectedItem = null;
+        StateHasChanged();
+    }
+    private async Task DeleteItem(SpiskiNaDNFromMODTO item)
+    {
+        bool confirmed = await JSRuntime.InvokeAsync<bool>("confirm", "Вы уверены, что хотите удалить эту запись?"); // <-- Confirmation dialog
+
+        if (confirmed) 
+        {
+            try
+            {
+                _isLoading = true;
+                _errorMessage = string.Empty;
+
+                var response = await Http.DeleteAsync($"{Helper.BaseApiUrl}/api/SpiskiNaDNFromMO/{item.Id}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    await SearchByLastName();
+                }
+                else
+                {
+                    _errorMessage = $"Ошибка при удалении элемента: {response.StatusCode}";
+                }
+            }
+            catch (Exception ex)
+            {
+                _errorMessage = $"Произошла ошибка: {ex.Message}";
+            }
+            finally
+            {
+                _isLoading = false;
+                StateHasChanged();
+            }
+        }
+    }
+    
+    public class SearchModel
+    {
+        [Required(ErrorMessage = "Введите фамилию")]
+        public string LastName { get; set; } = ""; 
+    }
+}
