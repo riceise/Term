@@ -4,12 +4,13 @@ using Data.Model.Entities.MedicalCompany;
 using Data.Model.Entities.Person;
 using Data.Model.Entities.Policy;
 using Data.Model.Entities.UploadedFile;
+using Data.Model.Entities.Users;
 using Microsoft.EntityFrameworkCore;
-using Share.DTOs;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Data
 {
-    public class TFOMSContext  : DbContext
+    public class TFOMSContext : IdentityDbContext<ApplicationUser>
     {
         public TFOMSContext()
         {
