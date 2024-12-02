@@ -1,4 +1,6 @@
 ﻿@inherits LayoutComponentBase
+@inject SignInManager<ApplicationUser> SignInManager
+@inject NavigationManager NavigationManager
 
 <div class="page">
     <div class="sidebar">
@@ -6,8 +8,18 @@
     </div>
 
     <main>
+
         <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
+            <AuthorizeView>
+                <Authorized>
+                    <span>Здравствуйте, @context.User.Identity.Name!</span>
+                    <button class="btn btn-link" @onclick="Logout"></button>
+                </Authorized>
+                <NotAuthorized>
+                    <a href="login">Войти</a>
+                    <a href="register">Регистрация</a>
+                </NotAuthorized>
+            </AuthorizeView>
         </div>
 
         <article class="content px-4">
@@ -21,3 +33,11 @@
     <a href="" class="reload">Reload</a>
     <a class="dismiss">🗙</a>
 </div>
+
+@code {
+    private async Task Logout()
+    {
+        await SignInManager.SignOutAsync();
+        NavigationManager.NavigateTo("/");
+    }
+}

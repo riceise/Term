@@ -1,0 +1,65 @@
+@page "/register"
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<IdentityUser> UserManager
+@inject NavigationManager NavigationManager
+
+<h3>Регистрация</h3>
+
+<EditForm Model="@registerModel" OnValidSubmit="HandleRegistration">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div>
+        <label>Имя пользователя:</label>
+        <InputText @bind-Value="registerModel.UserName" />
+    </div>
+    <div>
+        <label>Email:</label>
+        <InputText @bind-Value="registerModel.Email" />
+    </div>
+    <div>
+        <label>Пароль:</label>
+        <InputText @bind-Value="registerModel.Password" Type="password" />
+    </div>
+    <button type="submit">Зарегистрироваться</button>
+</EditForm>
+
+@if (validationMessages.Count > 0)
+{
+    <ul>
+        @foreach (var message in validationMessages)
+        {
+            <li>@message</li>
+        }
+    </ul>
+}
+
+@code {
+    private RegisterModel registerModel = new RegisterModel();
+
+    private async Task HandleRegistration()
+    {
+        var user = new IdentityUser
+        {
+            UserName = registerModel.UserName,
+            Email = registerModel.Email
+        };
+
+        var result = await UserManager.CreateAsync(user, registerModel.Password);
+
+        if (result.Succeeded)
+        {
+            NavigationManager.NavigateTo("/login");
+        }
+        else
+        {
+            foreach (var error in result.Errors)
+            {
+                validationMessages.Add(error.Description);
+            }
+        }
+    }
+
+    private List<string> validationMessages = new();
+
+}
