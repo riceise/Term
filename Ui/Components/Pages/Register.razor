@@ -1,6 +1,5 @@
 @page "/register"
-@using Microsoft.AspNetCore.Identity
-@inject UserManager<IdentityUser> UserManager
+@inject HttpClient HttpClient
 @inject NavigationManager NavigationManager
 
 <h3>Регистрация</h3>
@@ -24,42 +23,48 @@
     <button type="submit">Зарегистрироваться</button>
 </EditForm>
 
-@if (validationMessages.Count > 0)
+@if (errorMessages.Any())
 {
-    <ul>
-        @foreach (var message in validationMessages)
-        {
-            <li>@message</li>
-        }
-    </ul>
+    <div>
+        <ul>
+            @foreach (var error in errorMessages)
+            {
+                <li>@error</li>
+            }
+        </ul>
+    </div>
 }
 
 @code {
     private RegisterModel registerModel = new RegisterModel();
+    private List<string> errorMessages = new List<string>();
+    private string errorMessage;
 
     private async Task HandleRegistration()
     {
-        var user = new IdentityUser
-        {
-            UserName = registerModel.UserName,
-            Email = registerModel.Email
-        };
+        var response = await HttpClient.PostAsJsonAsync("api/Auth/register", registerModel);
 
-        var result = await UserManager.CreateAsync(user, registerModel.Password);
-
-        if (result.Succeeded)
+        if(response.IsSuccessStatusCode)
         {
             NavigationManager.NavigateTo("/login");
         }
         else
         {
-            foreach (var error in result.Errors)
+            var result = await response.Content.ReadFromJsonAsync<ErrorResponse>();
+            errorMessages = result.Errors?.ToList() ?? new List<string>();
+
+            // Если нет подробных ошибок, добавляем общее сообщение
+            if (!errorMessages.Any() && !string.IsNullOrEmpty(result.Message))
             {
-                validationMessages.Add(error.Description);
+                errorMessages.Add(result.Message);
             }
         }
     }
 
-    private List<string> validationMessages = new();
-
+    private class ErrorResponse
+    {
+        public string Status { get; set; }
+        public string Message { get; set; }
+        public IEnumerable<string> Errors { get; set; }
+    }
 }

@@ -5,13 +5,13 @@ namespace Data.Model.Entities.Users
     public class RegisterModel
     {
         [Required]
-        public string UserName { get; set; } = String.Empty;
+        public string UserName { get; set; }
 
         [Required]
         [EmailAddress]
-        public string Email { get; set; } = String.Empty;
+        public string Email { get; set; }
 
         [Required]
-        public string Password { get; set; } = String.Empty;
+        public string Password { get; set; }
     }
 }

@@ -1,7 +1,6 @@
 @page "/login"
-@using Microsoft.AspNetCore.Identity
-@inject SignInManager<IdentityUser> SignInManager
 @inject NavigationManager NavigationManager
+@inject AuthenticationService AuthService
 
 <h3>Вход</h3>
 
@@ -20,36 +19,26 @@
     <button type="submit">Войти</button>
 </EditForm>
 
-@if (validationMessages.Count > 0)
+@if (!string.IsNullOrEmpty(errorMessage))
 {
-    <ul>
-        @foreach (var message in validationMessages)
-        {
-            <li>@message</li>
-        }
-    </ul>
+    <div>@errorMessage</div>
 }
 
 @code {
     private LoginModel loginModel = new LoginModel();
+    private string errorMessage;
 
     private async Task HandleLogin()
     {
-        var result = await SignInManager.PasswordSignInAsync(
-            loginModel.UserName,
-            loginModel.Password,
-            isPersistent: false,
-            lockoutOnFailure: false);
+        var result = await AuthService.Login(loginModel.UserName, loginModel.Password);
 
-        if (result.Succeeded)
+        if(result)
         {
             NavigationManager.NavigateTo("/");
         }
         else
         {
-            validationMessages.Add("Неправильное имя пользователя или пароль.");
+            errorMessage = "Неправильное имя пользователя или пароль."; 
         }
     }
-
-    private List<string> validationMessages = new();
 }

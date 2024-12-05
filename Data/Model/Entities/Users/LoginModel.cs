@@ -5,9 +5,9 @@ namespace Data.Model.Entities.Users
     public class LoginModel
     {
         [Required]
-        public string UserName { get; set; } = String.Empty;
+        public string UserName { get; set; }
 
         [Required]
-        public string Password { get; set; } = String.Empty;
+        public string Password { get; set; }
     }
 }
