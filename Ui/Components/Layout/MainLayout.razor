@@ -13,7 +13,7 @@
                 <AuthorizeView>
                     <Authorized>
                         <span>Здравствуйте, @context.User.Identity.Name!</span>
-                        <button class="btn btn-link" @onclick="Logout"></button>
+                        <button class="btn btn-link" @onclick="Logout">Выйти</button>
                     </Authorized>
                     <NotAuthorized>
                         <a href="Login">Войти</a>
