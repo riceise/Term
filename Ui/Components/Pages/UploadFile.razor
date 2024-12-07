@@ -1,35 +1,173 @@
-﻿@page "/uploadingFiles"
+﻿@* @page "/uploadingFiles" *@
+@* @attribute [Authorize] *@
+@* @inject HttpClient Http *@
+@* @using System.Text.Json *@
+@* @using Share.DTOs *@
+@* @using Ui.Components.Helper *@
+@* *@
+@* <h3>Upload XML File</h3> *@
+@* *@
+@* @if (!string.IsNullOrEmpty(errorMessage)) *@
+@* { *@
+@*     <div class="alert alert-danger">@errorMessage</div> *@
+@* } *@
+@* *@
+@* @if (errorList != null && errorList.Count > 0) *@
+@* { *@
+@*     <div class="alert alert-danger"> *@
+@*         <h5>Ошибки:</h5> *@
+@*         <div class="error-list"> *@
+@*             <ul> *@
+@*                 @foreach (var error in errorList) *@
+@*                 { *@
+@*                 <li>@error</li> *@
+@*                 } *@
+@*             </ul> *@
+@*         </div> *@
+@*     </div> *@
+@* } *@
+@* *@
+@* @if (!string.IsNullOrEmpty(successMessage)) *@
+@* { *@
+@* <div class="alert alert-success">@successMessage</div> *@
+@* } *@
+@* *@
+@* <div> *@
+@*     <InputFile OnChange="OnInputFileChange" /> *@
+@* </div> *@
+@* *@
+@* <div> *@
+@*     <button class="btn btn-primary" @onclick="SubmitFile">Upload</button> *@
+@* </div> *@
+@* *@
+@* <style> *@
+@*     .error-list { *@
+@*         max-height: 200px; *@
+@*         overflow-y: auto; *@
+@*         border: 1px solid #e74c3c; *@
+@*         padding: 10px; *@
+@*         background-color: #f8d7da; *@
+@*     } *@
+@* *@
+@*     .error-list ul { *@
+@*         list-style-type: disc; *@
+@*         padding-left: 20px; *@
+@*     } *@
+@* </style> *@
+@* *@
+@* @code { *@
+@* private IBrowserFile selectedFile; *@
+@* private string errorMessage; *@
+@* private string successMessage; *@
+@* private List<string> errorList = new(); *@
+@* *@
+@* private void OnInputFileChange(InputFileChangeEventArgs e) *@
+@* { *@
+@*     selectedFile = e.File; *@
+@* } *@
+@* *@
+@* private async Task SubmitFile() *@
+@* { *@
+@*     errorMessage = string.Empty; *@
+@*     successMessage = string.Empty; *@
+@*     errorList.Clear(); *@
+@* *@
+@*     if (selectedFile != null) *@
+@*     { *@
+@*         try *@
+@*         { *@
+@*             var content = new MultipartFormDataContent(); *@
+@*             var fileStream = selectedFile.OpenReadStream(); *@
+@*             var streamContent = new StreamContent(fileStream); *@
+@*             content.Add(streamContent, "file", selectedFile.Name); *@
+@* *@
+@*             var response = await Http.PostAsync($"{Helper.BaseApiUrl}/api/SpiskiNaDNFromMO/upload", content); *@
+@* *@
+@*             var responseContent = await response.Content.ReadAsStringAsync(); *@
+@*             Console.WriteLine($"Response: {responseContent}"); *@
+@* *@
+@*             if (response.IsSuccessStatusCode) *@
+@*             { *@
+@*                 successMessage = "File uploaded successfully!"; *@
+@*             } *@
+@*             else *@
+@*             { *@
+@*                 try *@
+@*                 { *@
+@*                     var errorResponse = System.Text.Json.JsonSerializer.Deserialize<ErrorResponse>(responseContent); *@
+@*                     if (errorResponse?.Errors != null) *@
+@*                     { *@
+@*                         if (errorResponse.Errors != null && errorResponse.Errors.Any()) *@
+@*                         { *@
+@*                             errorList = errorResponse.Errors; *@
+@*                         } *@
+@*                         else *@
+@*                         { *@
+@*                             errorMessage = $"Error: {response.ReasonPhrase}"; *@
+@*                         } *@
+@*                     } *@
+@*                     else *@
+@*                     { *@
+@*                         errorMessage = $"Error: {response.ReasonPhrase}"; *@
+@*                     } *@
+@*                 } *@
+@*                 catch (JsonException ex) *@
+@*                 { *@
+@*                     errorMessage = "Failed to parse error response: " + ex.Message; *@
+@*                 } *@
+@*             } *@
+@*         } *@
+@*         catch (Exception ex) *@
+@*         { *@
+@*             errorMessage = $"An error occurred: {ex.Message}"; *@
+@*         } *@
+@*     } *@
+@*     else *@
+@*     { *@
+@*         errorMessage = "Please select a file."; *@
+@*     } *@
+@* } *@
+@* *@
+@* private class ErrorResponse *@
+@* { *@
+@*     public string Message { get; set; } *@
+@*     public List<string> Errors { get; set; } *@
+@* } *@
+@* } *@
+@page "/uploadingFiles"
 @attribute [Authorize]
 @inject HttpClient Http
 @using System.Text.Json
 @using Share.DTOs
 @using Ui.Components.Helper
 
-<h3>Upload XML File</h3>
+<h3>Загрузка Excel файла</h3>
 
 @if (!string.IsNullOrEmpty(errorMessage))
 {
-    <div class="alert alert-danger">@errorMessage</div>
+    <div class="alert alert-danger">
+        <h5>@errorMessage</h5>
+    </div>
 }
 
 @if (errorList != null && errorList.Count > 0)
 {
-<div class="alert alert-danger">
-    <h5>Ошибки:</h5>
-    <div class="error-list">
-        <ul>
-            @foreach (var error in errorList)
-            {
-            <li>@error</li>
-            }
-        </ul>
+    <div class="alert alert-danger">
+        <h5>Ошибки:</h5>
+        <div class="error-list">
+            <ul>
+                @foreach (var error in errorList)
+                {
+                    <li>@error</li>
+                }
+            </ul>
+        </div>
     </div>
-</div>
 }
 
 @if (!string.IsNullOrEmpty(successMessage))
 {
-<div class="alert alert-success">@successMessage</div>
+    <div class="alert alert-success">@successMessage</div>
 }
 
 <div>
@@ -53,77 +191,91 @@
         list-style-type: disc;
         padding-left: 20px;
     }
+
+    .alert-danger h5 {
+        margin-bottom: 10px;
+    }
 </style>
 
-@code {
-private IBrowserFile selectedFile;
-private string errorMessage;
-private string successMessage;
-private List<string> errorList = new();
-
-private void OnInputFileChange(InputFileChangeEventArgs e)
+@code 
 {
-    selectedFile = e.File;
-}
+    private IBrowserFile selectedFile;
+    private string errorMessage;
+    private string successMessage;
+    private List<string> errorList = new();
 
-private async Task SubmitFile()
-{
-    errorMessage = string.Empty;
-    successMessage = string.Empty;
-    errorList.Clear();
-
-    if (selectedFile != null)
+    private void OnInputFileChange(InputFileChangeEventArgs e)
     {
-        try
+        selectedFile = e.File;
+    }
+
+    private async Task SubmitFile()
+    {
+        errorMessage = string.Empty;
+        successMessage = string.Empty;
+        errorList.Clear();
+
+        if (selectedFile != null)
         {
-            var content = new MultipartFormDataContent();
-            var fileStream = selectedFile.OpenReadStream();
-            var streamContent = new StreamContent(fileStream);
-            content.Add(streamContent, "file", selectedFile.Name);
-
-            var response = await Http.PostAsync($"{Helper.BaseApiUrl}/api/SpiskiNaDNFromMO/upload", content);
-
-            var responseContent = await response.Content.ReadAsStringAsync();
-            Console.WriteLine($"Response: {responseContent}");
-
-            if (response.IsSuccessStatusCode)
+            try
             {
-                successMessage = "File uploaded successfully!";
-            }
-            else
-            {
-                try
+                var content = new MultipartFormDataContent();
+                var fileStream = selectedFile.OpenReadStream();
+                var streamContent = new StreamContent(fileStream);
+                content.Add(streamContent, "file", selectedFile.Name);
+                
+                var response = await Http.PostAsync($"{Helper.BaseApiUrl}/api/SpiskiNaDNFromMO/upload", content);
+                Console.WriteLine("" + response);
+
+                var responseContent = await response.Content.ReadAsStringAsync();
+                Console.WriteLine($"Response: {responseContent}");
+
+                if (response.IsSuccessStatusCode)
                 {
-                    var errorResponse = System.Text.Json.JsonSerializer.Deserialize<ErrorResponse>(responseContent);
-                    if (errorResponse?.Errors != null)
+                    successMessage = "Файл успешно загружен!";
+                }
+                else
+                {
+                    try
                     {
-                        errorList.AddRange(errorResponse.Errors);
+                        var errorResponse = JsonSerializer.Deserialize<ErrorResponse>(responseContent, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }); 
+                        if (errorResponse != null && errorResponse.Errors != null && errorResponse.Errors.Any())
+                        {
+                            errorList = errorResponse.Errors;
+                            errorMessage = errorResponse.Message ?? "На сервере произошли ошибки валидации."; 
+                        }
+                        else if (errorResponse != null && !string.IsNullOrEmpty(errorResponse.Message))
+                        {
+                            errorMessage = errorResponse.Message;
+                        }
+                        else
+                        {
+                            errorMessage = $"Неожиданный формат ошибки. Подробности смотрите в консоли.";
+                            Console.WriteLine($"Неожиданный ответ с ошибкой: {responseContent}");
+                        }
                     }
-                    else
+                    catch (JsonException ex)
                     {
-                        errorMessage = $"Error: {response.ReasonPhrase}";
+                        errorMessage = "Не удалось разобрать ответ с ошибкой. Подробности смотрите в консоли.";
+                        Console.WriteLine($"Ошибка разбора JSON: {ex.Message}\nСодержимое ответа: {responseContent}");
                     }
                 }
-                catch (JsonException ex)
-                {
-                    errorMessage = "Failed to parse error response: " + ex.Message;
-                }
+            }
+            catch (Exception ex)
+            {
+                errorMessage = $"An error occurred: {ex.Message}";
             }
         }
-        catch (Exception ex)
+        else
         {
-            errorMessage = $"An error occurred: {ex.Message}";
+            errorMessage = "Please select a file.";
         }
     }
-    else
-    {
-        errorMessage = "Please select a file.";
-    }
-}
 
-private class ErrorResponse
-{
-    public string Message { get; set; }
-    public List<string> Errors { get; set; }
-}
+
+    private class ErrorResponse
+    {
+        public string Message { get; set; }
+        public List<string> Errors { get; set; }
+    }
 }

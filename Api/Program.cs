@@ -7,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Identity;
 using System.Text;
 using Data.Model.Entities.Users;
+using Api.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -50,6 +51,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseRouting();
 
