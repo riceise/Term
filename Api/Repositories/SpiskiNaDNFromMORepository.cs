@@ -12,7 +12,11 @@ namespace Api.Repositories
         {
             _context = context;
         }
-
+        public async Task AddUploadFileInfoAsync(UploadFileInf uploadFileInf)
+        {
+            _context.UploadFileInfs.Add(uploadFileInf);
+            await _context.SaveChangesAsync();
+        }
         public async Task AddSpiskiNaDNFromMOsAsync(IEnumerable<SpiskiNaDNFromMO> files)
         {
             await _context.Set<SpiskiNaDNFromMO>().AddRangeAsync(files);

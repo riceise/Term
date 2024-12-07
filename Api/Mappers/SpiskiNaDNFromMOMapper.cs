@@ -36,24 +36,29 @@ namespace Api.Mappers
                 Organizaciya = entity.Organizaciya
             };
         }
-
-        public static SpiskiNaDNFromMODTO SpisokWithId(this SpiskiNaDNFromMODTO dto)
+        public static UploadFileInf MapToEntity(UploadFileInfoDTO dto)
         {
-            return new SpiskiNaDNFromMODTO
+            return new UploadFileInf
             {
-                Id = dto.Id,
-                Npp = dto.Npp,
-                LastName = dto.LastName,
-                Name = dto.Name,
-                Patronymic = dto.Patronymic,
-                BirthDay = dto.BirthDay,
-                Snils = dto.Snils,
-                N_reest = dto.N_reest,
-                Period = dto.Period,
-                Organizaciya = dto.Organizaciya
+                UserId = dto.UserId,
+                FileName = dto.FileName,
+                FilePath = dto.FilePath,
+                UploadDate = dto.UploadDate,
+                UploadStatus = dto.UploadStatus
             };
         }
 
+        public static UploadFileInfoDTO MapToDTO(UploadFileInf entity)
+        {
+            return new UploadFileInfoDTO
+            {
+                UserId = entity.UserId,
+                FileName = entity.FileName,
+                FilePath = entity.FilePath,
+                UploadDate = entity.UploadDate,
+                UploadStatus = entity.UploadStatus
+            };
+        }
     }
 }
 

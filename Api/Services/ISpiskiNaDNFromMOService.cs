@@ -5,7 +5,7 @@ namespace Api.Services
 {
     public interface ISpiskiNaDNFromMOService
     {
-        Task ProcessSpiskiNaDN(Stream fileStream);
+        Task ProcessSpiskiNaDN(Stream fileStream, string fileName, string filePath, int userId);
        
         Task<SpiskiNaDNFromMODTO?> GetByIdAsync(int id);
         
@@ -16,6 +16,8 @@ namespace Api.Services
         Task DeleteByIdAsync(int id);
         
         Task UpdateAsync( SpiskiNaDNFromMODTO dto);
+
+        Task RecordUploadFileInfoAsync(UploadFileInfoDTO uploadFileInfoDTO);
 
     }
 }

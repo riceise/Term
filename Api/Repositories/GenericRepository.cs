@@ -1,6 +1,7 @@
 using System.Linq.Expressions;
 using Data;
 using Data.Model;
+using Data.Model.Entities.UploadedFile;
 using Microsoft.EntityFrameworkCore;
 
 namespace WebApplication1.Repositories
@@ -91,6 +92,7 @@ namespace WebApplication1.Repositories
         {
             await _сontextFactory.SaveChangesAsync();
         }
+        
         public IQueryable<T> FindByWithTake(Expression<Func<T, bool>> predicate, int skip, int take)
         {
             IQueryable<T> query = _сontextFactory.Set<T>().AsNoTracking().Where(w => !w.IsDeleted).Where(predicate).Skip(skip).Take(take);

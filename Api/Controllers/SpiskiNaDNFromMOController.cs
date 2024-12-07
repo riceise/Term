@@ -17,28 +17,58 @@ namespace Api.Controllers
         {
             _spiskiNaDnFromMoService = spiskiNaDnFromMoService;
         }
-        [HttpPost("upload")]    
+        
+        [HttpPost("upload")]
         public async Task<IActionResult> UploadFile(IFormFile file)
         {
             if (file == null || file.Length == 0)
                 return BadRequest("Файл не выбран.");
 
-            using (var stream = new MemoryStream())
-            {
-                await file.CopyToAsync(stream);
-                stream.Position = 0;
+            var userId = 1; 
+            var fileName = file.FileName;
+            var filePath = Path.Combine("UploadedFiles", fileName);
 
-                try
+            var fullFilePath = Path.Combine(Directory.GetCurrentDirectory(), filePath);
+            Directory.CreateDirectory(Path.GetDirectoryName(fullFilePath) ?? string.Empty);
+
+            using (var fileStream = new FileStream(fullFilePath, FileMode.Create))
+            {
+                await file.CopyToAsync(fileStream);
+            }
+
+            bool uploadStatus = false;
+
+            try
+            {
+                using (var stream = new FileStream(fullFilePath, FileMode.Open, FileAccess.Read))
                 {
-                    await _spiskiNaDnFromMoService.ProcessSpiskiNaDN(stream);
-                }
-                catch (ValidationException ex)
-                {
-                    return BadRequest(new { message = "Файл содержит ошибки.", errors = ex.Message });
+                    await _spiskiNaDnFromMoService.ProcessSpiskiNaDN(stream, fileName, fullFilePath, userId);
+                    uploadStatus = true;
                 }
             }
+            catch (ValidationException ex)
+            {
+                uploadStatus = false;
+                return BadRequest(new { message = "Файл содержит ошибки.", errors = ex.Message });
+            }
+            finally
+            {
+                var uploadFileInfoDTO = new UploadFileInfoDTO
+                {
+                    UserId = userId,
+                    FileName = fileName,
+                    FilePath = fullFilePath,
+                    UploadDate = DateTime.Now,
+                    UploadStatus = uploadStatus
+                };
+
+                await _spiskiNaDnFromMoService.RecordUploadFileInfoAsync(uploadFileInfoDTO);
+            }
+
             return Ok("Файл успешно загружен.");
         }
+
+
         [HttpPut("{id}")]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateSpiskiNaDNFromMODTO dto)
         {

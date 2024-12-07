@@ -1,4 +1,5 @@
 ﻿using Data.Model.Entities.UploadedFile;
+using Share.DTOs;
 
 
 namespace Api.Repositories
@@ -12,6 +13,8 @@ namespace Api.Repositories
         Task DeleteByIdAsync(int id);
         Task UpdateAsync(SpiskiNaDNFromMO file);
         Task AddAsync(SpiskiNaDNFromMO file);
+        Task AddUploadFileInfoAsync(UploadFileInf uploadFileInf); 
+
 
     }
 }
