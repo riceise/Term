@@ -5,6 +5,7 @@
     using Data.Model.Entities.UploadedFile;
     using System.ComponentModel.DataAnnotations;
     using System.Text.RegularExpressions;
+    
 
     namespace Api.Services
     {
@@ -16,8 +17,7 @@
             {
                 _repository = repository;
             }
-
-            public async Task ProcessSpiskiNaDN(Stream fileStream)
+            public async Task ProcessSpiskiNaDN(Stream fileStream, string fileName, string filePath, int userId)
             {
                 var errors = new List<string>();
                 var files = new List<SpiskiNaDNFromMODTO>();
@@ -30,6 +30,7 @@
                     {
                         try
                         {
+
                             int npp;
                             if (!int.TryParse(row.Cell(1).GetString(), out npp))
                             {
@@ -43,7 +44,7 @@
                                 errors.Add($"Ошибка: Поле 'Фамилия' в строке {row.RowNumber()} обязательно.");
                                 continue;
                             }
-
+                            
                             string name = row.Cell(3).GetString();
                             if (string.IsNullOrEmpty(name))
                             {
@@ -122,6 +123,7 @@
                             errors.Add($"Неожиданная ошибка в строке {row.RowNumber()}: {ex.Message}");
                         }
                     }
+                    
                 }
 
                 if (errors.Any())
@@ -131,6 +133,12 @@
 
                 var fileEntities = SpiskiNaDNFromMOMapper.MapDtoToEntity(files);
                 await _repository.AddSpiskiNaDNFromMOsAsync(fileEntities);
+            }
+            
+            public async Task RecordUploadFileInfoAsync(UploadFileInfoDTO uploadFileInfoDTO)
+            {
+                var uploadFileInfo = SpiskiNaDNFromMOMapper.MapToEntity(uploadFileInfoDTO);
+                await _repository.AddUploadFileInfoAsync(uploadFileInfo);
             }
             public async Task<IEnumerable<SpiskiNaDNFromMODTO>> GetByNReestAsync(int nReest)
             {

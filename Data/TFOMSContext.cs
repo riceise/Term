@@ -144,10 +144,15 @@ namespace Data
 
         #endregion
 
-
+        #region Загрузка
         public DbSet<SpiskiNaDNFromMO> SpiskiNaDNFromMO => Set<SpiskiNaDNFromMO>();
-        
-       
+
+        public DbSet<UploadFileInf> UploadFileInfs => Set<UploadFileInf>();
+
+
+        #endregion
+
+
 
 
     }

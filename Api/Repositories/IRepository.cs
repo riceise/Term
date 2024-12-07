@@ -1,5 +1,5 @@
 using System.Linq.Expressions;
-using Data.Model;
+using Data.Model.Entities.UploadedFile;
 
 namespace WebApplication1.Repositories
 {
@@ -19,5 +19,6 @@ namespace WebApplication1.Repositories
         void Edit(T entity);
         void Save();
         Task SaveChangesAsync();
+        
     }
 }
