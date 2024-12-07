@@ -1,0 +1,70 @@
+@page "/register"
+@inject HttpClient HttpClient
+@inject NavigationManager NavigationManager
+
+<h3>Регистрация</h3>
+
+<EditForm Model="@registerModel" OnValidSubmit="HandleRegistration">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div>
+        <label>Имя пользователя:</label>
+        <InputText @bind-Value="registerModel.UserName" />
+    </div>
+    <div>
+        <label>Email:</label>
+        <InputText @bind-Value="registerModel.Email" />
+    </div>
+    <div>
+        <label>Пароль:</label>
+        <InputText @bind-Value="registerModel.Password" Type="password" />
+    </div>
+    <button type="submit">Зарегистрироваться</button>
+</EditForm>
+
+@if (errorMessages.Any())
+{
+    <div>
+        <ul>
+            @foreach (var error in errorMessages)
+            {
+                <li>@error</li>
+            }
+        </ul>
+    </div>
+}
+
+@code {
+    private RegisterModel registerModel = new RegisterModel();
+    private List<string> errorMessages = new List<string>();
+    private string errorMessage;
+
+    private async Task HandleRegistration()
+    {
+        var response = await HttpClient.PostAsJsonAsync("api/Auth/register", registerModel);
+
+        if(response.IsSuccessStatusCode)
+        {
+            NavigationManager.NavigateTo("/login");
+        }
+        else
+        {
+            var result = await response.Content.ReadFromJsonAsync<ErrorResponse>();
+            errorMessages = result.Errors?.ToList() ?? new List<string>();
+
+            // Если нет подробных ошибок, добавляем общее сообщение
+            if (!errorMessages.Any() && !string.IsNullOrEmpty(result.Message))
+            {
+                errorMessages.Add(result.Message);
+            }
+        }
+    }
+
+    private class ErrorResponse
+    {
+        public string Status { get; set; }
+        public string Message { get; set; }
+        public IEnumerable<string> Errors { get; set; }
+    }
+}
