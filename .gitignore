@@ -376,3 +376,6 @@ Files/
 
 # Ignore idea for Rider IDE
 .idea
+
+# Ignore appsettings.json in Api
+/Api/appsettings.json
