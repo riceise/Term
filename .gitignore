@@ -378,4 +378,4 @@ Files/
 .idea
 
 # Ignore appsettings.json in Api
-/Api/appsettings.json
+Api/appsettings.json
