@@ -379,3 +379,6 @@ Files/
 
 # Ignore appsettings.json in Api
 Api/appsettings.json
+
+
+/Api/UploadedFiles/
