@@ -13,5 +13,12 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.11" />
     <PackageReference Include="Microsoft.Identity.Web.OWIN" Version="3.4.0" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Components\Icons\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="wwwroot\invisible.png" />
+    <None Include="wwwroot\see.png" />
+  </ItemGroup>
 
 </Project>
