@@ -1,12 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
 using Api.Services;
 using System.ComponentModel.DataAnnotations;
-using Data.Model.Entities.Dictionary;
 using Share.DTOs;
-
+using Microsoft.AspNetCore.Authorization;
 
 namespace Api.Controllers
-{
+{   
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class SpiskiNaDNFromMOController : ControllerBase
@@ -67,7 +67,6 @@ namespace Api.Controllers
 
             return Ok("Файл успешно загружен.");
         }
-
 
         [HttpPut("{id}")]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateSpiskiNaDNFromMODTO dto)

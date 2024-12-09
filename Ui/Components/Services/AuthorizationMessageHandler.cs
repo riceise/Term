@@ -1,3 +1,5 @@
+using System.Net.Http.Headers;
+
 namespace Ui.Components.Services
 {
     public class AuthorizationMessageHandler : DelegatingHandler
@@ -15,7 +17,13 @@ namespace Ui.Components.Services
 
             if (!string.IsNullOrEmpty(token))
             {
-                request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+                // request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                Console.WriteLine($"Добавлен заголовок Authorization: Bearer {token}");
+            }
+            else
+            {
+                Console.WriteLine("Токен отсутствует, заголовок Authorization не добавлен.");
             }
 
             return await base.SendAsync(request, cancellationToken);

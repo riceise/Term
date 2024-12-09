@@ -9,7 +9,7 @@ namespace Ui.Components.Services
     {
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly NavigationManager _navigationManager;
-        private string _token = string.Empty;
+        private static string _token = string.Empty;
 
         public AuthenticationService(IHttpClientFactory httpClientFactory, NavigationManager navigationManager)
         {
@@ -27,6 +27,10 @@ namespace Ui.Components.Services
             {
                 var result = await response.Content.ReadFromJsonAsync<LoginResult>();
                 _token = result.Token;
+
+                // Временное логирование
+                Console.WriteLine($"Получен токен: {_token}");
+
                 NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
                 return true;
             }
@@ -81,7 +85,11 @@ namespace Ui.Components.Services
         }
 
         // Метод вернёт токен для генерации заголовка в запросах
-        public string GetCurrentToken() => _token;
+        public string GetCurrentToken()
+        {
+            Console.WriteLine($"Возвращаемый токен: {_token}");
+            return _token;
+        }
     }
 
     public class LoginResult

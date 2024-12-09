@@ -136,7 +136,7 @@
 @* } *@
 @page "/uploadingFiles"
 @attribute [Authorize]
-@inject HttpClient Http
+@inject IHttpClientFactory HttpClientFactory
 @using System.Text.Json
 @using Share.DTOs
 @using Ui.Components.Helper
@@ -215,6 +215,8 @@
         successMessage = string.Empty;
         errorList.Clear();
 
+        var Http = HttpClientFactory.CreateClient("BackendAPI");
+
         if (selectedFile != null)
         {
             try
@@ -224,7 +226,7 @@
                 var streamContent = new StreamContent(fileStream);
                 content.Add(streamContent, "file", selectedFile.Name);
                 
-                var response = await Http.PostAsync($"{Helper.BaseApiUrl}/api/SpiskiNaDNFromMO/upload", content);
+                var response = await Http.PostAsync($"api/SpiskiNaDNFromMO/upload", content);
                 Console.WriteLine("" + response);
 
                 var responseContent = await response.Content.ReadAsStringAsync();

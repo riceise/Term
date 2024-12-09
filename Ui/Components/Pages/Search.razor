@@ -99,7 +99,7 @@ else if (_item != null)
             _isloading = true;
             _errorMessage = string.Empty;
 
-            var response = await Http.GetAsync($"{Helper.BaseApiUrl}/api/SpiskiNaDNFromMO/{_id}");
+            var response = await Http.GetAsync($"api/SpiskiNaDNFromMO/{_id}");
 
             if (response.IsSuccessStatusCode)
             {
@@ -136,7 +136,7 @@ else if (_item != null)
             _isloading = true;
             _errorMessage = string.Empty;
 
-            var response = await Http.DeleteAsync($"{Helper.BaseApiUrl}/api/SpiskiNaDNFromMO/{_id}");
+            var response = await Http.DeleteAsync($"api/SpiskiNaDNFromMO/{_id}");
 
             if (response.IsSuccessStatusCode)
             {
@@ -194,7 +194,7 @@ else if (_item != null)
             _isloading = true;
             _errorMessage = string.Empty;
             
-            var response = await Http.PutAsJsonAsync($"{Helper.BaseApiUrl}/api/SpiskiNaDNFromMO/{_editedItem.Id}", _item);
+            var response = await Http.PutAsJsonAsync($"api/SpiskiNaDNFromMO/{_editedItem.Id}", _item);
             
             string json = System.Text.Json.JsonSerializer.Serialize(_editedItem);
             Console.WriteLine($"Sending JSON: {json}");

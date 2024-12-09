@@ -26,16 +26,16 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
 
 // Регистрация AuthenticationService
 builder.Services.AddScoped<AuthenticationService>();
-builder.Services.AddTransient<AuthorizationMessageHandler>();
+builder.Services.AddScoped<AuthorizationMessageHandler>();
 builder.Services.AddScoped<AuthenticationStateProvider>(provider => provider.GetRequiredService<AuthenticationService>());
 
 // Регистрация Http клиента с хэндлером для автоматического добавления токенов к телу
 builder.Services.AddHttpClient("BackendAPI", client =>
 {
     client.BaseAddress = new Uri("http://localhost:5277/");
-}).AddHttpMessageHandler<AuthorizationMessageHandler>();
+}).AddHttpMessageHandler(sp => sp.GetRequiredService<AuthorizationMessageHandler>());
 
-// builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("BackendAPI"));
+builder.Services.AddAuthorization();
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
@@ -54,7 +54,6 @@ if (!app.Environment.IsDevelopment())
 app.UseStaticFiles();
 app.UseAntiforgery();
 
-builder.Services.AddAuthorization();
 app.UseAuthentication();
 app.UseAuthorization();
 
