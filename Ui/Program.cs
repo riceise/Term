@@ -18,26 +18,28 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddDefaultTokenProviders();
 
 // Настраиваем куки
-builder.Services.ConfigureApplicationCookie(options =>
-{
-    options.LoginPath = "/login";
-    options.AccessDeniedPath = "/access-denied";
-});
+// builder.Services.ConfigureApplicationCookie(options =>
+// {
+//     options.LoginPath = "/login";
+//     options.AccessDeniedPath = "/access-denied";
+// });
 
+// Регистрация AuthenticationService
+builder.Services.AddScoped<AuthenticationService>();
+builder.Services.AddTransient<AuthorizationMessageHandler>();
+builder.Services.AddScoped<AuthenticationStateProvider>(provider => provider.GetRequiredService<AuthenticationService>());
+
+// Регистрация Http клиента с хэндлером для автоматического добавления токенов к телу
 builder.Services.AddHttpClient("BackendAPI", client =>
 {
     client.BaseAddress = new Uri("http://localhost:5277/");
-});
+}).AddHttpMessageHandler<AuthorizationMessageHandler>();
 
-builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("BackendAPI"));
+// builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("BackendAPI"));
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
-
-// Регистрация AuthenticationService
-builder.Services.AddScoped<AuthenticationService>();
-builder.Services.AddScoped<AuthenticationStateProvider>(provider => provider.GetRequiredService<AuthenticationService>());
 
 var app = builder.Build();
 
@@ -52,6 +54,7 @@ if (!app.Environment.IsDevelopment())
 app.UseStaticFiles();
 app.UseAntiforgery();
 
+builder.Services.AddAuthorization();
 app.UseAuthentication();
 app.UseAuthorization();
 

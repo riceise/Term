@@ -11,12 +11,11 @@ namespace Api.Controllers
     [Route("api/[controller]")]
     public class AuthController : Controller
     {
-        private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public AuthController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
+        [ActivatorUtilitiesConstructor]
+        public AuthController(UserManager<ApplicationUser> userManager)
         {
-            _signInManager = signInManager;
             _userManager = userManager;
         }
 
