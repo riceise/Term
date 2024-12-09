@@ -22,15 +22,32 @@ namespace Api.Services
             var errors = new List<string>();
             var files = new List<SpiskiNaDNFromMODTO>();
 
+            var expectedHeaders = new[]
+            {
+                "npp", "fam", "im", "ot", "dr", "snils", "n_reestr", "period", "organizaciya"
+            };
+
             using (var workbook = new XLWorkbook(fileStream))
             {
                 var worksheet = workbook.Worksheet(1);
+
+                var headerRow = worksheet.Row(1);
+                for (int i = 0; i < expectedHeaders.Length; i++)
+                {
+                    var actualHeader = headerRow.Cell(i + 1).GetString().Trim();
+                    if (!string.Equals(actualHeader, expectedHeaders[i], StringComparison.OrdinalIgnoreCase))
+                    {
+                        throw new CustomValidationException(new List<string>
+                        {
+                            $"Ошибка: Ожидаемый заголовок '{expectedHeaders[i]}' в колонке {i + 1}, но найден '{actualHeader}'"
+                        });
+                    }
+                }
 
                 foreach (var row in worksheet.RowsUsed().Skip(1))
                 {
                     try
                     {
-
                         int npp;
                         if (!int.TryParse(row.Cell(1).GetString(), out npp))
                         {
@@ -44,7 +61,7 @@ namespace Api.Services
                             errors.Add($"Ошибка: Поле 'Фамилия' в строке {row.RowNumber()} обязательно.");
                             continue;
                         }
-                        
+
                         string name = row.Cell(3).GetString();
                         if (string.IsNullOrEmpty(name))
                         {
@@ -56,8 +73,8 @@ namespace Api.Services
                         string dateString = row.Cell(5).GetString();
                         if (!DateTime.TryParseExact(dateString,
                             new[] { "dd.MM.yyyy", "dd.MM.yyyy H:mm:ss", "dd.MM.yyyy HH:mm:ss", "dd.MM.yyyy HH:mm" },
-                            null, 
-                            System.Globalization.DateTimeStyles.None, 
+                            null,
+                            System.Globalization.DateTimeStyles.None,
                             out birthDay))
                         {
                             errors.Add($"Ошибка: Поле 'Дата рождения' в строке {row.RowNumber()} имеет неверный формат: '{dateString}'");
@@ -84,7 +101,7 @@ namespace Api.Services
                             errors.Add($"Ошибка: Поле 'Период' в строке {row.RowNumber()} имеет неверный формат.");
                             continue;
                         }
-                        
+
                         string organizaciya = row.Cell(9).GetString();
                         if (string.IsNullOrEmpty(organizaciya))
                         {
@@ -97,7 +114,7 @@ namespace Api.Services
                             Npp = npp,
                             LastName = lastName,
                             Name = name,
-                            Patronymic = row.Cell(4).GetString(), 
+                            Patronymic = row.Cell(4).GetString(),
                             BirthDay = birthDay,
                             Snils = snils,
                             N_reest = n_reest,
@@ -123,7 +140,7 @@ namespace Api.Services
                         errors.Add($"Неожиданная ошибка в строке {row.RowNumber()}: {ex.Message}");
                     }
                 }
-                
+
             }
 
             if (errors.Any())
@@ -134,6 +151,7 @@ namespace Api.Services
             var fileEntities = SpiskiNaDNFromMOMapper.MapDtoToEntity(files);
             await _repository.AddSpiskiNaDNFromMOsAsync(fileEntities);
         }
+
         
         public async Task RecordUploadFileInfoAsync(UploadFileInfoDTO uploadFileInfoDTO)
         {
