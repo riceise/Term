@@ -6,9 +6,10 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Api.Controllers
 {   
-    [Authorize]
+    // [Authorize]
     [Route("api/[controller]")]
     [ApiController]
+    
     public class SpiskiNaDNFromMOController : ControllerBase
     {
         private readonly ISpiskiNaDNFromMOService _spiskiNaDnFromMoService;
@@ -18,6 +19,13 @@ namespace Api.Controllers
             _spiskiNaDnFromMoService = spiskiNaDnFromMoService;
         }
         
+        [HttpGet("GetFiles")]
+        public async Task<ActionResult<IEnumerable<FileDTOView>>> GetAllFiles(int uploadFileInfId)
+        {
+            var files = await _spiskiNaDnFromMoService.GetFileInfoAsync(uploadFileInfId);
+            return Ok(files);
+        }
+
         [HttpPost("upload")]
         public async Task<IActionResult> UploadFile(IFormFile file)
         {
@@ -27,8 +35,8 @@ namespace Api.Controllers
             var userId = 1; 
             var fileName = file.FileName;
             var filePath = Path.Combine("UploadedFiles", fileName);
-
             var fullFilePath = Path.Combine(Directory.GetCurrentDirectory(), filePath);
+
             Directory.CreateDirectory(Path.GetDirectoryName(fullFilePath) ?? string.Empty);
 
             using (var fileStream = new FileStream(fullFilePath, FileMode.Create))
@@ -36,37 +44,72 @@ namespace Api.Controllers
                 await file.CopyToAsync(fileStream);
             }
 
-            bool uploadStatus = false;
-
             try
             {
-                using (var stream = new FileStream(fullFilePath, FileMode.Open, FileAccess.Read))
+                using (var validationStream = new FileStream(fullFilePath, FileMode.Open, FileAccess.Read))
                 {
-                    await _spiskiNaDnFromMoService.ProcessSpiskiNaDN(stream, fileName, fullFilePath, userId);
-                    uploadStatus = true;
+                    var errors = await _spiskiNaDnFromMoService.ValidateFileAsync(validationStream);
+                    if (errors.Any())
+                        return BadRequest(new { message = "Файл содержит ошибки.", errors });
                 }
-            }
-            catch (ValidationException ex)
-            {
-                uploadStatus = false;
-                return BadRequest(new { message = "Файл содержит ошибки.", errors = ex.Message });
-            }
-            finally
-            {
+
                 var uploadFileInfoDTO = new UploadFileInfoDTO
                 {
                     UserId = userId,
                     FileName = fileName,
                     FilePath = fullFilePath,
                     UploadDate = DateTime.Now,
-                    UploadStatus = uploadStatus
+                    UploadStatus = false
                 };
 
-                await _spiskiNaDnFromMoService.RecordUploadFileInfoAsync(uploadFileInfoDTO);
+                var uploadFileId = await _spiskiNaDnFromMoService.RecordUploadFileInfoAndReturnIdAsync(uploadFileInfoDTO);
+
+                using (var processingStream = new FileStream(fullFilePath, FileMode.Open, FileAccess.Read))
+                {
+                    await _spiskiNaDnFromMoService.ProcessFileRowsToStagingAsync(processingStream, uploadFileId);
+                }
+
+                await _spiskiNaDnFromMoService.UpdateUploadFileStatusAsync(uploadFileId, true);
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(new { message = "Файл содержит ошибки.", errors = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                var innerException = ex.InnerException?.Message ?? "Нет внутреннего исключения.";
+                return StatusCode(500, new
+                {
+                    message = "Произошла ошибка при обработке файла.",
+                    errors = ex.Message,
+                    innerException
+                });
             }
 
-            return Ok("Файл успешно загружен.");
+            return Ok("Файл успешно загружен во временную таблицу.");
         }
+        
+        
+        [HttpPost("transfer")]
+        public async Task<IActionResult> TransferDataToMainTable()
+        {
+            try
+            {
+                await _spiskiNaDnFromMoService.TransferDataFromStagingToMainTableAsync();
+                return Ok("Данные успешно перенесены из временной таблицы в основную таблицу.");
+            }
+            catch (Exception ex)
+            {
+                var innerException = ex.InnerException?.Message ?? "Нет внутреннего исключения.";
+                return StatusCode(500, new
+                {
+                    message = "Произошла ошибка при переносе данных.",
+                    errors = ex.Message,
+                    innerException
+                });
+            }
+        }
+
 
         [HttpPut("{id}")]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateSpiskiNaDNFromMODTO dto)

@@ -12,6 +12,31 @@ namespace Api.Repositories
         {
             _context = context;
         }
+        public async Task AddSpiskiNaDNFromMOStagingAsync(List<SpiskiNaDnFromMoStaging> stagingData)
+        {
+            await _context.SpiskiNaDnFromMoStaging.AddRangeAsync(stagingData);
+            await _context.SaveChangesAsync();
+        }
+        
+        public async Task<List<SpiskiNaDnFromMoStaging>> GetSpiskiNaDNFromMOStagingAsync()
+        {
+            return await _context.SpiskiNaDnFromMoStaging.ToListAsync();
+        }
+        public async Task RemoveSpiskiNaDNFromMOStagingAsync(List<SpiskiNaDnFromMoStaging> stagingData)
+        {
+            _context.SpiskiNaDnFromMoStaging.RemoveRange(stagingData);
+            await _context.SaveChangesAsync();
+        }
+        public async Task<IEnumerable<UploadFileInf>> GetAllFilesAsync(int uploadFileInfId)
+        {
+            return await _context.Set<UploadFileInf>().ToListAsync();
+        }
+        
+        public async Task SaveChangesAsync()
+        {
+            await _context.SaveChangesAsync();
+        }
+        
         public async Task AddUploadFileInfoAsync(UploadFileInf uploadFileInf)
         {
             _context.UploadFileInfs.Add(uploadFileInf);
@@ -61,6 +86,11 @@ namespace Api.Repositories
         {
             await _context.SpiskiNaDNFromMO.AddAsync(file);
             await _context.SaveChangesAsync();
+        }
+        
+        public async Task<UploadFileInf> GetUploadFileInfoByIdAsync(int id)
+        {
+            return await _context.UploadFileInfs.FindAsync(id);
         }
     }
 }

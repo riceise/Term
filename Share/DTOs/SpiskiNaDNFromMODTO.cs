@@ -20,7 +20,6 @@ namespace Share.DTOs
 
         [DataType(DataType.Date)]
         [Required(ErrorMessage = "Дата рождения обязательна.")]
-        [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}", ApplyFormatInEditMode = true)]
         public DateTime BirthDay { get; set; }
 
         [Required(ErrorMessage = "СНИЛС обязателен.")]
@@ -34,5 +33,7 @@ namespace Share.DTOs
         public int Period { get; set; }
 
         public string Organizaciya { get; set; } = string.Empty;
+        public int UploadFileInfId { get; set; }
+
     }
 }

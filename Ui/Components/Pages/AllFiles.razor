@@ -1,0 +1,70 @@
+﻿@page "/allFiles"
+@inject IHttpClientFactory HttpClientFactory
+@using Share.DTOs
+@using System.Net.Http.Json
+
+
+<h3>Информация о файлах</h3>
+
+@if (_isLoading)
+{
+    <p>Загрузка...</p>
+}
+else if (!string.IsNullOrEmpty(_errorMessage))
+{
+    <div class="alert alert-danger">@_errorMessage</div>
+}
+else if (_files != null)
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Название файла</th>
+            <th>Дата загрузки</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var file in _files)
+        {
+            <tr>
+                <td>@file.FileName</td>
+                <td>@file.UploadDate.ToString("yyyy-MM-dd")</td> 
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+@code {
+    private IEnumerable<FileDTOView>? _files;
+    private bool _isLoading;
+    private string? _errorMessage;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var http = HttpClientFactory.CreateClient("BackendAPI"); // Make sure "BackendAPI" is configured
+
+        try
+        {
+            _isLoading = true;
+            var response = await http.GetAsync("api/SpiskiNaDNFromMO/GetFiles"); 
+
+            if (response.IsSuccessStatusCode)
+            {
+                _files = await response.Content.ReadFromJsonAsync<IEnumerable<FileDTOView>>();
+            }
+            else
+            {
+                _errorMessage = $"Ошибка при получении информации о файлах: {response.StatusCode}";
+            }
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = $"Произошла ошибка: {ex.Message}";
+        }
+        finally
+        {
+            _isLoading = false;
+        }
+    }
+}

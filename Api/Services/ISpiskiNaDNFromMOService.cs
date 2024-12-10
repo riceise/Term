@@ -5,8 +5,6 @@ namespace Api.Services
 {
     public interface ISpiskiNaDNFromMOService
     {
-        Task ProcessSpiskiNaDN(Stream fileStream, string fileName, string filePath, int userId);
-       
         Task<SpiskiNaDNFromMODTO?> GetByIdAsync(int id);
         
         Task<IEnumerable<SpiskiNaDNFromMODTO>> GetByNReestAsync(int nReest);
@@ -18,6 +16,20 @@ namespace Api.Services
         Task UpdateAsync( SpiskiNaDNFromMODTO dto);
 
         Task RecordUploadFileInfoAsync(UploadFileInfoDTO uploadFileInfoDTO);
+        
+        Task<IEnumerable<FileDTOView>> GetFileInfoAsync(int uploadFileInfId);
+        
+        //Task ProcessSpiskiNaDN(Stream fileStream, string fileName, string filePath, int userId, int uploadFileId);
+        
+        Task<int> RecordUploadFileInfoAndReturnIdAsync(UploadFileInfoDTO uploadFileInfoDTO);
+        
+        Task UpdateUploadFileStatusAsync(int uploadFileId, bool status);
+
+        Task<List<string>> ValidateFileAsync(Stream fileStream);
+
+        Task ProcessFileRowsToStagingAsync(Stream fileStream, int uploadFileId);
+
+        Task TransferDataFromStagingToMainTableAsync();
 
     }
 }

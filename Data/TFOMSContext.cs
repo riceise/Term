@@ -29,6 +29,10 @@ namespace Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<SpiskiNaDNFromMO>()
+                .HasOne(s => s.UploadFileInf)
+                .WithMany()
+                .OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<SLCase>()
                 .HasMany(x => x.Diagnoses)
                 .WithMany("SLCases")
@@ -149,6 +153,7 @@ namespace Data
 
         public DbSet<UploadFileInf> UploadFileInfs => Set<UploadFileInf>();
 
+        public DbSet<SpiskiNaDnFromMoStaging> SpiskiNaDnFromMoStaging => Set<SpiskiNaDnFromMoStaging>();
 
         #endregion
 

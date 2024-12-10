@@ -59,6 +59,21 @@ namespace Api.Mappers
                 UploadStatus = entity.UploadStatus
             };
         }
+        
+        public static FileDTOView MapToDto(UploadFileInf file)
+        {
+            return new FileDTOView
+            {
+                Id = file.Id,
+                FileName = file.FileName,
+                UploadDate = file.UploadDate
+            };
+        }
+        
+        public static IEnumerable<FileDTOView> MapToDtoList(IEnumerable<UploadFileInf> files)
+        {
+            return files.Select(file => MapToDto(file)).ToList();
+        }
     }
 }
 
