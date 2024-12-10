@@ -39,9 +39,9 @@ namespace Data.Model.Entities.UploadedFile
 
         public string Organizaciya { get; set; } = string.Empty;
         
-        public int UploadFileInfId { get; set; }
+        // public int UploadFileInfId { get; set; }
 
-        [ForeignKey("UploadFileInfId")]
-        public virtual UploadFileInf UploadFileInf { get; set; }
+        // [ForeignKey("UploadFileInfId")]
+        // public virtual UploadFileInf UploadFileInf { get; set; }
     }
 }
