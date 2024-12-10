@@ -1,6 +1,3 @@
-using System.Net.Http;
-using System.Net.Http.Json;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using System.Security.Claims;
@@ -10,25 +7,30 @@ namespace Ui.Components.Services
 {
     public class AuthenticationService : AuthenticationStateProvider
     {
-        private readonly HttpClient _httpClient;
+        private readonly IHttpClientFactory _httpClientFactory;
         private readonly NavigationManager _navigationManager;
-        private string _token = string.Empty;
+        private static string _token = string.Empty;
 
-        public AuthenticationService(HttpClient httpClient, NavigationManager navigationManager)
+        public AuthenticationService(IHttpClientFactory httpClientFactory, NavigationManager navigationManager)
         {
-            _httpClient = httpClient;
+            _httpClientFactory = httpClientFactory;
             _navigationManager = navigationManager;
         }
 
 
         public async Task<bool> Login(string username, string password)
-        {
+        {   
+            var _httpClient = _httpClientFactory.CreateClient("BackendAPI");
             var response = await _httpClient.PostAsJsonAsync("api/Auth/login", new { UserName = username, Password = password });
             
             if (response.IsSuccessStatusCode)
             {
                 var result = await response.Content.ReadFromJsonAsync<LoginResult>();
                 _token = result.Token;
+
+                // Временное логирование
+                Console.WriteLine($"Получен токен: {_token}");
+
                 NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
                 return true;
             }
@@ -80,6 +82,13 @@ namespace Ui.Components.Services
                 case 3: base64 += "="; break;
             }
             return Convert.FromBase64String(base64);
+        }
+
+        // Метод вернёт токен для генерации заголовка в запросах
+        public string GetCurrentToken()
+        {
+            Console.WriteLine($"Возвращаемый токен: {_token}");
+            return _token;
         }
     }
 

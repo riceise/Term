@@ -1,5 +1,5 @@
 @page "/register"
-@inject HttpClient HttpClient
+@inject IHttpClientFactory HttpClientFactory
 @inject NavigationManager NavigationManager
 
 <style>
@@ -105,7 +105,8 @@
     private string errorMessage;
     
     private async Task HandleRegistration()
-    {
+    {   
+        var HttpClient = HttpClientFactory.CreateClient("BackendAPI");
         var response = await HttpClient.PostAsJsonAsync("api/Auth/register", registerModel);
 
         if(response.IsSuccessStatusCode)

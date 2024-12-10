@@ -1,6 +1,6 @@
 ﻿@page "/nreest"
 @attribute [Authorize]
-@inject HttpClient Http
+@inject IHttpClientFactory HttpClientFactory
 @using Share.DTOs
 @using Ui.Components.Helper
 @using System.ComponentModel.DataAnnotations
@@ -139,9 +139,11 @@ else if (_items != null && _items.Any())
         _errorMessage = null;
         _items = null;
 
+        var Http = HttpClientFactory.CreateClient("BackendAPI");
+
         try
         {
-            var response = await Http.GetAsync($"{Helper.BaseApiUrl}/api/SpiskiNaDNFromMO/nreest/{_searchModel.NReest}");
+            var response = await Http.GetAsync($"api/SpiskiNaDNFromMO/nreest/{_searchModel.NReest}");
             if (response.IsSuccessStatusCode)
             {
                 _items = await response.Content.ReadFromJsonAsync<List<SpiskiNaDNFromMODTO>>();
@@ -173,12 +175,14 @@ else if (_items != null && _items.Any())
     }
     private async Task SaveEdit(SpiskiNaDNFromMODTO item)
     {
+        var Http = HttpClientFactory.CreateClient("BackendAPI");
+
         try
         {
             _isLoading = true;
             _errorMessage = null;
 
-            var response = await Http.PutAsJsonAsync($"{Helper.BaseApiUrl}/api/SpiskiNaDNFromMO/{item.Id}", item);
+            var response = await Http.PutAsJsonAsync($"api/SpiskiNaDNFromMO/{item.Id}", item);
             string json = System.Text.Json.JsonSerializer.Serialize(item);
             Console.WriteLine($"Sending JSON: {json}");
             
@@ -213,7 +217,8 @@ else if (_items != null && _items.Any())
     private async Task DeleteItem(SpiskiNaDNFromMODTO item)
     {
         bool confirmed = await JSRuntime.InvokeAsync<bool>("confirm", "Вы уверены, что хотите удалить эту запись?"); // <-- Confirmation dialog
-
+        var Http = HttpClientFactory.CreateClient("BackendAPI");
+        
         if (confirmed) 
         {
             try
@@ -221,7 +226,7 @@ else if (_items != null && _items.Any())
                 _isLoading = true;
                 _errorMessage = string.Empty;
 
-                var response = await Http.DeleteAsync($"{Helper.BaseApiUrl}/api/SpiskiNaDNFromMO/{item.Id}");
+                var response = await Http.DeleteAsync($"api/SpiskiNaDNFromMO/{item.Id}");
 
                 if (response.IsSuccessStatusCode)
                 {

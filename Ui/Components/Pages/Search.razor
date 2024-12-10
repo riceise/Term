@@ -1,6 +1,6 @@
 ﻿@page "/search"
 @attribute [Authorize]
-@inject HttpClient Http
+@inject IHttpClientFactory HttpClientFactory
 @using System.Net
 @using Share.DTOs
 @using Ui.Components.Helper
@@ -71,12 +71,11 @@ else if (_item != null)
         <button class="btn btn-success me-2" @onclick="SaveEdit">Сохранить изменения</button>
         <button class="btn btn-secondary me-2" @onclick="CancelEdit">Отмена</button>
     }
-    
-    
 }
 
 @code
 {
+    
     private int _id;
     private SpiskiNaDNFromMODTO? _item;
     private SpiskiNaDNFromMODTO? _editedItem;
@@ -87,6 +86,8 @@ else if (_item != null)
 
     private async Task SearchItem()
     {
+        var Http = HttpClientFactory.CreateClient("BackendAPI");
+
         if (_id <= 0)
         {
             _errorMessage = "Пожалуйста, введите корректный ID.";
@@ -98,7 +99,7 @@ else if (_item != null)
             _isloading = true;
             _errorMessage = string.Empty;
 
-            var response = await Http.GetAsync($"{Helper.BaseApiUrl}/api/SpiskiNaDNFromMO/{_id}");
+            var response = await Http.GetAsync($"api/SpiskiNaDNFromMO/{_id}");
 
             if (response.IsSuccessStatusCode)
             {
@@ -128,12 +129,14 @@ else if (_item != null)
 
     private async Task DeleteItem()
     {
+        var Http = HttpClientFactory.CreateClient("BackendAPI");
+
         try
         {
             _isloading = true;
             _errorMessage = string.Empty;
 
-            var response = await Http.DeleteAsync($"{Helper.BaseApiUrl}/api/SpiskiNaDNFromMO/{_id}");
+            var response = await Http.DeleteAsync($"api/SpiskiNaDNFromMO/{_id}");
 
             if (response.IsSuccessStatusCode)
             {
@@ -178,6 +181,8 @@ else if (_item != null)
 
     private async Task SaveEdit()
     {
+        var Http = HttpClientFactory.CreateClient("BackendAPI");
+
         if (_editedItem == null)
         {
             _errorMessage = "Данные для изменения не найдены.";
@@ -189,7 +194,7 @@ else if (_item != null)
             _isloading = true;
             _errorMessage = string.Empty;
             
-            var response = await Http.PutAsJsonAsync($"{Helper.BaseApiUrl}/api/SpiskiNaDNFromMO/{_editedItem.Id}", _item);
+            var response = await Http.PutAsJsonAsync($"api/SpiskiNaDNFromMO/{_editedItem.Id}", _item);
             
             string json = System.Text.Json.JsonSerializer.Serialize(_editedItem);
             Console.WriteLine($"Sending JSON: {json}");
