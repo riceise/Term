@@ -4,6 +4,7 @@ namespace Data.Model.Entities.UploadedFile
 {
     public class UploadFileInf
     {
+        
         [Key]
         [Display(Name = "Id")]
         public int Id { get; set; }

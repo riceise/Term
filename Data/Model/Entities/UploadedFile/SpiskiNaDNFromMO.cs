@@ -1,6 +1,9 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Share.Validations;
+
+
 
 namespace Data.Model.Entities.UploadedFile
 {
@@ -35,5 +38,10 @@ namespace Data.Model.Entities.UploadedFile
         public int Period { get; set; }
 
         public string Organizaciya { get; set; } = string.Empty;
+        
+        public int UploadFileInfId { get; set; }
+
+        [ForeignKey("UploadFileInfId")]
+        public virtual UploadFileInf UploadFileInf { get; set; }
     }
 }
