@@ -27,7 +27,7 @@ namespace Api.Repositories
             _context.SpiskiNaDnFromMoStaging.RemoveRange(stagingData);
             await _context.SaveChangesAsync();
         }
-        public async Task<IEnumerable<UploadFileInf>> GetAllFilesAsync(int uploadFileInfId)
+        public async Task<IEnumerable<UploadFileInf>> GetAllFilesAsync()
         {
             return await _context.Set<UploadFileInf>().ToListAsync();
         }
@@ -91,6 +91,13 @@ namespace Api.Repositories
         public async Task<UploadFileInf> GetUploadFileInfoByIdAsync(int id)
         {
             return await _context.UploadFileInfs.FindAsync(id);
+        }
+        
+        public async Task<List<SpiskiNaDNFromMO>> GetByUploadFileIdAsync(int uploadFileId)
+        {
+            return await _context.SpiskiNaDNFromMO
+                .Where(s => s.UploadFileInfId == uploadFileId)
+                .ToListAsync();
         }
     }
 }

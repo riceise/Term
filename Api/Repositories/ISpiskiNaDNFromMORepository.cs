@@ -14,12 +14,13 @@ namespace Api.Repositories
         Task UpdateAsync(SpiskiNaDNFromMO file);
         Task AddAsync(SpiskiNaDNFromMO file);
         Task AddUploadFileInfoAsync(UploadFileInf uploadFileInf);
-        Task<IEnumerable<UploadFileInf>> GetAllFilesAsync(int uploadFileInfId);
+        Task<IEnumerable<UploadFileInf>> GetAllFilesAsync();
         Task<UploadFileInf> GetUploadFileInfoByIdAsync(int id);
         Task AddSpiskiNaDNFromMOStagingAsync(List<SpiskiNaDnFromMoStaging> stagingData);
         Task<List<SpiskiNaDnFromMoStaging>> GetSpiskiNaDNFromMOStagingAsync();
         Task RemoveSpiskiNaDNFromMOStagingAsync(List<SpiskiNaDnFromMoStaging> stagingData);
         Task SaveChangesAsync();
+        Task<List<SpiskiNaDNFromMO>> GetByUploadFileIdAsync(int uploadFileId);
 
 
 

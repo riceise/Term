@@ -17,9 +17,7 @@ namespace Api.Services
 
         Task RecordUploadFileInfoAsync(UploadFileInfoDTO uploadFileInfoDTO);
         
-        Task<IEnumerable<FileDTOView>> GetFileInfoAsync(int uploadFileInfId);
-        
-        //Task ProcessSpiskiNaDN(Stream fileStream, string fileName, string filePath, int userId, int uploadFileId);
+        Task<IEnumerable<FileDTOView>> GetFileInfoAsync();
         
         Task<int> RecordUploadFileInfoAndReturnIdAsync(UploadFileInfoDTO uploadFileInfoDTO);
         
@@ -30,6 +28,8 @@ namespace Api.Services
         Task ProcessFileRowsToStagingAsync(Stream fileStream, int uploadFileId);
 
         Task TransferDataFromStagingToMainTableAsync();
+
+        Task<List<SpiskiNaDNFromMODTO>> GetByUploadFileIdAsync(int uploadFileId);
 
     }
 }

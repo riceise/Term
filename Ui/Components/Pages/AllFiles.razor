@@ -1,70 +1,305 @@
-﻿@page "/allFiles"
+﻿@page "/files"
+@attribute [Authorize]
 @inject IHttpClientFactory HttpClientFactory
 @using Share.DTOs
-@using System.Net.Http.Json
+@inject IJSRuntime JSRuntime
+@using System.ComponentModel.DataAnnotations
 
 
-<h3>Информация о файлах</h3>
+
+<h3>Список загруженных файлов</h3>
 
 @if (_isLoading)
 {
     <p>Загрузка...</p>
 }
-else if (!string.IsNullOrEmpty(_errorMessage))
+else if (_errorMessage != null)
 {
-    <div class="alert alert-danger">@_errorMessage</div>
+    <div class="alert alert-danger" role="alert">@_errorMessage</div>
 }
-else if (_files != null)
+else if (_files != null && _files.Any() && !_showRecords)
 {
     <table class="table">
         <thead>
-        <tr>
-            <th>Название файла</th>
-            <th>Дата загрузки</th>
-        </tr>
+            <tr>
+                <th>Id</th>
+                <th>Имя файла</th>
+                <th>Дата загрузки</th>
+                <th>Действия</th>
+            </tr>
         </thead>
         <tbody>
-        @foreach (var file in _files)
-        {
-            <tr>
-                <td>@file.FileName</td>
-                <td>@file.UploadDate.ToString("yyyy-MM-dd")</td> 
-            </tr>
-        }
+            @foreach (var file in _files)
+            {
+                <tr>
+                    <td>@file.Id</td>
+                    <td>@file.FileName</td>
+                    <td>@file.UploadDate.ToString("yyyy-MM-dd")</td>
+                    <td>
+                        <button class="btn btn-info me-2" @onclick="() => LoadRecords(file.Id)">Посмотреть записи</button>
+                    </td>
+                </tr>
+            }
         </tbody>
     </table>
 }
+else if (_showRecords)
+{
+    <h3>Записи файла</h3>
+    <button class="btn btn-secondary mb-3" @onclick="BackToFiles">Назад к файлам</button>
+
+    @if (_records != null && _records.Any())
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ПП</th>
+                    <th>Имя</th>
+                    <th>Фамилия</th>
+                    <th>Отчество</th>
+                    <th>Дата рождения</th>
+                    <th>СНИЛС</th>
+                    <th>Номер реестра</th>
+                    <th>Период</th>
+                    <th>Организация</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var record in _records)
+                {
+                    @if (_isEditing && _selectedItem == record)
+                    {
+                        <tr class="vertical-table-row">
+                            <td colspan="10">
+                                <table class='table table-borderless'>
+                                    <tbody>
+                                    <tr>
+                                        <th>Порядковый номер:</th>
+                                        <td><InputNumber @bind-Value="record.Npp" class="form-control" /></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Имя:</th>
+                                        <td><InputText @bind-Value="record.Name" class="form-control" /></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Фамилия:</th>
+                                        <td><InputText @bind-Value="record.LastName" class="form-control" /></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Отчество:</th>
+                                        <td><InputText @bind-Value="record.Patronymic" class="form-control" /></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Дата рождения:</th>
+                                        <td><InputDate @bind-Value="record.BirthDay" class="form-control" /></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Период:</th>
+                                        <td><InputNumber @bind-Value="record.Period" class="form-control" /></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Организация:</th>
+                                        <td><InputText @bind-Value="record.Organizaciya" class="form-control" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <button @onclick="@(async () => await SaveEdit(record))" class="btn btn-success me-2">Сохранить</button>
+                                            <button @onclick="CancelEdit" class="btn btn-secondary me-2">Отмена</button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr>
+                            <td>@record.Npp</td>
+                            <td>@record.Name</td>
+                            <td>@record.LastName</td>
+                            <td>@record.Patronymic</td>
+                            <td>@record.BirthDay.ToString("yyyy-MM-dd")</td>
+                            <td>@record.Snils</td>
+                            <td>@record.N_reest</td>
+                            <td>@record.Period</td>
+                            <td>@record.Organizaciya</td>
+                            <td>
+                                <button @onclick="() => StartEdit(record)" class="btn btn-primary me-2">Изменить</button>
+                                <button class="btn btn-danger me-2" @onclick="@(async () => await DeleteItem(record))">Удалить</button>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>Нет записей для отображения.</p>
+    }
+}
 
 @code {
-    private IEnumerable<FileDTOView>? _files;
     private bool _isLoading;
     private string? _errorMessage;
+    private List<FileDTOView>? _files;
+    private List<SpiskiNaDNFromMODTO>? _records;
+    private bool _showRecords;
+    private SpiskiNaDNFromMODTO? _selectedItem;
+    private bool _isEditing;
 
     protected override async Task OnInitializedAsync()
     {
-        var http = HttpClientFactory.CreateClient("BackendAPI"); // Make sure "BackendAPI" is configured
+        await LoadFiles();
+    }
+
+    private async Task LoadFiles()
+    {
+        var Http = HttpClientFactory.CreateClient("BackendAPI");
 
         try
         {
             _isLoading = true;
-            var response = await http.GetAsync("api/SpiskiNaDNFromMO/GetFiles"); 
+            _errorMessage = null;
 
+            var response = await Http.GetAsync("api/SpiskiNaDNFromMO/GetFiles");
             if (response.IsSuccessStatusCode)
             {
-                _files = await response.Content.ReadFromJsonAsync<IEnumerable<FileDTOView>>();
+                _files = await response.Content.ReadFromJsonAsync<List<FileDTOView>>();
             }
             else
             {
-                _errorMessage = $"Ошибка при получении информации о файлах: {response.StatusCode}";
+                _errorMessage = $"Ошибка загрузки файлов: {response.StatusCode}";
             }
         }
         catch (Exception ex)
         {
-            _errorMessage = $"Произошла ошибка: {ex.Message}";
+            _errorMessage = $"Ошибка загрузки файлов: {ex.Message}";
         }
         finally
         {
             _isLoading = false;
         }
     }
+
+    private async Task LoadRecords(int fileId)
+    {
+        var Http = HttpClientFactory.CreateClient("BackendAPI");
+
+        try
+        {
+            _isLoading = true;
+            _errorMessage = null;
+
+            var response = await Http.GetAsync($"api/SpiskiNaDNFromMO/byUploadFileId/{fileId}");
+            if (response.IsSuccessStatusCode)
+            {
+                _records = await response.Content.ReadFromJsonAsync<List<SpiskiNaDNFromMODTO>>();
+                _showRecords = true;
+            }
+            else
+            {
+                _errorMessage = $"Ошибка загрузки записей: {response.StatusCode}";
+            }
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = $"Ошибка загрузки записей: {ex.Message}";
+        }
+        finally
+        {
+            _isLoading = false;
+        }
+    }
+
+    private void BackToFiles()
+    {
+        _showRecords = false;
+        _records = null;
+    }
+
+    private async Task SaveEdit(SpiskiNaDNFromMODTO record)
+    {
+        var Http = HttpClientFactory.CreateClient("BackendAPI");
+
+        try
+        {
+            _isLoading = true;
+            _errorMessage = null;
+
+            var response = await Http.PutAsJsonAsync($"api/SpiskiNaDNFromMO/{record.Id}", record);
+            if (response.IsSuccessStatusCode)
+            {
+                _isEditing = false;
+                _selectedItem = null;
+                await LoadRecords(record.Id);
+            }
+            else
+            {
+                _errorMessage = $"Ошибка сохранения записи: {response.StatusCode}";
+            }
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = $"Ошибка сохранения записи: {ex.Message}";
+        }
+        finally
+        {
+            _isLoading = false;
+        }
+    }
+
+    private void CancelEdit()
+    {
+        _isEditing = false;
+        _selectedItem = null;
+    }
+
+    private async Task DeleteItem(SpiskiNaDNFromMODTO record)
+    {
+        var Http = HttpClientFactory.CreateClient("BackendAPI");
+
+        try
+        {
+            _isLoading = true;
+            _errorMessage = null;
+
+            var response = await Http.DeleteAsync($"api/records/{record.Id}");
+            if (response.IsSuccessStatusCode)
+            {
+                _records.Remove(record);
+            }
+            else
+            {
+                _errorMessage = $"Ошибка удаления записи: {response.StatusCode}";
+            }
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = $"Ошибка удаления записи: {ex.Message}";
+        }
+        finally
+        {
+            _isLoading = false;
+        }
+    }
+
+    private void StartEdit(SpiskiNaDNFromMODTO record)
+    {
+        _isEditing = true;
+        _selectedItem = record;
+    }
 }
+
+<style>
+    .vertical-table-row > td {
+        vertical-align: top;
+    }
+
+    .vertical-table-row > td > table {
+        width: auto;
+        margin: 0;
+    }
+</style>

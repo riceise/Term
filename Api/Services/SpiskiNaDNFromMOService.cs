@@ -19,9 +19,9 @@ namespace Api.Services
             _repository = repository;
         }
         
-        public async Task<IEnumerable<FileDTOView>> GetFileInfoAsync(int uploadFileInfId)
+        public async Task<IEnumerable<FileDTOView>> GetFileInfoAsync()
         {
-            var files = await _repository.GetAllFilesAsync(uploadFileInfId);
+            var files = await _repository.GetAllFilesAsync();
             return files.Select(SpiskiNaDNFromMOMapper.MapToDto);
 
         }
@@ -233,7 +233,24 @@ namespace Api.Services
             fileInfo.UploadStatus = status;
             await _repository.SaveChangesAsync();
         }
-
+        
+        public async Task<List<SpiskiNaDNFromMODTO>> GetByUploadFileIdAsync(int uploadFileId)
+        {
+            var entities = await _repository.GetByUploadFileIdAsync(uploadFileId);
+            return entities.Select(entity => new SpiskiNaDNFromMODTO
+            {
+                Id = entity.Id,
+                Npp = entity.Npp,
+                LastName = entity.LastName,
+                Name = entity.Name,
+                Patronymic = entity.Patronymic,
+                BirthDay = entity.BirthDay,
+                Snils = entity.Snils,
+                N_reest = entity.N_reest,
+                Period = entity.Period,
+                Organizaciya = entity.Organizaciya,
+            }).ToList();
+        }
         public async Task<IEnumerable<SpiskiNaDNFromMODTO>> GetByNReestAsync(int nReest)
         {
             var files = await _repository.GetByNReestAsync(nReest);

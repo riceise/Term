@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Api.Controllers
 {   
-    // [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     
@@ -18,11 +18,16 @@ namespace Api.Controllers
         {
             _spiskiNaDnFromMoService = spiskiNaDnFromMoService;
         }
-        
-        [HttpGet("GetFiles")]
-        public async Task<ActionResult<IEnumerable<FileDTOView>>> GetAllFiles(int uploadFileInfId)
+        [HttpGet("byUploadFileId/{uploadFileId}")]
+        public async Task<IActionResult> GetByUploadFileId(int uploadFileId)
         {
-            var files = await _spiskiNaDnFromMoService.GetFileInfoAsync(uploadFileInfId);
+            var result = await _spiskiNaDnFromMoService.GetByUploadFileIdAsync(uploadFileId);
+            return Ok(result);
+        }
+        [HttpGet("GetFiles")]
+        public async Task<ActionResult<IEnumerable<FileDTOView>>> GetAllFiles()
+        {
+            var files = await _spiskiNaDnFromMoService.GetFileInfoAsync();
             return Ok(files);
         }
 
