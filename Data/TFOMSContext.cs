@@ -152,9 +152,7 @@ namespace Data
         public DbSet<SpiskiNaDNFromMO> SpiskiNaDNFromMO => Set<SpiskiNaDNFromMO>();
 
         public DbSet<UploadFileInf> UploadFileInfs => Set<UploadFileInf>();
-
-        public DbSet<SpiskiNaDnFromMoStaging> SpiskiNaDnFromMoStaging => Set<SpiskiNaDnFromMoStaging>();
-
+        
         #endregion
 
 

@@ -52,7 +52,6 @@ namespace Api.Services
 
                 if (errors.Any()) 
                 {
-                    // Если ошибки в заголовках, сразу вернуть
                     return errors;
                 }
 
@@ -142,7 +141,7 @@ namespace Api.Services
         
         public async Task ProcessFileRowsToStagingAsync(Stream fileStream, int uploadFileId)
         {
-            var files = new List<SpiskiNaDnFromMoStaging>(); 
+            var files = new List<SpiskiNaDNFromMO>(); 
         
             using (var workbook = new XLWorkbook(fileStream))
             {
@@ -158,7 +157,7 @@ namespace Api.Services
                     int period = int.Parse(row.Cell(8).GetString());
                     string organizaciya = row.Cell(9).GetString();
         
-                    files.Add(new SpiskiNaDnFromMoStaging
+                    files.Add(new SpiskiNaDNFromMO
                     {
                         Npp = npp,
                         LastName = lastName,
@@ -166,7 +165,7 @@ namespace Api.Services
                         Patronymic = row.Cell(4).GetString(),
                         BirthDay = row.Cell(5).GetDateTime(),
                         Snils = snils,
-                        N_Reest = n_reest,
+                        N_reest = n_reest,
                         Period = period,
                         Organizaciya = organizaciya,
                         UploadFileInfId = uploadFileId
@@ -174,37 +173,10 @@ namespace Api.Services
                 }
             }
         
-            await _repository.AddSpiskiNaDNFromMOStagingAsync(files);
+            await _repository.AddSpiskiNaDNFromMOAsync(files);
+            await _repository.SaveChangesAsync();
         }
         
-        public async Task TransferDataFromStagingToMainTableAsync()
-        {
-            var stagingData = await _repository.GetSpiskiNaDNFromMOStagingAsync();
-        
-            if (stagingData.Any())
-            {
-                var mainData = stagingData.Select(item => new SpiskiNaDNFromMO
-                {
-                    Npp = item.Npp,
-                    LastName = item.LastName,
-                    Name = item.Name,
-                    Patronymic = item.Patronymic,
-                    BirthDay = item.BirthDay,
-                    Snils = item.Snils,
-                    N_reest = item.N_Reest,
-                    Period = item.Period,
-                    Organizaciya = item.Organizaciya,
-                    UploadFileInfId = item.UploadFileInfId
-                }).ToList();
-        
-                await _repository.AddSpiskiNaDNFromMOsAsync(mainData);
-                await _repository.SaveChangesAsync();
-        
-                await _repository.RemoveSpiskiNaDNFromMOStagingAsync(stagingData);
-                await _repository.SaveChangesAsync();
-            }
-        }
-
         
         public async Task RecordUploadFileInfoAsync(UploadFileInfoDTO uploadFileInfoDTO)
         {

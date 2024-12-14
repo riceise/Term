@@ -26,9 +26,7 @@ namespace Api.Services
         Task<List<string>> ValidateFileAsync(Stream fileStream);
 
         Task ProcessFileRowsToStagingAsync(Stream fileStream, int uploadFileId);
-
-        Task TransferDataFromStagingToMainTableAsync();
-
+        
         Task<List<SpiskiNaDNFromMODTO>> GetByUploadFileIdAsync(int uploadFileId);
 
     }

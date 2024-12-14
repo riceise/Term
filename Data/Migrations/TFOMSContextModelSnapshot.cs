@@ -5026,57 +5026,6 @@ namespace Data.Migrations
                     b.ToTable("SpiskiNaDNFromMO");
                 });
 
-            modelBuilder.Entity("Data.Model.Entities.UploadedFile.SpiskiNaDnFromMoStaging", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("BirthDay")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("N_Reest")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Npp")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Organizaciya")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Patronymic")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Period")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Position")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Snils")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UploadFileInfId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("SpiskiNaDnFromMoStaging");
-                });
-
             modelBuilder.Entity("Data.Model.Entities.UploadedFile.UploadFileInf", b =>
                 {
                     b.Property<int>("Id")

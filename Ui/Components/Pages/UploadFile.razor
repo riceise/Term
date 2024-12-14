@@ -42,24 +42,6 @@
     <button class="btn btn-primary" @onclick="SubmitFile">Upload</button>
 </div>
 
-@if (showConfirmationDialog)
-{
-<div class="modal show" tabindex="-1" style="display:block; background-color: rgba(0,0,0,0.5);">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Подтвердите перенос данных</h5>
-            </div>
-            <div class="modal-body">
-                <p>Файл успешно загружен. Нажмите "Перенести данные", чтобы переместить их в основную таблицу.</p>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-primary" @onclick="TransferDataToMainTable">Перенести данные</button>
-            </div>
-        </div>
-    </div>
-</div>
-}
 
 <style>
     .error-list {
@@ -86,7 +68,6 @@
     private string errorMessage;
     private string successMessage;
     private List<string> errorList = new();
-    private bool showConfirmationDialog = false;
 
     private void OnInputFileChange(InputFileChangeEventArgs e)
     {
@@ -116,7 +97,7 @@
                 if (response.IsSuccessStatusCode)
                 {
                     successMessage = "Файл успешно загружен!";
-                    showConfirmationDialog = true; // Показываем модальное окно
+                    //showConfirmationDialog = true;
                 }
                 else
                 {
@@ -155,32 +136,7 @@
             errorMessage = "Please select a file.";
         }
     }
-
-    private async Task TransferDataToMainTable()
-    {
-        var Http = HttpClientFactory.CreateClient("BackendAPI");
-        try
-        {
-            var response = await Http.PostAsync("api/SpiskiNaDNFromMO/transfer", null);
-            if (response.IsSuccessStatusCode)
-            {
-                successMessage = "Данные успешно перенесены из временной таблицы в основную таблицу.";
-            }
-            else
-            {
-                var responseContent = await response.Content.ReadAsStringAsync();
-                errorMessage = $"Ошибка при переносе данных: {responseContent}";
-            }
-        }
-        catch (Exception ex)
-        {
-            errorMessage = $"Произошла ошибка при переносе данных: {ex.Message}";
-        }
-        finally
-        {
-            showConfirmationDialog = false; 
-        }
-    }
+    
 
     private class ErrorResponse
     {

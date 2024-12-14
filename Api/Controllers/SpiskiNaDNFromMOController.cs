@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Api.Controllers
 {   
-    //[Authorize]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     
@@ -95,27 +95,6 @@ namespace Api.Controllers
         }
         
         
-        [HttpPost("transfer")]
-        public async Task<IActionResult> TransferDataToMainTable()
-        {
-            try
-            {
-                await _spiskiNaDnFromMoService.TransferDataFromStagingToMainTableAsync();
-                return Ok("Данные успешно перенесены из временной таблицы в основную таблицу.");
-            }
-            catch (Exception ex)
-            {
-                var innerException = ex.InnerException?.Message ?? "Нет внутреннего исключения.";
-                return StatusCode(500, new
-                {
-                    message = "Произошла ошибка при переносе данных.",
-                    errors = ex.Message,
-                    innerException
-                });
-            }
-        }
-
-
         [HttpPut("{id}")]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateSpiskiNaDNFromMODTO dto)
         {

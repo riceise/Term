@@ -1,6 +1,7 @@
 ﻿using Data;
 using Data.Model.Entities.UploadedFile;
 using Microsoft.EntityFrameworkCore;
+using Share.DTOs;
 
 namespace Api.Repositories
 {
@@ -12,20 +13,17 @@ namespace Api.Repositories
         {
             _context = context;
         }
-        public async Task AddSpiskiNaDNFromMOStagingAsync(List<SpiskiNaDnFromMoStaging> stagingData)
+
+        public async Task AddSpiskiNaDNFromMOAsync(List<SpiskiNaDNFromMO> stagingData)
         {
-            await _context.SpiskiNaDnFromMoStaging.AddRangeAsync(stagingData);
+            await _context.SpiskiNaDNFromMO.AddRangeAsync(stagingData);
             await _context.SaveChangesAsync();
         }
         
-        public async Task<List<SpiskiNaDnFromMoStaging>> GetSpiskiNaDNFromMOStagingAsync()
+        
+        public async Task<List<SpiskiNaDNFromMO>> GetSpiskiNaDNFromMOSAsync()
         {
-            return await _context.SpiskiNaDnFromMoStaging.ToListAsync();
-        }
-        public async Task RemoveSpiskiNaDNFromMOStagingAsync(List<SpiskiNaDnFromMoStaging> stagingData)
-        {
-            _context.SpiskiNaDnFromMoStaging.RemoveRange(stagingData);
-            await _context.SaveChangesAsync();
+            return await _context.SpiskiNaDNFromMO.ToListAsync();
         }
         public async Task<IEnumerable<UploadFileInf>> GetAllFilesAsync()
         {

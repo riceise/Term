@@ -16,9 +16,9 @@ namespace Api.Repositories
         Task AddUploadFileInfoAsync(UploadFileInf uploadFileInf);
         Task<IEnumerable<UploadFileInf>> GetAllFilesAsync();
         Task<UploadFileInf> GetUploadFileInfoByIdAsync(int id);
-        Task AddSpiskiNaDNFromMOStagingAsync(List<SpiskiNaDnFromMoStaging> stagingData);
-        Task<List<SpiskiNaDnFromMoStaging>> GetSpiskiNaDNFromMOStagingAsync();
-        Task RemoveSpiskiNaDNFromMOStagingAsync(List<SpiskiNaDnFromMoStaging> stagingData);
+
+        Task AddSpiskiNaDNFromMOAsync(List<SpiskiNaDNFromMO> stagingData);
+        Task<List<SpiskiNaDNFromMO>> GetSpiskiNaDNFromMOSAsync();
         Task SaveChangesAsync();
         Task<List<SpiskiNaDNFromMO>> GetByUploadFileIdAsync(int uploadFileId);
 
