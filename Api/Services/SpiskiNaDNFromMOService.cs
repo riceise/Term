@@ -5,8 +5,8 @@ using Api.Mappers;
 using Data.Model.Entities.UploadedFile;
 using System.ComponentModel.DataAnnotations;
 using System.Text.RegularExpressions;
-using Share.Validations;
-using Data.Model.Entities.UploadedFile;
+
+
 namespace Api.Services
 {
     public class  SpiskiNaDnFromMoService : ISpiskiNaDNFromMOService
@@ -153,7 +153,7 @@ namespace Api.Services
                     string lastName = row.Cell(2).GetString();
                     string name = row.Cell(3).GetString();
                     string snils = row.Cell(6).GetString();
-                    int n_reest = int.Parse(row.Cell(7).GetString());
+                    int nReest = int.Parse(row.Cell(7).GetString());
                     int period = int.Parse(row.Cell(8).GetString());
                     string organizaciya = row.Cell(9).GetString();
         
@@ -165,7 +165,7 @@ namespace Api.Services
                         Patronymic = row.Cell(4).GetString(),
                         BirthDay = row.Cell(5).GetDateTime(),
                         Snils = snils,
-                        N_reest = n_reest,
+                        N_reest = nReest,
                         Period = period,
                         Organizaciya = organizaciya,
                         UploadFileInfId = uploadFileId

@@ -36,7 +36,7 @@ else if (_files != null && _files.Any() && !_showRecords)
                     <td>@file.FileName</td>
                     <td>@file.UploadDate.ToString("yyyy-MM-dd")</td>
                     <td>
-                        <button class="btn btn-info me-2" @onclick="() => LoadRecords(file.Id)">Посмотреть записи</button>
+                        <button class="btn btn-primary" @onclick="() => LoadRecords(file.Id)">Посмотреть записи</button>
                     </td>
                 </tr>
             }

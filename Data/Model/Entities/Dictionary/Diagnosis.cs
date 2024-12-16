@@ -1,20 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
+﻿using Data.Model.Entities.Common;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Data.Model.Entities.Dictionary
 {
-    /// <summary>
-    /// Классификатор болезней МКБ-10(диагнозов). В НСИ МИНЗДРАВ справочник M001
-    /// </summary>
-    [Table(name: "Diagnoses", Schema = "dict")]
-    [Index(nameof(Code))]
-    public class Diagnosis:BaseEntityforApiV1
+    public class Diagnosis : BaseEntity
     {
         [Display(Name = "Код МКБ")]
         public string Code { get; set; }= string.Empty;
@@ -26,3 +16,5 @@ namespace Data.Model.Entities.Dictionary
         public bool IsActual { get; set; }
     }
 }
+
+
