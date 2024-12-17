@@ -48,20 +48,29 @@ namespace UI_v2.Services
 
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {
-            var token = await _localStorage.GetAsync<string>("authToken");
-            
-            // Если токен не найден, то создаём пустого пользователя
-            if (!token.Success)
+            try
             {
-                var emptyUser = new ClaimsPrincipal(new ClaimsIdentity());
-                return new AuthenticationState(emptyUser);
+                var token = await _localStorage.GetAsync<string>("authToken");
+                
+                if (!token.Success || string.IsNullOrEmpty(token.Value))
+                {
+                    var emptyUser = new ClaimsPrincipal(new ClaimsIdentity());
+                    return new AuthenticationState(emptyUser);
+                }
+
+                var claims = ParseClaimsFromJwt(token.Value);
+                var identity = new ClaimsIdentity(claims, "jwt");
+                var user = new ClaimsPrincipal(identity);
+
+                return new AuthenticationState(user);
+            }
+            catch (InvalidOperationException)
+            {
+                Console.WriteLine("JS Interop недоступен");
             }
 
-            var claims = ParseClaimsFromJwt(token.Value);
-            var identity = new ClaimsIdentity(claims, "jwt");
-            var user = new ClaimsPrincipal(identity);
-
-            return new AuthenticationState(user);
+            var pizda = new ClaimsPrincipal(new ClaimsIdentity());
+            return new AuthenticationState(pizda);
         }
 
         private IEnumerable<Claim> ParseClaimsFromJwt(string jwt)
