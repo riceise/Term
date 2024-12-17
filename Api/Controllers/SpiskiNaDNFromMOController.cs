@@ -49,8 +49,11 @@ namespace Api.Controllers
                 await file.CopyToAsync(fileStream);
             }
 
+            int uploadFileId = 0;
+
             try
             {
+                // Валидация файла
                 using (var validationStream = new FileStream(fullFilePath, FileMode.Open, FileAccess.Read))
                 {
                     var errors = await _spiskiNaDnFromMoService.ValidateFileAsync(validationStream);
@@ -58,6 +61,7 @@ namespace Api.Controllers
                         return BadRequest(new { message = "Файл содержит ошибки.", errors });
                 }
 
+                // Запись информации о загруженном файле
                 var uploadFileInfoDTO = new UploadFileInfoDTO
                 {
                     UserId = userId,
@@ -67,13 +71,15 @@ namespace Api.Controllers
                     UploadStatus = false
                 };
 
-                var uploadFileId = await _spiskiNaDnFromMoService.RecordUploadFileInfoAndReturnIdAsync(uploadFileInfoDTO);
+                uploadFileId = await _spiskiNaDnFromMoService.RecordUploadFileInfoAndReturnIdAsync(uploadFileInfoDTO);
 
+                // Обработка файла
                 using (var processingStream = new FileStream(fullFilePath, FileMode.Open, FileAccess.Read))
                 {
                     await _spiskiNaDnFromMoService.ProcessFileRowsToStagingAsync(processingStream, uploadFileId);
                 }
 
+                // Обновление статуса файла
                 await _spiskiNaDnFromMoService.UpdateUploadFileStatusAsync(uploadFileId, true);
             }
             catch (ValidationException ex)
@@ -91,8 +97,13 @@ namespace Api.Controllers
                 });
             }
 
-            return Ok("Файл успешно загружен.");
+            return Ok(new
+            {
+                message = "Файл успешно загружен.",
+                uploadFileId = uploadFileId
+            });
         }
+
         
         
         [HttpPut("{id}")]

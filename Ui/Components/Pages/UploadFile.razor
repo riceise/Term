@@ -1,9 +1,11 @@
 ﻿@page "/uploadingFiles"
 @attribute [Authorize]
 @inject IHttpClientFactory HttpClientFactory
+@inject IJSRuntime JS
 @using System.Text.Json
 @using Share.DTOs
 @using Ui.Components.Helper
+
 
 <h3>Загрузка Excel файла</h3>
 
@@ -38,10 +40,11 @@
     <InputFile OnChange="OnInputFileChange" />
 </div>
 
-<div>
+<div class="mt-2">
     <button class="btn btn-primary" @onclick="SubmitFile">Upload</button>
+    <button class="btn btn-success" @onclick="ProcessFile" disabled="@(!fileUploaded)">Обработать</button>
+    <button class="btn btn-secondary" @onclick="DownloadFile" disabled="@(!fileProcessed)">Скачать</button>
 </div>
-
 
 <style>
     .error-list {
@@ -61,6 +64,17 @@
         margin-bottom: 10px;
     }
 </style>
+<script>
+    function saveAsFile(filename, byteBase64) {
+        const blob = new Blob([new Uint8Array(atob(byteBase64).split("").map(char => char.charCodeAt(0)))]);
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = filename;
+        a.click();
+        URL.revokeObjectURL(url);
+    }
+</script>
 
 @code 
 {
@@ -68,12 +82,16 @@
     private string errorMessage;
     private string successMessage;
     private List<string> errorList = new();
+    private int uploadFileInfId; 
+    private bool fileUploaded = false;
+    private bool fileProcessed = false;
 
     private void OnInputFileChange(InputFileChangeEventArgs e)
     {
-        selectedFile = e.File;
+    selectedFile = e.File;
     }
 
+ 
     private async Task SubmitFile()
     {
         errorMessage = string.Empty;
@@ -96,8 +114,24 @@
 
                 if (response.IsSuccessStatusCode)
                 {
-                    successMessage = "Файл успешно загружен!";
-                    //showConfirmationDialog = true;
+                    
+                    Console.WriteLine($"Ответ сервера: {responseContent}"); 
+                    try
+                    {
+                        var uploadResponse = JsonSerializer.Deserialize<UploadResponse>(responseContent, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                        if (uploadResponse != null)
+                        {
+                            uploadFileInfId = uploadResponse.UploadFileId; 
+                            fileUploaded = true; 
+                            successMessage = "Файл успешно загружен!";
+                            Console.WriteLine(uploadFileInfId);
+                        }
+                    }
+                    catch (JsonException ex)
+                    {
+                        errorMessage = $"Ошибка десериализации JSON: {ex.Message}";
+                        Console.WriteLine($"Ошибка JSON: {ex.Message}");
+                    }
                 }
                 else
                 {
@@ -136,7 +170,111 @@
             errorMessage = "Please select a file.";
         }
     }
+
+    // Метод для обработки файла
+    private async Task ProcessFile()
+    {
+        errorMessage = string.Empty;
+        successMessage = string.Empty;
+        errorList.Clear();
+
+        if (uploadFileInfId <= 0)
+        {
+            errorMessage = "Файл не был загружен корректно.";
+            return;
+        }
+
+        var Http = HttpClientFactory.CreateClient("BackendAPI");
+        try
+        {
+            var response = await Http.PostAsync($"api/DispensaryList/process/{uploadFileInfId}", null);
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+            if (response.IsSuccessStatusCode)
+            {
+                successMessage = "Процесс обработки завершен успешно!";
+                fileProcessed = true;
+            }
+            else
+            {
+                HandleErrorResponse(responseContent);
+            }
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Произошла ошибка: {ex.Message}";
+        }
+    }
+
+    // Метод для скачивания файла
+    private async Task DownloadFile()
+    {
+        errorMessage = string.Empty;
+
+        if (uploadFileInfId <= 0)
+        {
+            errorMessage = "Файл не был загружен корректно.";
+            return;
+        }
+
+        var Http = HttpClientFactory.CreateClient("BackendAPI");
+        try
+        {
+            var response = await Http.GetAsync($"api/DispensaryList/download/{uploadFileInfId}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var fileStream = await response.Content.ReadAsStreamAsync();
+                using var memoryStream = new MemoryStream();
+                await fileStream.CopyToAsync(memoryStream);
+
+                var fileBytes = memoryStream.ToArray();
+                var base64String = Convert.ToBase64String(fileBytes); 
+
+                var fileName = "DispensaryListResults.xlsx";
+                await JS.InvokeVoidAsync("saveAsFile", fileName, base64String); 
+            }
+            else
+            {
+                errorMessage = "Ошибка при скачивании файла.";
+            }
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Произошла ошибка при скачивании: {ex.Message}";
+        }
+    }
+
+    private void HandleErrorResponse(string responseContent)
+    {
+        try
+        {
+            var errorResponse = JsonSerializer.Deserialize<ErrorResponse>(responseContent, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            if (errorResponse != null && errorResponse.Errors != null && errorResponse.Errors.Any())
+            {
+                errorList = errorResponse.Errors;
+                errorMessage = errorResponse.Message ?? "На сервере произошли ошибки.";
+            }
+            else
+            {
+                errorMessage = "Произошла неизвестная ошибка.";
+            }
+        }
+        catch
+        {
+            errorMessage = "Не удалось разобрать ответ с ошибкой.";
+        }
+    }
     
+    private class ProcessResponse
+    {
+        public bool Success { get; set; }
+        public string Message { get; set; }
+    }
+    private class UploadResponse
+    {
+        public int UploadFileId { get; set; }
+    }
 
     private class ErrorResponse
     {
