@@ -1,5 +1,23 @@
 ﻿@page "/"
 
-<PageTitle>Index</PageTitle>
+<PageTitle>Home</PageTitle>
 
-<h1>Clean Blazor</h1>
+<h1>Алё, я в Интернете?</h1>
+
+<CascadingAuthenticationState>
+    <AuthorizeView>
+        <Authorized>
+            Красава, наш пацан, аварец
+        </Authorized>
+
+        <NotAuthorized>
+            
+            Надо бы авторизоваться.
+
+            <div>
+                <img src="img.jpg" width="400" height="400"/>
+            </div>
+        </NotAuthorized>
+
+    </AuthorizeView>
+</CascadingAuthenticationState>

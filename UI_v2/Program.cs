@@ -3,6 +3,7 @@ using Data.Model.Entities.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Components.Authorization;
+using UI_v2.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,16 @@ builder.Services.AddDbContext<TFOMSContext>(options =>
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<TFOMSContext>()
     .AddDefaultTokenProviders();    
+
+builder.Services.AddScoped<AuthenticationService>();
+builder.Services.AddScoped<AuthorizationMessageHandler>();
+builder.Services.AddScoped<AuthenticationStateProvider>(provider => provider.GetRequiredService<AuthenticationService>());
+
+// Регистрация Http клиента с хэндлером для автоматического добавления токенов к телу
+builder.Services.AddHttpClient("BackendAPI", client =>
+{
+    client.BaseAddress = new Uri("http://localhost:5277/");
+}).AddHttpMessageHandler(sp => sp.GetRequiredService<AuthorizationMessageHandler>());
 
 #endregion
 
