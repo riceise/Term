@@ -8,7 +8,7 @@ namespace Data.Model.Entities.MedicalCompany
     /// <summary>
     /// Медицинские организации. В НСИ ФФОМС справочник F032
     /// </summary>
-    [Table(name: "MedicalCompanies", Schema = "LPU")]
+    [Table(name: "MedicalCompanies")]
     public class MedicalCompany : BaseEntityforApiV1
     {
         [MaxLength(45)]

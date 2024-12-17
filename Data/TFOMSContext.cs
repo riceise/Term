@@ -1,4 +1,6 @@
-﻿using Data.Model.Entities.Dictionary;
+﻿using Data.Model;
+using Data.Model.Entities.Dictionary;
+using Data.Model.Entities.Invoice;
 using Data.Model.Entities.MedicalCompany;
 using Data.Model.Entities.Person;
 using Data.Model.Entities.UploadedFile;
@@ -31,6 +33,11 @@ namespace Data
                 .HasOne(s => s.UploadFileInf)
                 .WithMany()
                 .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<DispensaryListResult>()
+                .HasOne(d => d.SpiskiNaDNFromMO)
+                .WithMany()
+                .HasForeignKey(d => d.SpiskiNaDnFromMoId)
+                .HasConstraintName("FK_SpiskiNaDnFromMoId");
             
         }
         
@@ -43,6 +50,7 @@ namespace Data
         
         #region Реестры
 
+        public DbSet<ZAP> ZAP => Set<ZAP>();
         public DbSet<Person> Persons => Set<Person>();
         
         #endregion
@@ -57,8 +65,13 @@ namespace Data
         public DbSet<SpiskiNaDNFromMO> SpiskiNaDNFromMO => Set<SpiskiNaDNFromMO>();
 
         public DbSet<UploadFileInf> UploadFileInfs => Set<UploadFileInf>();
-        
+
+        public DbSet<DispensaryListResult> DispensaryListResults => Set<DispensaryListResult>();
+
         #endregion
+
+
+        public DbSet<DispensaryObservation> DispensaryObservation => Set<DispensaryObservation>();
 
 
 

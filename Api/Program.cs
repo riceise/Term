@@ -1,3 +1,4 @@
+using System.Data;
 using Microsoft.EntityFrameworkCore;
 using Data;
 using Api.Services;
@@ -8,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using System.Text;
 using Data.Model.Entities.Users;
 using Api.Middlewares;
+using Microsoft.Data.SqlClient;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,12 +20,23 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<TFOMSContext>(options =>
     options.UseSqlServer( builder.Configuration.GetConnectionString("Default")));
 
+
+
+builder.Services.AddScoped<IDbConnection>(sp =>
+{
+    var connectionString = builder.Configuration.GetConnectionString("Default");
+    return new SqlConnection(connectionString);
+});
+
+
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<TFOMSContext>()
     .AddDefaultTokenProviders();
 
 builder.Services.AddScoped<ISpiskiNaDnFromMoRepository, SpiskiNaDNFromMORepository>();
 builder.Services.AddScoped<ISpiskiNaDNFromMOService, SpiskiNaDnFromMoService>();
+builder.Services.AddScoped<IDispensaryListRepository, DispensaryListRepository>();
+builder.Services.AddScoped<DispensaryListService>();
 
 var key = Encoding.ASCII.GetBytes("YaTvoyMamyEbalDwaRazaNaToiNedele");
 builder.Services.AddAuthentication(options =>

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Api.Controllers
 {   
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     
@@ -91,7 +91,7 @@ namespace Api.Controllers
                 });
             }
 
-            return Ok("Файл успешно загружен во временную таблицу.");
+            return Ok("Файл успешно загружен.");
         }
         
         
