@@ -66,11 +66,11 @@ namespace UI_v2.Services
             }
             catch (InvalidOperationException)
             {
-                Console.WriteLine("JS Interop недоступен");
+                Console.WriteLine("JS Interop недоступен, кидаем анонимуса"); 
+                
+                var anonymousUser = new ClaimsPrincipal(new ClaimsIdentity());
+                return new AuthenticationState(anonymousUser);
             }
-
-            var pizda = new ClaimsPrincipal(new ClaimsIdentity());
-            return new AuthenticationState(pizda);
         }
 
         private IEnumerable<Claim> ParseClaimsFromJwt(string jwt)
@@ -102,15 +102,17 @@ namespace UI_v2.Services
         // Метод вернёт токен для генерации заголовка в запросах
         public async Task<string> GetCurrentToken()
         {
-            var token = await _localStorage.GetAsync<string>("authToken");
-
-            if (token.Value == null)
+            try
             {
-                return string.Empty;
+                var token = await _localStorage.GetAsync<string>("authToken");
+                Console.WriteLine($"Возвращаемый токен: {token.Value}");
+                
+                return token.Value;
             }
-
-            Console.WriteLine($"Возвращаемый токен: {token.Value}");
-            return token.Value;
+            catch (InvalidOperationException)
+            {
+                return null;
+            }
         }
     }
 
