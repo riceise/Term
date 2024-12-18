@@ -924,7 +924,7 @@ namespace Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "SpiskiNaDNFromMO",
+                name: "SpiskiNaDDFromMO",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -941,7 +941,7 @@ namespace Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SpiskiNaDNFromMO", x => x.Id);
+                    table.PrimaryKey("PK_SpiskiNaDDFromMO", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -4133,7 +4133,7 @@ namespace Data.Migrations
                 schema: "zap");
 
             migrationBuilder.DropTable(
-                name: "SpiskiNaDNFromMO");
+                name: "SpiskiNaDDFromMO");
 
             migrationBuilder.DropTable(
                 name: "ConsultationPurposes",

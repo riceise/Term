@@ -3,17 +3,17 @@ using Share.DTOs;
 
 namespace Api.Services
 {
-    public interface ISpiskiNaDNFromMOService
+    public interface ISpiskiNaDDFromMOService
     {
-        Task<SpiskiNaDNFromMODTO?> GetByIdAsync(int id);
+        Task<SpiskiNaDDFromMODTO?> GetByIdAsync(int id);
         
-        Task<IEnumerable<SpiskiNaDNFromMODTO>> GetByNReestAsync(int nReest);
+        Task<IEnumerable<SpiskiNaDDFromMODTO>> GetByNReestAsync(int nReest);
         
-        Task<IEnumerable<SpiskiNaDNFromMODTO>> GetByLastNameAsync(string lastName);
+        Task<IEnumerable<SpiskiNaDDFromMODTO>> GetByLastNameAsync(string lastName);
 
         Task DeleteByIdAsync(int id);
         
-        Task UpdateAsync( SpiskiNaDNFromMODTO dto);
+        Task UpdateAsync( SpiskiNaDDFromMODTO dto);
 
         Task RecordUploadFileInfoAsync(UploadFileInfoDTO uploadFileInfoDTO);
         
@@ -27,7 +27,7 @@ namespace Api.Services
 
         Task ProcessFileRowsToStagingAsync(Stream fileStream, int uploadFileId);
         
-        Task<List<SpiskiNaDNFromMODTO>> GetByUploadFileIdAsync(int uploadFileId);
+        Task<List<SpiskiNaDDFromMODTO>> GetByUploadFileIdAsync(int uploadFileId);
 
     }
 }

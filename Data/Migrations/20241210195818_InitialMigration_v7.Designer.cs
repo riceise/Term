@@ -4979,7 +4979,7 @@ namespace Data.Migrations
                     b.ToTable("Policies");
                 });
 
-            modelBuilder.Entity("Data.Model.Entities.UploadedFile.SpiskiNaDNFromMO", b =>
+            modelBuilder.Entity("Data.Model.Entities.UploadedFile.SpiskiNaDDFromMO", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -5026,10 +5026,10 @@ namespace Data.Migrations
 
                     b.HasIndex("UploadFileInfId");
 
-                    b.ToTable("SpiskiNaDNFromMO");
+                    b.ToTable("SpiskiNaDDFromMO");
                 });
 
-            modelBuilder.Entity("Data.Model.Entities.UploadedFile.SpiskiNaDnFromMoStaging", b =>
+            modelBuilder.Entity("Data.Model.Entities.UploadedFile.SpiskiNaDDFromMOStaging", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -5077,7 +5077,7 @@ namespace Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("SpiskiNaDnFromMoStaging");
+                    b.ToTable("SpiskiNaDDFromMOStaging");
                 });
 
             modelBuilder.Entity("Data.Model.Entities.UploadedFile.UploadFileInf", b =>
@@ -6412,7 +6412,7 @@ namespace Data.Migrations
                     b.Navigation("PolicyType");
                 });
 
-            modelBuilder.Entity("Data.Model.Entities.UploadedFile.SpiskiNaDNFromMO", b =>
+            modelBuilder.Entity("Data.Model.Entities.UploadedFile.SpiskiNaDDFromMO", b =>
                 {
                     b.HasOne("Data.Model.Entities.UploadedFile.UploadFileInf", "UploadFileInf")
                         .WithMany()

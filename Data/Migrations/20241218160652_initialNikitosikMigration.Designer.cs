@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(TFOMSContext))]
-    [Migration("20241216124353_InitialMigration_v9addTable")]
-    partial class InitialMigration_v9addTable
+    [Migration("20241218160652_initialNikitosikMigration")]
+    partial class initialNikitosikMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -225,6 +225,10 @@ namespace Data.Migrations
                     b.Property<Guid>("PersonId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("SNILS")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Surname")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -317,7 +321,7 @@ namespace Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("MedicalCompanies", "LPU");
+                    b.ToTable("MedicalCompanies");
                 });
 
             modelBuilder.Entity("Data.Model.Entities.Person.Person", b =>
@@ -395,7 +399,7 @@ namespace Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("AttachmentMOCode")
+                    b.Property<int>("AttachmentMOCode")
                         .HasColumnType("int");
 
                     b.Property<string>("AttachmentMOName")

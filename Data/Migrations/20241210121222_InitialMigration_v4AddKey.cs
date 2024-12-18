@@ -12,19 +12,19 @@ namespace Data.Migrations
         {
             migrationBuilder.AddColumn<int>(
                 name: "UploadFileInfId",
-                table: "SpiskiNaDNFromMO",
+                table: "SpiskiNaDDFromMO",
                 type: "int",
                 nullable: false,
                 defaultValue: 0);
 
             migrationBuilder.CreateIndex(
-                name: "IX_SpiskiNaDNFromMO_UploadFileInfId",
-                table: "SpiskiNaDNFromMO",
+                name: "IX_SpiskiNaDDFromMO_UploadFileInfId",
+                table: "SpiskiNaDDFromMO",
                 column: "UploadFileInfId");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_SpiskiNaDNFromMO_UploadFileInfs_UploadFileInfId",
-                table: "SpiskiNaDNFromMO",
+                name: "FK_SpiskiNaDDFromMO_UploadFileInfs_UploadFileInfId",
+                table: "SpiskiNaDDFromMO",
                 column: "UploadFileInfId",
                 principalTable: "UploadFileInfs",
                 principalColumn: "Id",
@@ -35,16 +35,16 @@ namespace Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_SpiskiNaDNFromMO_UploadFileInfs_UploadFileInfId",
-                table: "SpiskiNaDNFromMO");
+                name: "FK_SpiskiNaDDFromMO_UploadFileInfs_UploadFileInfId",
+                table: "SpiskiNaDDFromMO");
 
             migrationBuilder.DropIndex(
-                name: "IX_SpiskiNaDNFromMO_UploadFileInfId",
-                table: "SpiskiNaDNFromMO");
+                name: "IX_SpiskiNaDDFromMO_UploadFileInfId",
+                table: "SpiskiNaDDFromMO");
 
             migrationBuilder.DropColumn(
                 name: "UploadFileInfId",
-                table: "SpiskiNaDNFromMO");
+                table: "SpiskiNaDDFromMO");
         }
     }
 }

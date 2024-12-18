@@ -3,11 +3,9 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Share.Validations;
 
-
-
 namespace Data.Model.Entities.UploadedFile
 {
-    public class SpiskiNaDNFromMO
+    public class SpiskiNaDDFromMO
     {
         [Key]
         public int Id { get; set; }

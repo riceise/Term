@@ -6,7 +6,7 @@ namespace Api.Repositories
 {
     public interface IDispensaryListRepository
     {
-        Task<IEnumerable<SpiskiNaDNFromMO>> GetSpiskiAsync(int uploadFileInfId);
+        Task<IEnumerable<SpiskiNaDDFromMO>> GetSpiskiAsync(int uploadFileInfId);
         Task<string> GetMedicalCompanyShortNameAsync(string code);
         Task<bool> CheckIfExistsInZapAsync(string snils);
         Task<DateTime?> GetZapDateDnAsync(string snils);

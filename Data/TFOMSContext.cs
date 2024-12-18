@@ -23,21 +23,21 @@ namespace Data
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("server=DESKTOP-PVQM84B\\SQLEXPRESS;Database=testim;User Id=sa;Password=5456;Trusted_Connection=True;Encrypt=True;TrustServerCertificate=True;");
+                optionsBuilder.UseSqlServer("Server=127.0.0.1, 1433;Database=test1;User Id=sa;Password=furi0so35;Trusted_Connection=True;Encrypt=True;TrustServerCertificate=True;");
             }
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<SpiskiNaDNFromMO>()
+            modelBuilder.Entity<SpiskiNaDDFromMO>()
                 .HasOne(s => s.UploadFileInf)
                 .WithMany()
                 .OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<DispensaryListResult>()
-                .HasOne(d => d.SpiskiNaDNFromMO)
+                .HasOne(d => d.SpiskiNaDDFromMO)
                 .WithMany()
-                .HasForeignKey(d => d.SpiskiNaDnFromMoId)
-                .HasConstraintName("FK_SpiskiNaDnFromMoId");
+                .HasForeignKey(d => d.SpiskiNaDDFromMOId)
+                .HasConstraintName("FK_SpiskiNaDDFromMOId");
             
         }
         
@@ -62,7 +62,7 @@ namespace Data
         #endregion
 
         #region Загрузка
-        public DbSet<SpiskiNaDNFromMO> SpiskiNaDNFromMO => Set<SpiskiNaDNFromMO>();
+        public DbSet<SpiskiNaDDFromMO> SpiskiNaDDFromMO => Set<SpiskiNaDDFromMO>();
 
         public DbSet<UploadFileInf> UploadFileInfs => Set<UploadFileInf>();
 

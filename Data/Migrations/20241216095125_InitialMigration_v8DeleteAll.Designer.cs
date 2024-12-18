@@ -257,7 +257,7 @@ namespace Data.Migrations
                     b.ToTable("Persons");
                 });
 
-            modelBuilder.Entity("Data.Model.Entities.UploadedFile.SpiskiNaDNFromMO", b =>
+            modelBuilder.Entity("Data.Model.Entities.UploadedFile.SpiskiNaDDFromMO", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -304,7 +304,7 @@ namespace Data.Migrations
 
                     b.HasIndex("UploadFileInfId");
 
-                    b.ToTable("SpiskiNaDNFromMO");
+                    b.ToTable("SpiskiNaDDFromMO");
                 });
 
             modelBuilder.Entity("Data.Model.Entities.UploadedFile.UploadFileInf", b =>
@@ -535,7 +535,7 @@ namespace Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Data.Model.Entities.UploadedFile.SpiskiNaDNFromMO", b =>
+            modelBuilder.Entity("Data.Model.Entities.UploadedFile.SpiskiNaDDFromMO", b =>
                 {
                     b.HasOne("Data.Model.Entities.UploadedFile.UploadFileInf", "UploadFileInf")
                         .WithMany()

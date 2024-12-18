@@ -3,11 +3,11 @@ using Data.Model.Entities.UploadedFile;
 
 namespace Api.Mappers
 {
-    public static class SpiskiNaDNFromMOMapper
+    public static class SpiskiNaDDFromMOMapper
     {
-        public static IEnumerable<SpiskiNaDNFromMO> MapDtoToEntity(IEnumerable<SpiskiNaDNFromMODTO> filesDto)
+        public static IEnumerable<SpiskiNaDDFromMO> MapDtoToEntity(IEnumerable<SpiskiNaDDFromMODTO> filesDto)
         {
-            return filesDto.Select(fileDto => new SpiskiNaDNFromMO()
+            return filesDto.Select(fileDto => new SpiskiNaDDFromMO()
             {
                 Npp = fileDto.Npp,
                 LastName = fileDto.LastName,
@@ -20,9 +20,9 @@ namespace Api.Mappers
                 Organizaciya = fileDto.Organizaciya
             });
         }
-        public static SpiskiNaDNFromMODTO MapEntityToDto(SpiskiNaDNFromMO entity)
+        public static SpiskiNaDDFromMODTO MapEntityToDto(SpiskiNaDDFromMO entity)
         {
-            return new SpiskiNaDNFromMODTO
+            return new SpiskiNaDDFromMODTO
             {
                 Id = entity.Id,
                 Npp = entity.Npp,

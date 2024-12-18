@@ -5,25 +5,25 @@ using Share.DTOs;
 
 namespace Api.Repositories
 {
-    public class SpiskiNaDNFromMORepository : ISpiskiNaDnFromMoRepository
+    public class SpiskiNaDDFromMORepository : ISpiskiNaDDFromMORepository
     {
         private readonly TFOMSContext _context;
 
-        public SpiskiNaDNFromMORepository(TFOMSContext context)
+        public SpiskiNaDDFromMORepository(TFOMSContext context)
         {
             _context = context;
         }
 
-        public async Task AddSpiskiNaDNFromMOAsync(List<SpiskiNaDNFromMO> stagingData)
+        public async Task AddSpiskiNaDDFromMOAsync(List<SpiskiNaDDFromMO> stagingData)
         {
-            await _context.SpiskiNaDNFromMO.AddRangeAsync(stagingData);
+            await _context.SpiskiNaDDFromMO.AddRangeAsync(stagingData);
             await _context.SaveChangesAsync();
         }
         
         
-        public async Task<List<SpiskiNaDNFromMO>> GetSpiskiNaDNFromMOSAsync()
+        public async Task<List<SpiskiNaDDFromMO>> GetSpiskiNaDDFromMOSAsync()
         {
-            return await _context.SpiskiNaDNFromMO.ToListAsync();
+            return await _context.SpiskiNaDDFromMO.ToListAsync();
         }
         public async Task<IEnumerable<UploadFileInf>> GetAllFilesAsync()
         {
@@ -40,26 +40,26 @@ namespace Api.Repositories
             _context.UploadFileInfs.Add(uploadFileInf);
             await _context.SaveChangesAsync();
         }
-        public async Task AddSpiskiNaDNFromMOsAsync(IEnumerable<SpiskiNaDNFromMO> files)
+        public async Task AddSpiskiNaDDFromMOsAsync(IEnumerable<SpiskiNaDDFromMO> files)
         {
-            await _context.Set<SpiskiNaDNFromMO>().AddRangeAsync(files);
+            await _context.Set<SpiskiNaDDFromMO>().AddRangeAsync(files);
             await _context.SaveChangesAsync();
         }
-        public async Task<IEnumerable<SpiskiNaDNFromMO>> GetByNReestAsync(int nReest)
+        public async Task<IEnumerable<SpiskiNaDDFromMO>> GetByNReestAsync(int nReest)
         {
-            return await _context.SpiskiNaDNFromMO
+            return await _context.SpiskiNaDDFromMO
                 .Where(file => file.N_reest == nReest)
                 .ToListAsync(); 
         }
         
-        public async Task<SpiskiNaDNFromMO> GetByIdAsync(int id)
+        public async Task<SpiskiNaDDFromMO> GetByIdAsync(int id)
         {
-            return await _context.SpiskiNaDNFromMO.FindAsync(id);
+            return await _context.SpiskiNaDDFromMO.FindAsync(id);
         }
 
-        public async Task<IEnumerable<SpiskiNaDNFromMO>> GetByLastNameAsync(string lastName)
+        public async Task<IEnumerable<SpiskiNaDDFromMO>> GetByLastNameAsync(string lastName)
         {
-            return await _context.SpiskiNaDNFromMO
+            return await _context.SpiskiNaDDFromMO
                 .Where(f => f.LastName.Contains(lastName))
                 .ToListAsync();
         }
@@ -69,20 +69,20 @@ namespace Api.Repositories
             var file = await GetByIdAsync(id);
             if (file != null)
             {
-                _context.SpiskiNaDNFromMO.Remove(file);
+                _context.SpiskiNaDDFromMO.Remove(file);
                 await _context.SaveChangesAsync();
             }
         }
 
-        public async Task UpdateAsync(SpiskiNaDNFromMO file)
+        public async Task UpdateAsync(SpiskiNaDDFromMO file)
         {
-            _context.SpiskiNaDNFromMO.Update(file);
+            _context.SpiskiNaDDFromMO.Update(file);
             await _context.SaveChangesAsync();
         }
 
-        public async Task AddAsync(SpiskiNaDNFromMO file)
+        public async Task AddAsync(SpiskiNaDDFromMO file)
         {
-            await _context.SpiskiNaDNFromMO.AddAsync(file);
+            await _context.SpiskiNaDDFromMO.AddAsync(file);
             await _context.SaveChangesAsync();
         }
         
@@ -91,9 +91,9 @@ namespace Api.Repositories
             return await _context.UploadFileInfs.FindAsync(id);
         }
         
-        public async Task<List<SpiskiNaDNFromMO>> GetByUploadFileIdAsync(int uploadFileId)
+        public async Task<List<SpiskiNaDDFromMO>> GetByUploadFileIdAsync(int uploadFileId)
         {
-            return await _context.SpiskiNaDNFromMO
+            return await _context.SpiskiNaDDFromMO
                 .Where(s => s.UploadFileInfId == uploadFileId)
                 .ToListAsync();
         }

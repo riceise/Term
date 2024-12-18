@@ -13,7 +13,7 @@ namespace Data.Migrations
         {
             migrationBuilder.AlterColumn<DateOnly>(
                 name: "BirthDay",
-                table: "SpiskiNaDNFromMO",
+                table: "SpiskiNaDDFromMO",
                 type: "date",
                 nullable: false,
                 oldClrType: typeof(DateTime),
@@ -25,7 +25,7 @@ namespace Data.Migrations
         {
             migrationBuilder.AlterColumn<DateTime>(
                 name: "BirthDay",
-                table: "SpiskiNaDNFromMO",
+                table: "SpiskiNaDDFromMO",
                 type: "datetime2",
                 nullable: false,
                 oldClrType: typeof(DateOnly),

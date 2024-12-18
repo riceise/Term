@@ -10,24 +10,24 @@ namespace Api.Controllers
     [Route("api/[controller]")]
     [ApiController]
     
-    public class SpiskiNaDNFromMOController : ControllerBase
+    public class SpiskiNaDDFromMOController : ControllerBase
     {
-        private readonly ISpiskiNaDNFromMOService _spiskiNaDnFromMoService;
+        private readonly ISpiskiNaDDFromMOService _SpiskiNaDDFromMOService;
         
-        public SpiskiNaDNFromMOController(ISpiskiNaDNFromMOService spiskiNaDnFromMoService)
+        public SpiskiNaDDFromMOController(ISpiskiNaDDFromMOService SpiskiNaDDFromMOService)
         {
-            _spiskiNaDnFromMoService = spiskiNaDnFromMoService;
+            _SpiskiNaDDFromMOService = SpiskiNaDDFromMOService;
         }
         [HttpGet("byUploadFileId/{uploadFileId}")]
         public async Task<IActionResult> GetByUploadFileId(int uploadFileId)
         {
-            var result = await _spiskiNaDnFromMoService.GetByUploadFileIdAsync(uploadFileId);
+            var result = await _SpiskiNaDDFromMOService.GetByUploadFileIdAsync(uploadFileId);
             return Ok(result);
         }
         [HttpGet("GetFiles")]
         public async Task<ActionResult<IEnumerable<FileDTOView>>> GetAllFiles()
         {
-            var files = await _spiskiNaDnFromMoService.GetFileInfoAsync();
+            var files = await _SpiskiNaDDFromMOService.GetFileInfoAsync();
             return Ok(files);
         }
 
@@ -56,7 +56,7 @@ namespace Api.Controllers
                 // Валидация файла
                 using (var validationStream = new FileStream(fullFilePath, FileMode.Open, FileAccess.Read))
                 {
-                    var errors = await _spiskiNaDnFromMoService.ValidateFileAsync(validationStream);
+                    var errors = await _SpiskiNaDDFromMOService.ValidateFileAsync(validationStream);
                     if (errors.Any())
                         return BadRequest(new { message = "Файл содержит ошибки.", errors });
                 }
@@ -71,16 +71,16 @@ namespace Api.Controllers
                     UploadStatus = false
                 };
 
-                uploadFileId = await _spiskiNaDnFromMoService.RecordUploadFileInfoAndReturnIdAsync(uploadFileInfoDTO);
+                uploadFileId = await _SpiskiNaDDFromMOService.RecordUploadFileInfoAndReturnIdAsync(uploadFileInfoDTO);
 
                 // Обработка файла
                 using (var processingStream = new FileStream(fullFilePath, FileMode.Open, FileAccess.Read))
                 {
-                    await _spiskiNaDnFromMoService.ProcessFileRowsToStagingAsync(processingStream, uploadFileId);
+                    await _SpiskiNaDDFromMOService.ProcessFileRowsToStagingAsync(processingStream, uploadFileId);
                 }
 
                 // Обновление статуса файла
-                await _spiskiNaDnFromMoService.UpdateUploadFileStatusAsync(uploadFileId, true);
+                await _SpiskiNaDDFromMOService.UpdateUploadFileStatusAsync(uploadFileId, true);
             }
             catch (ValidationException ex)
             {
@@ -107,9 +107,9 @@ namespace Api.Controllers
         
         
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateSpiskiNaDNFromMODTO dto)
+        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateSpiskiNaDDFromMODTO dto)
         {
-            var existingRecord = await _spiskiNaDnFromMoService.GetByIdAsync(id);
+            var existingRecord = await _SpiskiNaDDFromMOService.GetByIdAsync(id);
             if (existingRecord == null)
             {
                 return NotFound();
@@ -120,7 +120,7 @@ namespace Api.Controllers
                 return BadRequest(new { message = "Ошибка валидации", errors });
             }
 
-            var updatedDto = new SpiskiNaDNFromMODTO
+            var updatedDto = new SpiskiNaDDFromMODTO
             {
                 Id = id, 
                 Npp = dto.Npp,
@@ -134,7 +134,7 @@ namespace Api.Controllers
                 Organizaciya = dto.Organizaciya
             };
 
-            await _spiskiNaDnFromMoService.UpdateAsync(updatedDto);
+            await _SpiskiNaDDFromMOService.UpdateAsync(updatedDto);
 
             return Ok(updatedDto);
         }
@@ -142,7 +142,7 @@ namespace Api.Controllers
         [HttpGet("nreest/{nReest}")]
         public async Task<IActionResult> GetByNReest(int nReest)
         {
-            var results = await _spiskiNaDnFromMoService.GetByNReestAsync(nReest);
+            var results = await _SpiskiNaDDFromMOService.GetByNReestAsync(nReest);
 
             if (results == null || !results.Any())
             {
@@ -155,14 +155,14 @@ namespace Api.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var result = await _spiskiNaDnFromMoService.GetByIdAsync(id);
+            var result = await _SpiskiNaDDFromMOService.GetByIdAsync(id);
             return result != null ? Ok(result) : NotFound("Запись не найдена.");
         }
 
         [HttpGet("lastname/{lastName}")]
         public async Task<IActionResult> GetByLastName(string lastName)
         {
-            var results = await _spiskiNaDnFromMoService.GetByLastNameAsync(lastName);
+            var results = await _SpiskiNaDDFromMOService.GetByLastNameAsync(lastName);
             if (results == null || !results.Any())
             {
                 return NotFound($"Записи с фамилией {lastName} не найдены");
@@ -173,14 +173,14 @@ namespace Api.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteById(int id)
         {
-            var existingRecord = await _spiskiNaDnFromMoService.GetByIdAsync(id);
+            var existingRecord = await _SpiskiNaDDFromMOService.GetByIdAsync(id);
 
             if (existingRecord == null)
             {
                 return NotFound("Запись с указанным ID не найдена.");
             }
             
-            _spiskiNaDnFromMoService.DeleteByIdAsync(id);
+            _SpiskiNaDDFromMOService.DeleteByIdAsync(id);
             return Ok("Запись удалена.");
         }
 

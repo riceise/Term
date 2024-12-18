@@ -11,10 +11,10 @@ namespace Data.Model.Entities.UploadedFile
         public int Id { get; set; }
 
         [Display(Name = "Идентификатор списка")]
-        public int SpiskiNaDnFromMoId { get; set; }
+        public int SpiskiNaDDFromMOId { get; set; }
 
-        [ForeignKey("SpiskiNaDnFromMoId")]
-        public virtual SpiskiNaDNFromMO SpiskiNaDNFromMO { get; set; }
+        [ForeignKey("SpiskiNaDDFromMOId")]
+        public virtual SpiskiNaDDFromMO SpiskiNaDDFromMO { get; set; }
 
         [Display(Name = "Код МО источник списка")]
         public int SourceMOCode { get; set; }
@@ -80,17 +80,17 @@ namespace Data.Model.Entities.UploadedFile
         public DateTime ProcessingDate { get; set; }
     }
 }
-//SourceMOCode - берется из SpiskiNaDnFromMo (SpiskiNaDnFromMo.N_reest)
-//SourceMOName - ищется по SpiskiNaDnFromMo.N_reest в таблице MedicalCompany соответствие с Code в таблице MedicalCompany и берется от туда ShortName
-//LastName, Name, Patronimic, Snils - заполняется из SpiskiNaDnFromMo
-//Period - берется из SpiskiNaDnFromMo(SpiskiNaDnFromMo.Period)
+//SourceMOCode - берется из SpiskiNaDDFromMO (SpiskiNaDDFromMO.N_reest)
+//SourceMOName - ищется по SpiskiNaDDFromMO.N_reest в таблице MedicalCompany соответствие с Code в таблице MedicalCompany и берется от туда ShortName
+//LastName, Name, Patronimic, Snils - заполняется из SpiskiNaDDFromMO
+//Period - берется из SpiskiNaDDFromMO(SpiskiNaDDFromMO.Period)
 //AttachmentMOCode - берется из DispensaryObservation (DispensaryObservation.LpuType)
 //AttachmentMOName - берется из MedicalCompany.ShortName по MedicalCompany.Code такой же как и DispensaryObservation.LpuType
 //DispensaryRegistrationStatus - если есть запись в ZAP о таком человеке то "Не состоит на ДН"  если есть запись в zap с таким человеком то "Состоит на ДН"
 //RegisteredMOCode - берется из DispensaryObservation (DispensaryObservation.LpuType) если человек не состоит на дн то поле остаётся пустым 
 //RegisteredMOName - берется из MedicalCompany.ShortName по MedicalCompany.Code такой же как и DispensaryObservation.LpuType если человек не состоит на дн то поле остаётся пустым 
 //DispensaryGroup - берется из DispensaryObservation.DiagnosisCode в ZAP есть ICollection<DispensaryObservation> Dispenses которрый ссылается на DispensaryObservation если человек не состоит на дн то поле остаётся пустым 
-//Organization - берется из SpiskiNaDnFromMo.Organizaciya
+//Organization - берется из SpiskiNaDDFromMO.Organizaciya
 //ProcessingResult - если человек проходил в этом году то ставится "Ок. Проведена ДДвзр в текущем году" иначе "Нет первого ДД и ПМО в текущем году" это проверяется по дате EndDate
 //DateLastDD - если человек не состоит на дн то поле остаётся пустым иначе ставится иначе берется дата берется из ZAP.DateDN 
 //ProcessingDate - дата обработки файла  

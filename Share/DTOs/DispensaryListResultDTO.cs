@@ -11,7 +11,7 @@ public class DispensaryListResultDTO
         
         
         [Display(Name = "Идентификатор списка")]
-        public int SpiskiNaDnFromMoId { get; set; }
+        public int SpiskiNaDDFromMOId { get; set; }
         
         [Display(Name = "Код МО источник списка")]
         public int SourceMOCode { get; set; }

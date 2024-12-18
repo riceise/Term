@@ -145,9 +145,9 @@ else if (_showRecords)
     private bool _isLoading;
     private string? _errorMessage;
     private List<FileDTOView>? _files;
-    private List<SpiskiNaDNFromMODTO>? _records;
+    private List<SpiskiNaDDFromMODTO>? _records;
     private bool _showRecords;
-    private SpiskiNaDNFromMODTO? _selectedItem;
+    private SpiskiNaDDFromMODTO? _selectedItem;
     private bool _isEditing;
 
     protected override async Task OnInitializedAsync()
@@ -164,7 +164,7 @@ else if (_showRecords)
             _isLoading = true;
             _errorMessage = null;
 
-            var response = await Http.GetAsync("api/SpiskiNaDNFromMO/GetFiles");
+            var response = await Http.GetAsync("api/SpiskiNaDDFromMO/GetFiles");
             if (response.IsSuccessStatusCode)
             {
                 _files = await response.Content.ReadFromJsonAsync<List<FileDTOView>>();
@@ -193,10 +193,10 @@ else if (_showRecords)
             _isLoading = true;
             _errorMessage = null;
 
-            var response = await Http.GetAsync($"api/SpiskiNaDNFromMO/byUploadFileId/{fileId}");
+            var response = await Http.GetAsync($"api/SpiskiNaDDFromMO/byUploadFileId/{fileId}");
             if (response.IsSuccessStatusCode)
             {
-                _records = await response.Content.ReadFromJsonAsync<List<SpiskiNaDNFromMODTO>>();
+                _records = await response.Content.ReadFromJsonAsync<List<SpiskiNaDDFromMODTO>>();
                 _showRecords = true;
             }
             else
@@ -220,7 +220,7 @@ else if (_showRecords)
         _records = null;
     }
 
-    private async Task SaveEdit(SpiskiNaDNFromMODTO record)
+    private async Task SaveEdit(SpiskiNaDDFromMODTO record)
     {
         var Http = HttpClientFactory.CreateClient("BackendAPI");
 
@@ -229,7 +229,7 @@ else if (_showRecords)
             _isLoading = true;
             _errorMessage = null;
 
-            var response = await Http.PutAsJsonAsync($"api/SpiskiNaDNFromMO/{record.Id}", record);
+            var response = await Http.PutAsJsonAsync($"api/SpiskiNaDDFromMO/{record.Id}", record);
             if (response.IsSuccessStatusCode)
             {
                 _isEditing = false;
@@ -257,7 +257,7 @@ else if (_showRecords)
         _selectedItem = null;
     }
 
-    private async Task DeleteItem(SpiskiNaDNFromMODTO record)
+    private async Task DeleteItem(SpiskiNaDDFromMODTO record)
     {
         var Http = HttpClientFactory.CreateClient("BackendAPI");
 
@@ -286,7 +286,7 @@ else if (_showRecords)
         }
     }
 
-    private void StartEdit(SpiskiNaDNFromMODTO record)
+    private void StartEdit(SpiskiNaDDFromMODTO record)
     {
         _isEditing = true;
         _selectedItem = record;

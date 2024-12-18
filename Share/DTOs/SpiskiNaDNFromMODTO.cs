@@ -4,7 +4,7 @@ using Share.Validations;
 
 namespace Share.DTOs
 {
-    public class SpiskiNaDNFromMODTO
+    public class SpiskiNaDDFromMODTO
     {
         public int Id { get; set; }
 

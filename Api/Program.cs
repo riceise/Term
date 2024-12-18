@@ -33,8 +33,8 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<TFOMSContext>()
     .AddDefaultTokenProviders();
 
-builder.Services.AddScoped<ISpiskiNaDnFromMoRepository, SpiskiNaDNFromMORepository>();
-builder.Services.AddScoped<ISpiskiNaDNFromMOService, SpiskiNaDnFromMoService>();
+builder.Services.AddScoped<ISpiskiNaDDFromMORepository, SpiskiNaDDFromMORepository>();
+builder.Services.AddScoped<ISpiskiNaDDFromMOService, SpiskiNaDDFromMOService>();
 builder.Services.AddScoped<IDispensaryListRepository, DispensaryListRepository>();
 builder.Services.AddScoped<DispensaryListService>();
 

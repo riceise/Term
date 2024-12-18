@@ -12,14 +12,14 @@ namespace Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "SpiskiNaDnFromMoStaging");
+                name: "SpiskiNaDDFromMOStaging");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "SpiskiNaDnFromMoStaging",
+                name: "SpiskiNaDDFromMOStaging",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -38,7 +38,7 @@ namespace Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SpiskiNaDnFromMoStaging", x => x.Id);
+                    table.PrimaryKey("PK_SpiskiNaDDFromMOStaging", x => x.Id);
                 });
         }
     }

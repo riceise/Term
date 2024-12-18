@@ -13,14 +13,14 @@ namespace Data.Migrations
         {
             migrationBuilder.AlterColumn<DateTime>(
                 name: "BirthDay",
-                table: "SpiskiNaDNFromMO",
+                table: "SpiskiNaDDFromMO",
                 type: "datetime2",
                 nullable: false,
                 oldClrType: typeof(DateOnly),
                 oldType: "date");
 
             migrationBuilder.CreateTable(
-                name: "SpiskiNaDnFromMoStaging",
+                name: "SpiskiNaDDFromMOStaging",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -39,7 +39,7 @@ namespace Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SpiskiNaDnFromMoStaging", x => x.Id);
+                    table.PrimaryKey("PK_SpiskiNaDDFromMOStaging", x => x.Id);
                 });
         }
 
@@ -47,11 +47,11 @@ namespace Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "SpiskiNaDnFromMoStaging");
+                name: "SpiskiNaDDFromMOStaging");
 
             migrationBuilder.AlterColumn<DateOnly>(
                 name: "BirthDay",
-                table: "SpiskiNaDNFromMO",
+                table: "SpiskiNaDDFromMO",
                 type: "date",
                 nullable: false,
                 oldClrType: typeof(DateTime),

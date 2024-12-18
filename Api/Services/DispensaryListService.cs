@@ -25,7 +25,7 @@ namespace Api.Services
             {
                 var result = new DispensaryListResult
                 {
-                    SpiskiNaDnFromMoId = entry.Id,
+                    SpiskiNaDDFromMOId = entry.Id,
                     SourceMOCode = entry.N_reest,
                     SourceMOName = await _repository.GetMedicalCompanyShortNameAsync(entry.N_reest.ToString()),
                     LastName = entry.LastName,

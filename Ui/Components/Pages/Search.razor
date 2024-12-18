@@ -77,8 +77,8 @@ else if (_item != null)
 {
     
     private int _id;
-    private SpiskiNaDNFromMODTO? _item;
-    private SpiskiNaDNFromMODTO? _editedItem;
+    private SpiskiNaDDFromMODTO? _item;
+    private SpiskiNaDDFromMODTO? _editedItem;
     private string? _errorMessage;
     private bool _isloading;
     private bool _isEditing;
@@ -99,11 +99,11 @@ else if (_item != null)
             _isloading = true;
             _errorMessage = string.Empty;
 
-            var response = await Http.GetAsync($"api/SpiskiNaDNFromMO/{_id}");
+            var response = await Http.GetAsync($"api/SpiskiNaDDFromMO/{_id}");
 
             if (response.IsSuccessStatusCode)
             {
-                _item = await response.Content.ReadFromJsonAsync<SpiskiNaDNFromMODTO>();
+                _item = await response.Content.ReadFromJsonAsync<SpiskiNaDDFromMODTO>();
             }
             else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
             {
@@ -136,7 +136,7 @@ else if (_item != null)
             _isloading = true;
             _errorMessage = string.Empty;
 
-            var response = await Http.DeleteAsync($"api/SpiskiNaDNFromMO/{_id}");
+            var response = await Http.DeleteAsync($"api/SpiskiNaDDFromMO/{_id}");
 
             if (response.IsSuccessStatusCode)
             {
@@ -164,7 +164,7 @@ else if (_item != null)
         if (_item != null)
         {
             _isEditing = true;
-            _editedItem = new SpiskiNaDNFromMODTO
+            _editedItem = new SpiskiNaDDFromMODTO
             {
                 Id = _item.Id,
                 Name = _item.Name,
@@ -194,14 +194,14 @@ else if (_item != null)
             _isloading = true;
             _errorMessage = string.Empty;
             
-            var response = await Http.PutAsJsonAsync($"api/SpiskiNaDNFromMO/{_editedItem.Id}", _item);
+            var response = await Http.PutAsJsonAsync($"api/SpiskiNaDDFromMO/{_editedItem.Id}", _item);
             
             string json = System.Text.Json.JsonSerializer.Serialize(_editedItem);
             Console.WriteLine($"Sending JSON: {json}");
             
             if (response.IsSuccessStatusCode)
             {
-                _item = await response.Content.ReadFromJsonAsync<SpiskiNaDNFromMODTO>();
+                _item = await response.Content.ReadFromJsonAsync<SpiskiNaDDFromMODTO>();
                 _isEditing = false;
              }
             else

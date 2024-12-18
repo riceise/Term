@@ -109,7 +109,7 @@
                 var streamContent = new StreamContent(fileStream);
                 content.Add(streamContent, "file", selectedFile.Name);
 
-                var response = await Http.PostAsync($"api/SpiskiNaDNFromMO/upload", content);
+                var response = await Http.PostAsync($"api/SpiskiNaDDFromMO/upload", content);
                 var responseContent = await response.Content.ReadAsStringAsync();
 
                 if (response.IsSuccessStatusCode)

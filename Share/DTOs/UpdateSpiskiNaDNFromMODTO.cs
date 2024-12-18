@@ -4,7 +4,7 @@ using Share.Validations;
 
 namespace Share.DTOs
 {
-    public class UpdateSpiskiNaDNFromMODTO
+    public class UpdateSpiskiNaDDFromMODTO
     {
         public int Npp { get; set; }
 

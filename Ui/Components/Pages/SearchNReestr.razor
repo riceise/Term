@@ -126,10 +126,10 @@ else if (_items != null && _items.Any())
 </style>
 
 @code {
-    private SpiskiNaDNFromMODTO? _selectedItem;
+    private SpiskiNaDDFromMODTO? _selectedItem;
     private bool _isEditing;
     private SearchModel _searchModel = new();
-    private List<SpiskiNaDNFromMODTO>? _items;
+    private List<SpiskiNaDDFromMODTO>? _items;
     private string? _errorMessage;
     private bool _isLoading;
 
@@ -143,10 +143,10 @@ else if (_items != null && _items.Any())
 
         try
         {
-            var response = await Http.GetAsync($"api/SpiskiNaDNFromMO/nreest/{_searchModel.NReest}");
+            var response = await Http.GetAsync($"api/SpiskiNaDDFromMO/nreest/{_searchModel.NReest}");
             if (response.IsSuccessStatusCode)
             {
-                _items = await response.Content.ReadFromJsonAsync<List<SpiskiNaDNFromMODTO>>();
+                _items = await response.Content.ReadFromJsonAsync<List<SpiskiNaDDFromMODTO>>();
             }
             else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
             {
@@ -167,13 +167,13 @@ else if (_items != null && _items.Any())
         }
     }
     
-    private void StartEdit(SpiskiNaDNFromMODTO item)
+    private void StartEdit(SpiskiNaDDFromMODTO item)
     {
         _isEditing = true;
         _selectedItem = item;
         StateHasChanged();
     }
-    private async Task SaveEdit(SpiskiNaDNFromMODTO item)
+    private async Task SaveEdit(SpiskiNaDDFromMODTO item)
     {
         var Http = HttpClientFactory.CreateClient("BackendAPI");
 
@@ -182,7 +182,7 @@ else if (_items != null && _items.Any())
             _isLoading = true;
             _errorMessage = null;
 
-            var response = await Http.PutAsJsonAsync($"api/SpiskiNaDNFromMO/{item.Id}", item);
+            var response = await Http.PutAsJsonAsync($"api/SpiskiNaDDFromMO/{item.Id}", item);
             string json = System.Text.Json.JsonSerializer.Serialize(item);
             Console.WriteLine($"Sending JSON: {json}");
             
@@ -214,7 +214,7 @@ else if (_items != null && _items.Any())
         _selectedItem = null;
         StateHasChanged();
     }
-    private async Task DeleteItem(SpiskiNaDNFromMODTO item)
+    private async Task DeleteItem(SpiskiNaDDFromMODTO item)
     {
         bool confirmed = await JSRuntime.InvokeAsync<bool>("confirm", "Вы уверены, что хотите удалить эту запись?"); // <-- Confirmation dialog
         var Http = HttpClientFactory.CreateClient("BackendAPI");
@@ -226,7 +226,7 @@ else if (_items != null && _items.Any())
                 _isLoading = true;
                 _errorMessage = string.Empty;
 
-                var response = await Http.DeleteAsync($"api/SpiskiNaDNFromMO/{item.Id}");
+                var response = await Http.DeleteAsync($"api/SpiskiNaDDFromMO/{item.Id}");
 
                 if (response.IsSuccessStatusCode)
                 {

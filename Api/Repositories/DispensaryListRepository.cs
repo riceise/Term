@@ -25,10 +25,10 @@ namespace Api.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<SpiskiNaDNFromMO>> GetSpiskiAsync(int uploadFileInfId)
+        public async Task<IEnumerable<SpiskiNaDDFromMO>> GetSpiskiAsync(int uploadFileInfId)
         {
-            var query = "SELECT * FROM SpiskiNaDNFromMO WHERE UploadFileInfId = @uploadFileInfId";
-            return await _dbConnection.QueryAsync<SpiskiNaDNFromMO>(query, new { uploadFileInfId });
+            var query = "SELECT * FROM SpiskiNaDDFromMO WHERE UploadFileInfId = @uploadFileInfId";
+            return await _dbConnection.QueryAsync<SpiskiNaDDFromMO>(query, new { uploadFileInfId });
         }
 
         public async Task<string> GetMedicalCompanyShortNameAsync(string code)
@@ -95,11 +95,11 @@ namespace Api.Repositories
             {
                 const string insertQuery = @"
                     INSERT INTO DispensaryListResults 
-                    (SpiskiNaDnFromMoId, SourceMOCode, SourceMOName, LastName, Name, Patronymic, BirthDay, 
+                    (SpiskiNaDDFromMOId, SourceMOCode, SourceMOName, LastName, Name, Patronymic, BirthDay, 
                      Snils, Period, Organization, ProcessingDate, DispensaryRegistrationStatus, DateLastDD, 
                      DispensaryGroup, RegisteredMOCode, RegisteredMOName, AttachmentMOCode, AttachmentMOName, ProcessingResult)
                     VALUES 
-                    (@SpiskiNaDnFromMoId, @SourceMOCode, @SourceMOName, @LastName, @Name, @Patronymic, @BirthDay, 
+                    (@SpiskiNaDDFromMOId, @SourceMOCode, @SourceMOName, @LastName, @Name, @Patronymic, @BirthDay, 
                      @Snils, @Period, @Organization, @ProcessingDate, @DispensaryRegistrationStatus, @DateLastDD, 
                      @DispensaryGroup, @RegisteredMOCode, @RegisteredMOName, @AttachmentMOCode, @AttachmentMOName, @ProcessingResult)";
 
@@ -117,7 +117,7 @@ namespace Api.Repositories
                     }
 
                     Console.WriteLine("Вставляемые данные:");
-                    Console.WriteLine($"  SpiskiNaDnFromMoId: {result.SpiskiNaDnFromMoId}");
+                    Console.WriteLine($"  SpiskiNaDDFromMOId: {result.SpiskiNaDDFromMOId}");
                     Console.WriteLine($"  SourceMOCode: {result.SourceMOCode}");
                     Console.WriteLine($"  SourceMOName: {result.SourceMOName}");
                     Console.WriteLine($"  LastName: {result.LastName}");
@@ -154,8 +154,8 @@ namespace Api.Repositories
         {
             try
             {
-                var query = @"SELECT * FROM DispensaryListResults WHERE SpiskiNaDnFromMoId IN 
-                                          (SELECT Id FROM SpiskiNaDNFromMO WHERE UploadFileInfId = @uploadFileInfId)";
+                var query = @"SELECT * FROM DispensaryListResults WHERE SpiskiNaDDFromMOId IN 
+                                          (SELECT Id FROM SpiskiNaDDFromMO WHERE UploadFileInfId = @uploadFileInfId)";
                             return await _dbConnection.QueryAsync<DispensaryListResult>(query, new { uploadFileInfId });
             }
             catch (Exception e)
@@ -170,8 +170,8 @@ namespace Api.Repositories
         public async Task<byte[]> GenerateExcelFileAsync(int uploadFileInfId)
         {
             var results = await _context.DispensaryListResults
-                .Include(r => r.SpiskiNaDNFromMO) 
-                .Where(r => r.SpiskiNaDNFromMO.UploadFileInfId == uploadFileInfId)
+                .Include(r => r.SpiskiNaDDFromMO) 
+                .Where(r => r.SpiskiNaDDFromMO.UploadFileInfId == uploadFileInfId)
                 .ToListAsync();
 
             using (var package = new ExcelPackage())

@@ -464,17 +464,17 @@ namespace Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("SpiskiNaDnFromMoId")
+                    b.Property<int>("SpiskiNaDDFromMOId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SpiskiNaDnFromMoId");
+                    b.HasIndex("SpiskiNaDDFromMOId");
 
                     b.ToTable("DispensaryListResults");
                 });
 
-            modelBuilder.Entity("Data.Model.Entities.UploadedFile.SpiskiNaDNFromMO", b =>
+            modelBuilder.Entity("Data.Model.Entities.UploadedFile.SpiskiNaDDFromMO", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -521,7 +521,7 @@ namespace Data.Migrations
 
                     b.HasIndex("UploadFileInfId");
 
-                    b.ToTable("SpiskiNaDNFromMO");
+                    b.ToTable("SpiskiNaDDFromMO");
                 });
 
             modelBuilder.Entity("Data.Model.Entities.UploadedFile.UploadFileInf", b =>
@@ -788,17 +788,17 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Data.Model.Entities.UploadedFile.DispensaryListResult", b =>
                 {
-                    b.HasOne("Data.Model.Entities.UploadedFile.SpiskiNaDNFromMO", "SpiskiNaDNFromMO")
+                    b.HasOne("Data.Model.Entities.UploadedFile.SpiskiNaDDFromMO", "SpiskiNaDDFromMO")
                         .WithMany()
-                        .HasForeignKey("SpiskiNaDnFromMoId")
+                        .HasForeignKey("SpiskiNaDDFromMOId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("FK_SpiskiNaDnFromMoId");
+                        .HasConstraintName("FK_SpiskiNaDDFromMOId");
 
-                    b.Navigation("SpiskiNaDNFromMO");
+                    b.Navigation("SpiskiNaDDFromMO");
                 });
 
-            modelBuilder.Entity("Data.Model.Entities.UploadedFile.SpiskiNaDNFromMO", b =>
+            modelBuilder.Entity("Data.Model.Entities.UploadedFile.SpiskiNaDDFromMO", b =>
                 {
                     b.HasOne("Data.Model.Entities.UploadedFile.UploadFileInf", "UploadFileInf")
                         .WithMany()

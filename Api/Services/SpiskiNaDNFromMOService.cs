@@ -9,12 +9,12 @@ using System.Text.RegularExpressions;
 
 namespace Api.Services
 {
-    public class  SpiskiNaDnFromMoService : ISpiskiNaDNFromMOService
+    public class  SpiskiNaDDFromMOService : ISpiskiNaDDFromMOService
     {
-        private readonly ISpiskiNaDnFromMoRepository _repository;
+        private readonly ISpiskiNaDDFromMORepository _repository;
         
         
-        public SpiskiNaDnFromMoService(ISpiskiNaDnFromMoRepository repository)
+        public SpiskiNaDDFromMOService(ISpiskiNaDDFromMORepository repository)
         {
             _repository = repository;
         }
@@ -22,7 +22,7 @@ namespace Api.Services
         public async Task<IEnumerable<FileDTOView>> GetFileInfoAsync()
         {
             var files = await _repository.GetAllFilesAsync();
-            return files.Select(SpiskiNaDNFromMOMapper.MapToDto);
+            return files.Select(SpiskiNaDDFromMOMapper.MapToDto);
 
         }
         
@@ -141,7 +141,7 @@ namespace Api.Services
         
         public async Task ProcessFileRowsToStagingAsync(Stream fileStream, int uploadFileId)
         {
-            var files = new List<SpiskiNaDNFromMO>(); 
+            var files = new List<SpiskiNaDDFromMO>(); 
         
             using (var workbook = new XLWorkbook(fileStream))
             {
@@ -157,7 +157,7 @@ namespace Api.Services
                     int period = int.Parse(row.Cell(8).GetString());
                     string organizaciya = row.Cell(9).GetString();
         
-                    files.Add(new SpiskiNaDNFromMO
+                    files.Add(new SpiskiNaDDFromMO
                     {
                         Npp = npp,
                         LastName = lastName,
@@ -173,20 +173,20 @@ namespace Api.Services
                 }
             }
         
-            await _repository.AddSpiskiNaDNFromMOAsync(files);
+            await _repository.AddSpiskiNaDDFromMOAsync(files);
             await _repository.SaveChangesAsync();
         }
         
         
         public async Task RecordUploadFileInfoAsync(UploadFileInfoDTO uploadFileInfoDTO)
         {
-            var uploadFileInfo = SpiskiNaDNFromMOMapper.MapToEntity(uploadFileInfoDTO);
+            var uploadFileInfo = SpiskiNaDDFromMOMapper.MapToEntity(uploadFileInfoDTO);
             await _repository.AddUploadFileInfoAsync(uploadFileInfo);
         }
         
         public async Task<int> RecordUploadFileInfoAndReturnIdAsync(UploadFileInfoDTO uploadFileInfoDTO)
         {
-            var uploadFileInfo = SpiskiNaDNFromMOMapper.MapToEntity(uploadFileInfoDTO);
+            var uploadFileInfo = SpiskiNaDDFromMOMapper.MapToEntity(uploadFileInfoDTO);
             await _repository.AddUploadFileInfoAsync(uploadFileInfo);
             await _repository.SaveChangesAsync();
             Console.WriteLine($"ID присвоенный файлу: {uploadFileInfo.Id}");
@@ -206,10 +206,10 @@ namespace Api.Services
             await _repository.SaveChangesAsync();
         }
         
-        public async Task<List<SpiskiNaDNFromMODTO>> GetByUploadFileIdAsync(int uploadFileId)
+        public async Task<List<SpiskiNaDDFromMODTO>> GetByUploadFileIdAsync(int uploadFileId)
         {
             var entities = await _repository.GetByUploadFileIdAsync(uploadFileId);
-            return entities.Select(entity => new SpiskiNaDNFromMODTO
+            return entities.Select(entity => new SpiskiNaDDFromMODTO
             {
                 Id = entity.Id,
                 Npp = entity.Npp,
@@ -223,22 +223,22 @@ namespace Api.Services
                 Organizaciya = entity.Organizaciya,
             }).ToList();
         }
-        public async Task<IEnumerable<SpiskiNaDNFromMODTO>> GetByNReestAsync(int nReest)
+        public async Task<IEnumerable<SpiskiNaDDFromMODTO>> GetByNReestAsync(int nReest)
         {
             var files = await _repository.GetByNReestAsync(nReest);
-            return files.Select(SpiskiNaDNFromMOMapper.MapEntityToDto).ToList();
+            return files.Select(SpiskiNaDDFromMOMapper.MapEntityToDto).ToList();
         }
 
-        public async Task<SpiskiNaDNFromMODTO> GetByIdAsync(int id)
+        public async Task<SpiskiNaDDFromMODTO> GetByIdAsync(int id)
         {
             var item = await _repository.GetByIdAsync(id);
-            return SpiskiNaDNFromMOMapper.MapEntityToDto(item);
+            return SpiskiNaDDFromMOMapper.MapEntityToDto(item);
         }
 
-        public async Task<IEnumerable<SpiskiNaDNFromMODTO>> GetByLastNameAsync(string lastName)
+        public async Task<IEnumerable<SpiskiNaDDFromMODTO>> GetByLastNameAsync(string lastName)
         {
             var files = await _repository.GetByLastNameAsync(lastName);
-            return files.Select(SpiskiNaDNFromMOMapper.MapEntityToDto);
+            return files.Select(SpiskiNaDDFromMOMapper.MapEntityToDto);
         }
 
         public async Task DeleteByIdAsync(int id)
@@ -247,7 +247,7 @@ namespace Api.Services
         }
         
 
-        public async Task UpdateAsync(SpiskiNaDNFromMODTO dto)
+        public async Task UpdateAsync(SpiskiNaDDFromMODTO dto)
         {
             var entity = await _repository.GetByIdAsync(dto.Id);
             if (entity == null)

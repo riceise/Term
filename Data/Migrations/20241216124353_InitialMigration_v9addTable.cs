@@ -17,7 +17,7 @@ namespace Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    SpiskiNaDnFromMoId = table.Column<int>(type: "int", nullable: false),
+                    SpiskiNaDDFromMOId = table.Column<int>(type: "int", nullable: false),
                     SourceMOCode = table.Column<int>(type: "int", nullable: false),
                     SourceMOName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -41,9 +41,9 @@ namespace Data.Migrations
                 {
                     table.PrimaryKey("PK_DispensaryListResults", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_SpiskiNaDnFromMoId",
-                        column: x => x.SpiskiNaDnFromMoId,
-                        principalTable: "SpiskiNaDNFromMO",
+                        name: "FK_SpiskiNaDDFromMOId",
+                        column: x => x.SpiskiNaDDFromMOId,
+                        principalTable: "SpiskiNaDDFromMO",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -124,9 +124,9 @@ namespace Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_DispensaryListResults_SpiskiNaDnFromMoId",
+                name: "IX_DispensaryListResults_SpiskiNaDDFromMOId",
                 table: "DispensaryListResults",
-                column: "SpiskiNaDnFromMoId");
+                column: "SpiskiNaDDFromMOId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_DispensaryObservation_DiagnosisId",
