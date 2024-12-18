@@ -1,6 +1,6 @@
 ﻿@inherits LayoutComponentBase
-@using Microsoft.AspNetCore.Components.Authorization
 @inject NavigationManager NavigationManager
+@inject AuthenticationService AuthService
 
 <div class="page">
     <div class="sidebar">
@@ -12,7 +12,7 @@
             <AuthorizeView>
                 <Authorized>
                     <span>Здравствуйте, @context.User.Identity.Name!</span>
-                    <a href="Identity/Account/Logout">Выйти</a>
+                    <button class="btn btn-link" @onclick="Logout">Выйти</button>
                 </Authorized>
                 <NotAuthorized>
                     <a href="login">Войти</a>
@@ -37,3 +37,10 @@
     <a href="" class="reload">Перезагрузить</a>
     <a class="dismiss">🗙</a>
 </div>
+
+@code {
+    private async Task Logout()
+    {
+        await AuthService.Logout();
+    }
+}
