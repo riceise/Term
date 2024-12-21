@@ -58,7 +58,7 @@ namespace Api.Controllers
             var userExists = await _userManager.FindByNameAsync(model.UserName);
 
             if (userExists != null)
-                return BadRequest(new { Status = "Error", Message = "User already exists!" });
+                return BadRequest(new { Status = "Error", Message = "Пользователь с таким именем уже существует!" });
             
             ApplicationUser user = new ApplicationUser()
             {
@@ -72,10 +72,10 @@ namespace Api.Controllers
             if (!result.Succeeded)
             {
                 var errors = result.Errors.Select(e => e.Description);
-                return BadRequest(new { Status = "Error", Message = "User creation failed!", Errors = errors });
+                return BadRequest(new { Status = "Error", Message = "Возникла ошибка при попытке создания пользователя", Errors = errors });
             }
 
-            return Ok(new { Status = "Success", Message = "Пользователь успешно создан!" });
+            return Ok(new { Status = "Success", Message = "Аккаунт успешно создан!" });
         }
     }
 }

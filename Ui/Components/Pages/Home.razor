@@ -1,8 +1,6 @@
 ﻿@page "/"
 
-<PageTitle>Home</PageTitle>
-
-<h1>Алё, я в Интернете?</h1>
+<PageTitle>Главная</PageTitle>
 
 <CascadingAuthenticationState>
     <AuthorizeView>
@@ -12,11 +10,18 @@
 
         <NotAuthorized>
             
-            Надо бы авторизоваться.
+            <h1>
+                Добро пожаловать в систему загрузки списков неприкреплённого населения на диспансеризацию.  
+            </h1>
+
+            <h3>
+                Для продолжения работы, пожалуйста, войдите под своей учётной записью или заведите новую
+            </h3>
 
             <div>
                 <img src="img.jpg" width="400" height="400"/>
             </div>
+            
         </NotAuthorized>
 
     </AuthorizeView>

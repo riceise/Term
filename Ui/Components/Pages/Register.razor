@@ -62,8 +62,6 @@
     }
 </style>
 
-
-
 <div class="register-form">
     <h3>Регистрация</h3>
 
@@ -83,20 +81,23 @@
             <label>Пароль:</label>
             <InputText @bind-Value="registerModel.Password" Type="password" />
         </div>
+
+        @if (errorMessages.Any())
+        {
+            <div>
+                <ul>
+                    @foreach (var error in errorMessages)
+                    {
+                        <li>@error</li>
+                    }
+                </ul>
+            </div>
+        }
+
         <button type="submit">Зарегистрироваться</button>
     </EditForm>
 
-    @if (errorMessages.Any())
-    {
-        <div>
-            <ul>
-                @foreach (var error in errorMessages)
-                {
-                    <li>@error</li>
-                }
-            </ul>
-        </div>
-    }
+    
 </div>
 
 @code {

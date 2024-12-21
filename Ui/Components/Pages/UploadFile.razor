@@ -41,9 +41,12 @@
 </div>
 
 <div class="mt-2">
-    <button class="btn btn-primary" @onclick="SubmitFile">Upload</button>
-    <button class="btn btn-success" @onclick="ProcessFile" disabled="@(!fileUploaded)">Обработать</button>
-    <button class="btn btn-secondary" @onclick="DownloadFile" disabled="@(!fileProcessed)">Скачать</button>
+    <button class="btn btn-primary" @onclick="SubmitFile">Загрузить</button>
+    @if (fileUploaded)
+    {
+        <button class="btn btn-success" @onclick="ProcessFile" disabled="@(!fileUploaded)">Обработать</button>
+        <button class="btn btn-secondary" @onclick="DownloadFile" disabled="@(!fileProcessed)">Скачать</button>    
+    }
 </div>
 
 <style>
@@ -180,7 +183,7 @@
 
         if (uploadFileInfId <= 0)
         {
-            errorMessage = "Файл не был загружен корректно.";
+            errorMessage = "Файл был загружен некорректно.";
             return;
         }
 

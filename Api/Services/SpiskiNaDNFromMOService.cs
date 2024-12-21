@@ -80,26 +80,6 @@ namespace Api.Services
                             errors.Add($"Ошибка: Поле 'Имя' в строке {row.RowNumber()} обязательно.");
                         }
 
-                        // DateTime birthDay;
-                        // string dateString = row.Cell(5).GetString();
-                        //
-                        // if (dateString.Length > 10)
-                        // {
-                        //     dateString = dateString.Substring(0, 10);
-                        // }
-                        // Console.WriteLine("datestring"+dateString);
-                        //
-                        // if (!DateTime.TryParseExact(dateString, "dd.MM.yyyy", null, System.Globalization.DateTimeStyles.None, out birthDay))
-                        // {
-                        //     errors.Add($"Ошибка: Поле 'Дата рождения' в строке {row.RowNumber()} имеет неверный формат: '{dateString}'");
-                        // }
-                        // else
-                        // {
-                        //     birthDay = birthDay.Date; 
-                        //     
-                        // }
-
-
                         // Проверка "СНИЛС"
                         string snils = row.Cell(6).GetString();
                         if (string.IsNullOrWhiteSpace(snils))

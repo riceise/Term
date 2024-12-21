@@ -60,11 +60,8 @@ namespace Data.Model.Entities.UploadedFile
         [Display(Name = "Группа ДН")]
         public string DispensaryGroup { get; set; } = string.Empty;
 
-
         [Display(Name = "Организация")]
         public string Organization { get; set; } = String.Empty; 
-
-
 
         [Display(Name = "Результат обработки ТФОМС")]
         public string ProcessingResult { get; set; } = string.Empty;

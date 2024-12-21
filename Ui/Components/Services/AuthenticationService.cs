@@ -17,7 +17,6 @@ namespace Ui.Components.Services
             _navigationManager = navigationManager;
         }
 
-
         public async Task<bool> Login(string username, string password)
         {   
             var _httpClient = _httpClientFactory.CreateClient("BackendAPI");

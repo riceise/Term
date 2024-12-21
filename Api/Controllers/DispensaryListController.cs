@@ -1,6 +1,5 @@
 ﻿using Api.Services;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
 namespace Api.Controllers
 {
@@ -34,12 +33,11 @@ namespace Api.Controllers
                 return StatusCode(500, new
                 {
                     Success = false,
-                    Message = "Произошла ошибка при обработке списка ДН.",
+                    Message = "Произошла ошибка при обработке списка ДД.",
                     Details = ex.Message 
                 });
             }
         }
-
 
         [HttpGet("download/{uploadFileInfId}")]
         public async Task<IActionResult> DownloadExcelFile(int uploadFileInfId)

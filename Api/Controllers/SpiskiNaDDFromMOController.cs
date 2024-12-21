@@ -3,27 +3,33 @@ using Api.Services;
 using System.ComponentModel.DataAnnotations;
 using Share.DTOs;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Data.Model.Entities.Users;
 
 namespace Api.Controllers
 {   
     //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    
+
     public class SpiskiNaDDFromMOController : ControllerBase
     {
         private readonly ISpiskiNaDDFromMOService _SpiskiNaDDFromMOService;
-        
-        public SpiskiNaDDFromMOController(ISpiskiNaDDFromMOService SpiskiNaDDFromMOService)
+        private readonly UserManager<ApplicationUser> _userManager;
+
+        public SpiskiNaDDFromMOController(ISpiskiNaDDFromMOService SpiskiNaDDFromMOService, UserManager<ApplicationUser> userManager)
         {
             _SpiskiNaDDFromMOService = SpiskiNaDDFromMOService;
+            _userManager = userManager;
         }
+
         [HttpGet("byUploadFileId/{uploadFileId}")]
         public async Task<IActionResult> GetByUploadFileId(int uploadFileId)
         {
             var result = await _SpiskiNaDDFromMOService.GetByUploadFileIdAsync(uploadFileId);
             return Ok(result);
         }
+
         [HttpGet("GetFiles")]
         public async Task<ActionResult<IEnumerable<FileDTOView>>> GetAllFiles()
         {
@@ -37,7 +43,10 @@ namespace Api.Controllers
             if (file == null || file.Length == 0)
                 return BadRequest("Файл не выбран.");
 
-            var userId = 1; 
+            // TODO: Рассмотреть варианты переделки сущностей, чтобы они принимали string (UUID), а не int
+            // var user = await _userManager.GetUserAsync(User);
+            // var userId = user?.Id;
+            var userId = 1;
             var fileName = file.FileName;
             var filePath = Path.Combine("UploadedFiles", fileName);
             var fullFilePath = Path.Combine(Directory.GetCurrentDirectory(), filePath);
@@ -58,7 +67,7 @@ namespace Api.Controllers
                 {
                     var errors = await _SpiskiNaDDFromMOService.ValidateFileAsync(validationStream);
                     if (errors.Any())
-                        return BadRequest(new { message = "Файл содержит ошибки.", errors });
+                        return BadRequest(new { message = "Файл содержит ошибки: ", errors });
                 }
 
                 // Запись информации о загруженном файле
@@ -104,8 +113,6 @@ namespace Api.Controllers
             });
         }
 
-        
-        
         [HttpPut("{id}")]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateSpiskiNaDDFromMODTO dto)
         {
