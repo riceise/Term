@@ -47,6 +47,12 @@ namespace Data.Model.Entities.Invoice
 
         [Display(Name = "Список диспансерных наблюдений")]
         public virtual ICollection<DispensaryObservation> Dispenses { get; } = new List<DispensaryObservation>();
+
+        [Display(Name = "Id реестра счетов")]
+        public int InvoiceId { get; set; }
+        
+        [Display(Name = "Ссылка на объект Invoice")]
+        public virtual Invoice? Invoice { get; set; }
     }
 }
 
