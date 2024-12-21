@@ -14,7 +14,7 @@ namespace Data.Model.Entities.UploadedFile
         public int SpiskiNaDDFromMOId { get; set; }
 
         [ForeignKey("SpiskiNaDDFromMOId")]
-        public virtual SpiskiNaDDFromMO SpiskiNaDDFromMO { get; set; }
+        public virtual SpiskiNaDDFromMO? SpiskiNaDDFromMO { get; set; }
 
         [Display(Name = "Код МО источник списка")]
         public int SourceMOCode { get; set; }
@@ -48,17 +48,17 @@ namespace Data.Model.Entities.UploadedFile
         [Display(Name = "МО прикрепления")]
         public string AttachmentMOName { get; set; } = string.Empty;
 
-        [Display(Name = "Состоит/не состоит на ДН")]
-        public string DispensaryRegistrationStatus { get; set; } = string.Empty;
+        // [Display(Name = "Состоит/не состоит на ДН")]
+        // public string DispensaryRegistrationStatus { get; set; } = string.Empty;
 
-        [Display(Name = "Код МО, в которой пациент состоит на ДН")]
-        public int? RegisteredMOCode { get; set; }
+        // [Display(Name = "Код МО, в которой пациент состоит на ДН")]
+        // public int? RegisteredMOCode { get; set; }
 
-        [Display(Name = "МО, в которой пациент состоит на ДН")]
-        public string RegisteredMOName { get; set; } = string.Empty;
+        // [Display(Name = "МО, в которой пациент состоит на ДН")]
+        // public string RegisteredMOName { get; set; } = string.Empty;
 
-        [Display(Name = "Группа ДН")]
-        public string DispensaryGroup { get; set; } = string.Empty;
+        // [Display(Name = "Группа ДН")]
+        // public string DispensaryGroup { get; set; } = string.Empty;
 
         [Display(Name = "Организация")]
         public string Organization { get; set; } = String.Empty; 

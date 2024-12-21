@@ -1,4 +1,6 @@
 ﻿using Data.Model;
+using Data.Model.Entities.Dictionary;
+using Data.Model.Entities.Invoice;
 using Data.Model.Entities.UploadedFile;
 
 
@@ -15,7 +17,10 @@ namespace Api.Repositories
         Task SaveDispensaryListResultsAsync(IEnumerable<DispensaryListResult> results);
         Task<IEnumerable<DispensaryListResult>> GetDispensaryListResultsAsync(int uploadFileInfId);
         Task<byte[]> GenerateExcelFileAsync(int uploadFileInfId);
-
+        Task<string> GetInvoiceFileTypeAsync(int invoiceFileTypeId);
+        Task<int> GetInvoiceIdFromZAPAsync(string Name, string LastName, DateTime BirthDay, string snils);
+        Task<int> GetInvoiceFileTypeId(int InvoceId);
+        Task<bool> CheckPersonExistsAsync(string Name, string LastName, DateTime BirthDay, string snils);
     }
 }
 

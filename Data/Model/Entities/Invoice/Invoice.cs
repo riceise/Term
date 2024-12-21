@@ -1,15 +1,9 @@
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 using Data.Model.Entities.Common;
-using Data.Model.Entities.Dictionary;
-using Data.Model.Entities.MedicalCompany;
 
 namespace Data.Model.Entities.Invoice
 {
-    public class Invoice : BaseGUIDEntity
+    public class Invoice : BaseEntity
     {
         [Display(Name = "Медицинская организация")]
         public int MedicalCompanyId { get; set; }

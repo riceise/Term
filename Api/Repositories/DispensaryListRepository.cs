@@ -5,11 +5,9 @@ using Data.Model.Entities.UploadedFile;
 using Data.Model;
 using OfficeOpenXml;
 using Microsoft.EntityFrameworkCore; 
-using System;
 using System.Text.Json;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
-
+using Data.Model.Entities.Dictionary;
+using Data.Model.Entities.Invoice;
 
 namespace Api.Repositories
 {
@@ -25,9 +23,38 @@ namespace Api.Repositories
             _context = context;
         }
 
+        public async Task<string> GetInvoiceFileTypeAsync(int invoiceFileTypeId)
+        {
+            var query = "SELECT FileType FROM InvoiceFileTypes WHERE Id = @invoiceFileTypeId";
+
+            return await _dbConnection.QueryFirstOrDefaultAsync<string>(query, new { invoiceFileTypeId });
+        }
+
+        public async Task<int> GetInvoiceIdFromZAPAsync(string Name, string LastName, DateTime BirthDay, string snils)
+        {
+            var query = "SELECT InvoiceId FROM ZAP WHERE Name1 = @Name AND Surname = @LastName AND Birthday = @BirthDay AND SNILS = @snils";
+
+            return await _dbConnection.QueryFirstOrDefaultAsync<int>(query, new { Name, LastName, BirthDay, snils });
+        }
+        
+        public async Task<int> GetInvoiceFileTypeId(int InvoceId)
+        {
+            var query = "SELECT invoiceFileTypeId FROM Invoice WHERE Id = @InvoceId";
+
+            return await _dbConnection.QueryFirstOrDefaultAsync<int>(query, new { InvoceId });
+        }
+
+        public async Task<bool> CheckPersonExistsAsync(string Name, string LastName, DateTime BirthDay, string snils)
+        {
+            var query = "SELECT COUNT(1) FROM Person WHERE Name1 = @Name AND Surname = @LastName AND Birthday = @BirthDay AND SNILS = @snils";
+
+            return await _dbConnection.ExecuteScalarAsync<bool>(query, new { Name, LastName, BirthDay, snils });
+        }
+
         public async Task<IEnumerable<SpiskiNaDDFromMO>> GetSpiskiAsync(int uploadFileInfId)
         {
             var query = "SELECT * FROM SpiskiNaDDFromMO WHERE UploadFileInfId = @uploadFileInfId";
+
             return await _dbConnection.QueryAsync<SpiskiNaDDFromMO>(query, new { uploadFileInfId });
         }
 
@@ -44,10 +71,10 @@ namespace Api.Repositories
             return result;
         }
 
-        
         public async Task<bool> CheckIfExistsInZapAsync(string snils)
         {
             var query = "SELECT COUNT(1) FROM ZAP WHERE SNILS = @snils";
+
             return await _dbConnection.ExecuteScalarAsync<bool>(query, new { snils });
         }
 
@@ -93,27 +120,71 @@ namespace Api.Repositories
         {
             try
             {
+                // const string insertQuery = @"
+                //     INSERT INTO DispensaryListResults 
+                //     (SpiskiNaDDFromMOId, SourceMOCode, SourceMOName, LastName, Name, Patronymic, BirthDay, 
+                //      Snils, Period, Organization, ProcessingDate, DispensaryRegistrationStatus, DateLastDD, 
+                //      DispensaryGroup, RegisteredMOCode, RegisteredMOName, AttachmentMOCode, AttachmentMOName, ProcessingResult)
+                //     VALUES 
+                //     (@SpiskiNaDDFromMOId, @SourceMOCode, @SourceMOName, @LastName, @Name, @Patronymic, @BirthDay, 
+                //      @Snils, @Period, @Organization, @ProcessingDate, @DispensaryRegistrationStatus, @DateLastDD, 
+                //      @DispensaryGroup, @RegisteredMOCode, @RegisteredMOName, @AttachmentMOCode, @AttachmentMOName, @ProcessingResult)";
+
                 const string insertQuery = @"
-                    INSERT INTO DispensaryListResults 
+                    INSERT INTO DispansaryListResults 
                     (SpiskiNaDDFromMOId, SourceMOCode, SourceMOName, LastName, Name, Patronymic, BirthDay, 
-                     Snils, Period, Organization, ProcessingDate, DispensaryRegistrationStatus, DateLastDD, 
-                     DispensaryGroup, RegisteredMOCode, RegisteredMOName, AttachmentMOCode, AttachmentMOName, ProcessingResult)
+                     Snils, Period, Organization, ProcessingDate, DateLastDD, AttachmentMOCode, AttachmentMOName, ProcessingResult)
                     VALUES 
                     (@SpiskiNaDDFromMOId, @SourceMOCode, @SourceMOName, @LastName, @Name, @Patronymic, @BirthDay, 
-                     @Snils, @Period, @Organization, @ProcessingDate, @DispensaryRegistrationStatus, @DateLastDD, 
-                     @DispensaryGroup, @RegisteredMOCode, @RegisteredMOName, @AttachmentMOCode, @AttachmentMOName, @ProcessingResult)";
+                     @Snils, @Period, @Organization, @ProcessingDate, @DateLastDD, @AttachmentMOCode, @AttachmentMOName, @ProcessingResult)";
 
                 var currentYear = DateTime.Now.Year; 
 
                 foreach (var result in results)
                 {
-                    if (result.DateLastDD.HasValue && result.DateLastDD.Value.Year == currentYear)
+                    bool personExist = await CheckPersonExistsAsync(result.Name, result.LastName, result.BirthDay, result.Snils);
+
+                    if (!personExist)
                     {
-                        result.ProcessingResult = "Ок. Проведена ДДвзр в текущем году";
+                        result.ProcessingResult = "Неидентифицирован";
                     }
                     else
                     {
-                        result.ProcessingResult = "Нет первого ДД и ПМО в текущем году";
+                        var InvoiceId = await GetInvoiceIdFromZAPAsync(result.Name, result.LastName, result.BirthDay, result.Snils);
+                        
+                        if(InvoiceId != 0)
+                        {
+                            var invoiceFileTypeId = await GetInvoiceFileTypeId(InvoiceId);
+                            var fileType = await GetInvoiceFileTypeAsync(invoiceFileTypeId);
+                            var dateLastDD = await GetZapDateDnAsync(result.Snils);
+
+                            if (fileType == "DP")
+                            {
+                                if (dateLastDD != null && dateLastDD.Value.Year == currentYear)
+                                {
+                                    result.ProcessingResult = "Ок. Проведена ДДвзр в текущем году";
+                                }
+                                else
+                                {
+                                    result.ProcessingResult = "Нет ДДвзр в текущем году";
+                                }
+                            }
+                            else if (fileType == "DO")
+                            {
+                                if (dateLastDD != null && dateLastDD.Value.Year == currentYear)
+                                {
+                                    result.ProcessingResult = "Ок. Проведен ПрофОсмотрВзр в текущем году";
+                                }
+                                else
+                                {
+                                    result.ProcessingResult = "Нет ПрофОсмотрВзр в текущем году";
+                                }
+                            }
+                        }
+                        else
+                        {
+                            result.ProcessingResult = "Нет ДДвзр и ПрофОсмотрВзр в текущем году";
+                        }
                     }
 
                     Console.WriteLine("Вставляемые данные:");
@@ -128,10 +199,6 @@ namespace Api.Repositories
                     Console.WriteLine($"  Period: {result.Period}");
                     Console.WriteLine($"  AttachmentMoCode: {result.AttachmentMOCode}");
                     Console.WriteLine($"  AttachmentMoName: {result.AttachmentMOName}");
-                    Console.WriteLine($"  DispensaryRegistrationStatus: {result.DispensaryRegistrationStatus}");
-                    Console.WriteLine($"  RegisteredMOCode: {result.RegisteredMOCode}");
-                    Console.WriteLine($"  RegisteredMOName: {result.RegisteredMOName}");
-                    Console.WriteLine($"  DispensaryGroup: {result.DispensaryGroup}");
                     Console.WriteLine($"  Organization: {result.Organization}");
                     Console.WriteLine($"  ProcessingResult: {result.ProcessingResult}");
                     Console.WriteLine($"  DateLastDD: {result.DateLastDD}");
@@ -209,12 +276,8 @@ namespace Api.Repositories
                     worksheet.Cells[row, 6].Value = result.BirthDay.ToString("dd.MM.yyyy") ?? "";
                     worksheet.Cells[row, 7].Value = result.Snils;
                     worksheet.Cells[row, 8].Value = result.Period;
-                    worksheet.Cells[row, 9].Value = result.RegisteredMOCode?.ToString() ?? "";
-                    worksheet.Cells[row, 10].Value = result.RegisteredMOName;
-                    worksheet.Cells[row, 11].Value = result.DispensaryRegistrationStatus;
                     worksheet.Cells[row, 12].Value = result.AttachmentMOCode;
                     worksheet.Cells[row, 13].Value = result.AttachmentMOName;
-                    worksheet.Cells[row, 14].Value = result.DispensaryGroup;
                     worksheet.Cells[row, 15].Value = result.Organization;
                     worksheet.Cells[row, 16].Value = result.ProcessingResult;
                     worksheet.Cells[row, 17].Value = result.DateLastDD?.ToString("dd.MM.yyyy") ?? "";

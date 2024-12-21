@@ -34,40 +34,30 @@ namespace Api.Services
                     BirthDay = entry.BirthDay,
                     Snils = entry.Snils,
                     Period = entry.Period,
-                    Organization = entry.Organizaciya,
                     ProcessingDate = DateTime.Now
                 };
 
                 var zapExists = await _repository.CheckIfExistsInZapAsync(entry.Snils);
                 if (zapExists)
                 {
-                    result.DispensaryRegistrationStatus = "Состоит на ДН";
-                    result.DateLastDD = await _repository.GetZapDateDnAsync(entry.Snils);
-                    result.DispensaryGroup = await _repository.GetDispensaryGroupAsync(entry.Snils);
                     var observations = await _repository.GetDispensaryObservationsAsync(entry.Snils);
                     if (observations.Any())
                     {
                         var observation = observations.First();
-                        result.RegisteredMOCode = int.Parse(observation.LpuType);
-                        result.RegisteredMOName = await _repository.GetMedicalCompanyShortNameAsync(observation.LpuType);
                         result.AttachmentMOCode = int.Parse(observation.LpuType);
                         result.AttachmentMOName = await _repository.GetMedicalCompanyShortNameAsync(observation.LpuType);
                         
                         if (string.IsNullOrEmpty(result.AttachmentMOName))
                         {
-                            result.AttachmentMOName = "not specified";
+                            result.AttachmentMOName = "Не найден";
                         }
                     }
                     else
                     {
-                        result.AttachmentMOName = "not specified";
+                        result.AttachmentMOName = "Не найден";
                     }
                 }
-                else
-                {
-                    result.DispensaryRegistrationStatus = "Не состоит на ДН";
-                }
-
+                
                 results.Add(result);
             }
 

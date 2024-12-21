@@ -51,8 +51,8 @@ namespace Data.Model.Entities.Invoice
         [Display(Name = "Id реестра счетов")]
         public int InvoiceId { get; set; }
         
-        [Display(Name = "Ссылка на объект Invoice")]
-        public virtual Invoice? Invoice { get; set; }
+        // [Display(Name = "Ссылка на объект Invoice")]
+        // public virtual Invoice? Invoice { get; set; }
     }
 }
 
