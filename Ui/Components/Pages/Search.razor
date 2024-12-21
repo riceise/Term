@@ -1,229 +1,453 @@
 ﻿@page "/search"
 @attribute [Authorize]
 @inject IHttpClientFactory HttpClientFactory
+@inject IJSRuntime JS
 @using System.Net
 @using Share.DTOs
 @using Ui.Components.Helper
 
-<h3>Поиск по ID</h3>
-<div class="form-group">
-    <label for="Id">Введите ID элемента:</label>
-    <InputNumber @bind-Value="_id" id="Id" class="form-control" />
+<PageTitle>Поиск по ID</PageTitle>
+
+<div class="container mt-5">
+    <div class="card shadow-sm">
+        <div class="card-header bg-success text-white">
+            <h3 class="mb-0">Поиск по ID</h3>
+        </div>
+        <div class="card-body">
+            <!-- Форма поиска -->
+            <div class="mb-4">
+                <label for="Id" class="form-label">Введите ID элемента:</label>
+                <InputNumber @bind-Value="_id" id="Id" class="form-control" placeholder="Например, 12345" />
+            </div>
+            <button class="btn btn-primary" @onclick="SearchItem" disabled="@(_isloading)">
+                @if (_isloading)
+                {
+                    <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                }
+                else
+                {
+                    <span>Найти элемент</span>
+                }
+            </button>
+
+            <!-- Сообщения об успехе -->
+            @if (!string.IsNullOrEmpty(_successMessage))
+            {
+                <div class="alert alert-success alert-dismissible fade show mt-4" role="alert">
+                    <strong>Успех!</strong> @_successMessage
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Закрыть"></button>
+                </div>
+            }
+
+            <!-- Сообщения об ошибках -->
+            @if (!string.IsNullOrEmpty(_errorMessage))
+            {
+                <div class="alert alert-danger alert-dismissible fade show mt-4" role="alert">
+                    <strong>Ошибка!</strong> @_errorMessage
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Закрыть"></button>
+                </div>
+            }
+
+            <!-- Отображение найденного элемента -->
+            @if (_item != null)
+            {
+                <div class="mt-4">
+                    <h4>Найденный элемент:</h4>
+                    <table class="table table-bordered table-hover">
+                        <tbody>
+                            <tr>
+                                <th>Порядковый номер в записи</th>
+                                <td>
+                                    @if (_isEditing)
+                                    {
+                                        <InputNumber @bind-Value="_editedItem.Npp" class="form-control" />
+                                    }
+                                    else
+                                    {
+                                        @_item.Npp
+                                    }
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Имя</th>
+                                <td>
+                                    @if (_isEditing)
+                                    {
+                                        <InputText @bind-Value="_editedItem.Name" class="form-control" />
+                                    }
+                                    else
+                                    {
+                                        @_item.Name
+                                    }
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Фамилия</th>
+                                <td>
+                                    @if (_isEditing)
+                                    {
+                                        <InputText @bind-Value="_editedItem.LastName" class="form-control" />
+                                    }
+                                    else
+                                    {
+                                        @_item.LastName
+                                    }
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Отчество</th>
+                                <td>
+                                    @if (_isEditing)
+                                    {
+                                        <InputText @bind-Value="_editedItem.Patronymic" class="form-control" />
+                                    }
+                                    else
+                                    {
+                                        @_item.Patronymic
+                                    }
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Дата рождения</th>
+                                <td>
+                                    @if (_isEditing)
+                                    {
+                                        <InputDate @bind-Value="_editedItem.BirthDay" class="form-control" />
+                                    }
+                                    else
+                                    {
+                                        @_item.BirthDay.ToString("yyyy-MM-dd")
+                                    }
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Снилс</th>
+                                <td>
+                                    @if (_isEditing)
+                                    {
+                                        <InputText @bind-Value="_editedItem.Snils" class="form-control" />
+                                    }
+                                    else
+                                    {
+                                        @_item.Snils
+                                    }
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Номер реестра</th>
+                                <td>
+                                    @if (_isEditing)
+                                    {
+                                        <InputNumber @bind-Value="_editedItem.N_reest" class="form-control" />
+                                    }
+                                    else
+                                    {
+                                        @_item.N_reest
+                                    }
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Период</th>
+                                <td>
+                                    @if (_isEditing)
+                                    {
+                                        <InputNumber @bind-Value="_editedItem.Period" class="form-control" />
+                                    }
+                                    else
+                                    {
+                                        @_item.Period
+                                    }
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Организация</th>
+                                <td>
+                                    @if (_isEditing)
+                                    {
+                                        <InputText @bind-Value="_editedItem.Organizaciya" class="form-control" />
+                                    }
+                                    else
+                                    {
+                                        @_item.Organizaciya
+                                    }
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Кнопки действий -->
+                    <div class="mt-3 d-flex flex-wrap gap-2">
+                        <button class="btn btn-danger" @onclick="DeleteItem" disabled="@(_isloading)">
+                            @if (_isloading && _currentAction == ActionType.Delete)
+                            {
+                                <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                            }
+                            else
+                            {
+                                <span>Удалить</span>
+                            }
+                        </button>
+                        <button class="btn btn-primary" @onclick="StartEdit" disabled="@(_isloading || _isEditing)">
+                            Изменить
+                        </button>
+                        @if (_isEditing)
+                        {
+                            <button class="btn btn-success" @onclick="SaveEdit" disabled="@(_isloading)">
+                                @if (_isloading && _currentAction == ActionType.Save)
+                                {
+                                    <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                                }
+                                else
+                                {
+                                    <span>Сохранить изменения</span>
+                                }
+                            </button>
+                            <button class="btn btn-secondary" @onclick="CancelEdit" disabled="@(_isloading)">
+                                Отмена
+                            </button>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
 </div>
-<button class="btn btn-primary" @onclick="SearchItem">Найти элемент</button>
-
-@if (_isloading)
-{
-    <p>Загрузка...</p>
-}
-else if (!string.IsNullOrEmpty(_errorMessage))
-{
-    <div class="alert alert-danger">@_errorMessage</div>
-}
-else if (_item != null)
-{
-    <h4>Найденный элемент:</h4>
-    <table class="table">
-        <tbody>
-        <tr>
-            <td><strong>Порядковый номер в записи:</strong></td>
-            <td>@if (_isEditing) { <InputNumber @bind-Value="_item.Npp" class="form-control" /> } else { @_item.Npp }</td>
-        </tr>
-        <tr>
-            <td><strong>Имя:</strong></td>
-            <td>@if (_isEditing) { <InputText @bind-Value="_item.Name" class="form-control" /> } else { @_item.Name }</td>
-        </tr>
-        <tr>
-            <td><strong>Фамилия:</strong></td>
-            <td>@if (_isEditing) { <InputText @bind-Value="_item.LastName" class="form-control" /> } else { @_item.LastName }</td>
-        </tr>
-        <tr>
-            <td><strong>Отчество:</strong></td>
-            <td>@if (_isEditing) { <InputText @bind-Value="_item.Patronymic" class="form-control" /> } else { @_item.Patronymic }</td>
-        </tr>
-        <tr>
-            <td><strong>Дата рождения:</strong></td>
-            <td>@if (_isEditing) { <InputDate @bind-Value="_item.BirthDay" class="form-control" /> } else { @_item.BirthDay.ToString("yyyy-MM-dd") }</td>
-        </tr>
-        <tr>
-            <td><strong>Снилс:</strong></td>
-            <td>@if (_isEditing) { <InputText @bind-Value="_item.Snils" class="form-control" /> } else { @_item.Snils }</td>
-        </tr>
-        <tr>
-            <td><strong>Номер реестра:</strong></td>
-            <td>@if (_isEditing) { <InputNumber @bind-Value="_item.N_reest" class="form-control" /> } else { @_item.N_reest }</td>
-        </tr>
-        <tr>
-            <td><strong>Период:</strong></td>
-            <td>@if (_isEditing) { <InputNumber @bind-Value="_item.Period" class="form-control" /> } else { @_item.Period }</td>
-        </tr>
-        <tr>
-            <td><strong>Организация:</strong></td>
-            <td>@if (_isEditing) { <InputText @bind-Value="_item.Organizaciya" class="form-control" /> } else { @_item.Organizaciya }</td>
-        </tr>
-        </tbody>
-    </table>
-
-    <button class="btn btn-danger me-2" @onclick="DeleteItem">Удалить</button>
-    <button class="btn btn-primary me-3" @onclick="StartEdit">Изменить</button>
-    @if (_isEditing)
-    {
-        <button class="btn btn-success me-2" @onclick="SaveEdit">Сохранить изменения</button>
-        <button class="btn btn-secondary me-2" @onclick="CancelEdit">Отмена</button>
-    }
-}
-
-@code
-{
-    
-    private int _id;
-    private SpiskiNaDDFromMODTO? _item;
-    private SpiskiNaDDFromMODTO? _editedItem;
-    private string? _errorMessage;
-    private bool _isloading;
-    private bool _isEditing;
-    private string? _message;
-
-    private async Task SearchItem()
-    {
-        var Http = HttpClientFactory.CreateClient("BackendAPI");
-
-        if (_id <= 0)
-        {
-            _errorMessage = "Пожалуйста, введите корректный ID.";
-            return;
+    <style>
+        .spinner-border-sm {
+            width: 1rem;
+            height: 1rem;
         }
 
-        try
-        {
-            _isloading = true;
-            _errorMessage = string.Empty;
+        .alert ul {
+            margin-bottom: 0;
+            padding-left: 1.25rem;
+        }
 
-            var response = await Http.GetAsync($"api/SpiskiNaDDFromMO/{_id}");
-
-            if (response.IsSuccessStatusCode)
-            {
-                _item = await response.Content.ReadFromJsonAsync<SpiskiNaDDFromMODTO>();
+        @@media (max-width: 576px) {
+            .container {
+                padding: 0 15px;
             }
-            else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+        }
+
+        .table th {
+            width: 30%;
+            background-color: #f8f9fa;
+        }
+
+        .form-label {
+            font-weight: 500;
+        }
+    </style>
+
+    <script>
+        function saveAsFile(filename, byteBase64) {
+            const blob = new Blob([new Uint8Array(atob(byteBase64).split("").map(char => char.charCodeAt(0)))]);
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = filename;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+    </script>
+
+    @code {
+        private enum ActionType
+        {
+            None,
+            Delete,
+            Save
+        }
+
+        private int _id;
+        private SpiskiNaDDFromMODTO? _item;
+        private SpiskiNaDDFromMODTO? _editedItem;
+        private string? _errorMessage;
+        private string? _successMessage; // Добавлено для сообщений об успехе
+        private bool _isloading;
+        private bool _isEditing;
+        private ActionType _currentAction = ActionType.None;
+
+        private async Task SearchItem()
+        {
+            var Http = HttpClientFactory.CreateClient("BackendAPI");
+
+            if (_id <= 0)
             {
-                _errorMessage = "Элемент не найден.";
+                _errorMessage = "Пожалуйста, введите корректный ID.";
+                _successMessage = null;
+                return;
+            }
+
+            try
+            {
+                _isloading = true;
+                _errorMessage = string.Empty;
+                _successMessage = string.Empty;
+
+                var response = await Http.GetAsync($"api/SpiskiNaDDFromMO/{_id}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    _item = await response.Content.ReadFromJsonAsync<SpiskiNaDDFromMODTO>();
+                    if (_item == null)
+                    {
+                        _errorMessage = "Получены некорректные данные.";
+                    }
+                    else
+                    {
+                        _successMessage = "Элемент успешно найден.";
+                    }
+                }
+                else if (response.StatusCode == HttpStatusCode.NotFound)
+                {
+                    _errorMessage = "Элемент не найден.";
+                    _item = null;
+                }
+                else
+                {
+                    _errorMessage = $"Ошибка при поиске элемента: {response.StatusCode}";
+                    _item = null;
+                }
+            }
+            catch (Exception ex)
+            {
+                _errorMessage = $"Произошла ошибка: {ex.Message}";
                 _item = null;
             }
-            else
+            finally
             {
-                _errorMessage = $"Ошибка при поиске элемента: {response.StatusCode}";
-                _item = null;
+                _isloading = false;
             }
         }
-        catch (Exception ex)
-        {
-            _errorMessage = $"Произошла ошибка: {ex.Message}";
-            _item = null;
-        }
-        finally
-        {
-            _isloading = false;
-        }
-    }
 
-    private async Task DeleteItem()
-    {
-        var Http = HttpClientFactory.CreateClient("BackendAPI");
-
-        try
+        private async Task DeleteItem()
         {
-            _isloading = true;
+            var Http = HttpClientFactory.CreateClient("BackendAPI");
+
+            try
+            {
+                _isloading = true;
+                _errorMessage = string.Empty;
+                _successMessage = string.Empty;
+                _currentAction = ActionType.Delete;
+
+                var confirm = await JS.InvokeAsync<bool>("confirm", "Вы уверены, что хотите удалить этот элемент?");
+                if (!confirm)
+                {
+                    _isloading = false;
+                    _currentAction = ActionType.None;
+                    return;
+                }
+
+                var response = await Http.DeleteAsync($"api/SpiskiNaDDFromMO/{_id}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    _item = null;
+                    _successMessage = "Элемент успешно удален.";
+                }
+                else
+                {
+                    _errorMessage = $"Ошибка при удалении элемента: {response.StatusCode}";
+                }
+            }
+            catch (Exception ex)
+            {
+                _errorMessage = $"Произошла ошибка: {ex.Message}";
+            }
+            finally
+            {
+                _isloading = false;
+                _currentAction = ActionType.None;
+            }
+        }
+
+        private void StartEdit()
+        {
+            if (_item != null)
+            {
+                _isEditing = true;
+                _editedItem = new SpiskiNaDDFromMODTO
+                {
+                    Id = _item.Id,
+                    Npp = _item.Npp,
+                    Name = _item.Name,
+                    LastName = _item.LastName,
+                    Patronymic = _item.Patronymic,
+                    BirthDay = _item.BirthDay,
+                    Snils = _item.Snils,
+                    N_reest = _item.N_reest,
+                    Period = _item.Period,
+                    Organizaciya = _item.Organizaciya
+                };
+                _errorMessage = string.Empty;
+                _successMessage = string.Empty;
+            }
+        }
+
+        private async Task SaveEdit()
+        {
+            if (_editedItem == null)
+            {
+                _errorMessage = "Данные для изменения не найдены.";
+                _successMessage = null;
+                return;
+            }
+
+            var Http = HttpClientFactory.CreateClient("BackendAPI");
+
+            try
+            {
+                _isloading = true;
+                _errorMessage = string.Empty;
+                _successMessage = string.Empty;
+                _currentAction = ActionType.Save;
+
+                var response = await Http.PutAsJsonAsync($"api/SpiskiNaDDFromMO/{_editedItem.Id}", _editedItem);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    // Обновляем _item значениями из _editedItem
+                    _item = new SpiskiNaDDFromMODTO
+                    {
+                        Id = _editedItem.Id,
+                        Npp = _editedItem.Npp,
+                        Name = _editedItem.Name,
+                        LastName = _editedItem.LastName,
+                        Patronymic = _editedItem.Patronymic,
+                        BirthDay = _editedItem.BirthDay,
+                        Snils = _editedItem.Snils,
+                        N_reest = _editedItem.N_reest,
+                        Period = _editedItem.Period,
+                        Organizaciya = _editedItem.Organizaciya
+                    };
+                    _isEditing = false;
+                    _successMessage = "Изменения успешно сохранены.";
+                }
+                else
+                {
+                    _errorMessage = $"Ошибка при сохранении изменений: {response.StatusCode}";
+                }
+            }
+            catch (Exception ex)
+            {
+                _errorMessage = $"Произошла ошибка: {ex.Message}";
+            }
+            finally
+            {
+                _isloading = false;
+                _currentAction = ActionType.None;
+                StateHasChanged();
+            }
+        }
+
+        private async Task CancelEdit()
+        {
+            _isEditing = false;
             _errorMessage = string.Empty;
-
-            var response = await Http.DeleteAsync($"api/SpiskiNaDDFromMO/{_id}");
-
-            if (response.IsSuccessStatusCode)
-            {
-                _item = null;
-                _errorMessage = "Элемент успешно удален.";
-            }
-            else
-            {
-                _errorMessage = $"Ошибка при удалении элемента: {response.StatusCode}";
-            }
-        }
-        catch (Exception ex)
-        {
-            _errorMessage = $"Произошла ошибка: {ex.Message}";
-        }
-        finally
-        {
-            _isloading = false;
+            _successMessage = string.Empty;
+            _editedItem = null;
+            await SearchItem();
         }
     }
-
-    private void StartEdit()
-    {
-        _isEditing = true;
-        if (_item != null)
-        {
-            _isEditing = true;
-            _editedItem = new SpiskiNaDDFromMODTO
-            {
-                Id = _item.Id,
-                Name = _item.Name,
-                LastName = _item.LastName,
-                Patronymic = _item.Patronymic,
-                BirthDay = _item.BirthDay,
-                Snils = _item.Snils,
-                N_reest = _item.N_reest,
-                Period = _item.Period,
-                Organizaciya = _item.Organizaciya
-            };
-        }
-    }
-
-    private async Task SaveEdit()
-    {
-        var Http = HttpClientFactory.CreateClient("BackendAPI");
-
-        if (_editedItem == null)
-        {
-            _errorMessage = "Данные для изменения не найдены.";
-            return;
-        }
-
-        try
-        {
-            _isloading = true;
-            _errorMessage = string.Empty;
-            
-            var response = await Http.PutAsJsonAsync($"api/SpiskiNaDDFromMO/{_editedItem.Id}", _item);
-            
-            string json = System.Text.Json.JsonSerializer.Serialize(_editedItem);
-            Console.WriteLine($"Sending JSON: {json}");
-            
-            if (response.IsSuccessStatusCode)
-            {
-                _item = await response.Content.ReadFromJsonAsync<SpiskiNaDDFromMODTO>();
-                _isEditing = false;
-             }
-            else
-            {
-                _errorMessage = $"Ошибка при сохранении изменений: {response.StatusCode}";
-            }
-        }
-        catch (Exception ex)
-        {
-            _errorMessage = $"Произошла ошибка: {ex.Message}";
-        }
-        finally
-        {
-            _isloading = false;
-            StateHasChanged();
-        }
-    }
-    private void CancelEdit()
-    {
-        _isEditing = false;
-        Console.WriteLine($"ID before search: {_id}");
-        SearchItem(); 
-    }
-
-}

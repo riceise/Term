@@ -6,67 +6,94 @@
 @using Share.DTOs
 @using Ui.Components.Helper
 
+<PageTitle>Загрузка файлов</PageTitle>
 
-<h3>Загрузка Excel файла</h3>
-
-@if (!string.IsNullOrEmpty(errorMessage))
-{
-<div class="alert alert-danger">
-    <h5>@errorMessage</h5>
-</div>
-}
-
-@if (errorList != null && errorList.Count > 0)
-{
-<div class="alert alert-danger">
-    <h5>Ошибки:</h5>
-    <div class="error-list">
-        <ul>
-            @foreach (var error in errorList)
+<div class="container mt-5">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h3 class="mb-0">Загрузка Excel файла</h3>
+        </div>
+        <div class="card-body">
+            @if (!string.IsNullOrEmpty(errorMessage))
             {
-            <li>@error</li>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Ошибка!</strong> @errorMessage
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Закрыть"></button>
+                </div>
             }
-        </ul>
+
+            @if (errorList != null && errorList.Count > 0)
+            {
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Ошибки:</strong>
+                    <ul class="mb-0">
+                        @foreach (var error in errorList)
+                        {
+                            <li>@error</li>
+                        }
+                    </ul>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Закрыть"></button>
+                </div>
+            }
+
+            @if (!string.IsNullOrEmpty(successMessage))
+            {
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    @successMessage
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Закрыть"></button>
+                </div>
+            }
+
+            <div class="mb-3">
+                <label for="fileInput" class="form-label">Выберите Excel файл для загрузки</label>
+                <InputFile id="fileInput" OnChange="OnInputFileChange" class="form-control" accept=".xlsx, .xls" />
+                @if (selectedFile != null)
+                {
+                    <div class="mt-2">
+                        <span>Выбран файл: <strong>@selectedFile.Name</strong> (@(selectedFile.Size / 1024) KB)</span>
+                    </div>
+                }
+            </div>
+
+            <div class="d-flex gap-2">
+                <button class="btn btn-primary" @onclick="SubmitFile" disabled="@(!CanSubmit)">
+                    <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true" hidden="@(!isSubmitting)"></span>
+                    Загрузить
+                </button>
+                @if (fileUploaded)
+                {
+                    <button class="btn btn-success" @onclick="ProcessFile" disabled="@(!fileUploaded || isProcessing)">
+                        <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true" hidden="@(!isProcessing)"></span>
+                        Обработать
+                    </button>
+                    <button class="btn btn-secondary" @onclick="DownloadFile" disabled="@(!fileProcessed || isDownloading)">
+                        <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true" hidden="@(!isDownloading)"></span>
+                        Скачать
+                    </button>
+                }
+            </div>
+        </div>
     </div>
-</div>
-}
-
-@if (!string.IsNullOrEmpty(successMessage))
-{
-<div class="alert alert-success">@successMessage</div>
-}
-
-<div>
-    <InputFile OnChange="OnInputFileChange" />
-</div>
-
-<div class="mt-2">
-    <button class="btn btn-primary" @onclick="SubmitFile">Загрузить</button>
-    @if (fileUploaded)
-    {
-        <button class="btn btn-success" @onclick="ProcessFile" disabled="@(!fileUploaded)">Обработать</button>
-        <button class="btn btn-secondary" @onclick="DownloadFile" disabled="@(!fileProcessed)">Скачать</button>    
-    }
 </div>
 
 <style>
-    .error-list {
-        max-height: 600px;
-        overflow-y: auto;
-        border: 1px solid #e74c3c;
-        padding: 10px;
-        background-color: #f8d7da;
+    .spinner-border-sm {
+        width: 1rem;
+        height: 1rem;
     }
 
-    .error-list ul {
-        list-style-type: disc;
-        padding-left: 20px;
+    .alert ul {
+        margin-bottom: 0;
+        padding-left: 1.25rem;
     }
 
-    .alert-danger h5 {
-        margin-bottom: 10px;
+    @@media (max-width: 576px) {
+        .container {
+            padding: 0 15px;
+        }
     }
 </style>
+
 <script>
     function saveAsFile(filename, byteBase64) {
         const blob = new Blob([new Uint8Array(atob(byteBase64).split("").map(char => char.charCodeAt(0)))]);
@@ -79,113 +106,94 @@
     }
 </script>
 
-@code 
-{
+@code {
     private IBrowserFile selectedFile;
     private string errorMessage;
     private string successMessage;
     private List<string> errorList = new();
-    private int uploadFileInfId; 
+    private int uploadFileInfId;
     private bool fileUploaded = false;
     private bool fileProcessed = false;
+    private bool isSubmitting = false;
+    private bool isProcessing = false;
+    private bool isDownloading = false;
+
+    private bool CanSubmit => selectedFile != null && !isSubmitting;
 
     private void OnInputFileChange(InputFileChangeEventArgs e)
     {
-    selectedFile = e.File;
-    }
-
- 
-    private async Task SubmitFile()
-    {
+        selectedFile = e.File;
+        // Сброс состояния после выбора нового файла
         errorMessage = string.Empty;
         successMessage = string.Empty;
         errorList.Clear();
+        fileUploaded = false;
+        fileProcessed = false;
+    }
+
+    private async Task SubmitFile()
+    {
+        if (selectedFile == null)
+        {
+            errorMessage = "Пожалуйста, выберите файл для загрузки.";
+            return;
+        }
+
+        errorMessage = string.Empty;
+        successMessage = string.Empty;
+        errorList.Clear();
+        isSubmitting = true;
 
         var Http = HttpClientFactory.CreateClient("BackendAPI");
 
-        if (selectedFile != null)
+        try
         {
-            try
+            var content = new MultipartFormDataContent();
+            var fileStream = selectedFile.OpenReadStream(maxAllowedSize: 10 * 1024 * 1024); // Ограничение размера файла (например, 10 МБ)
+            var streamContent = new StreamContent(fileStream);
+            streamContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(selectedFile.ContentType);
+            content.Add(streamContent, "file", selectedFile.Name);
+
+            var response = await Http.PostAsync("api/SpiskiNaDDFromMO/upload", content);
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+            if (response.IsSuccessStatusCode)
             {
-                var content = new MultipartFormDataContent();
-                var fileStream = selectedFile.OpenReadStream();
-                var streamContent = new StreamContent(fileStream);
-                content.Add(streamContent, "file", selectedFile.Name);
-
-                var response = await Http.PostAsync($"api/SpiskiNaDDFromMO/upload", content);
-                var responseContent = await response.Content.ReadAsStringAsync();
-
-                if (response.IsSuccessStatusCode)
+                var uploadResponse = JsonSerializer.Deserialize<UploadResponse>(responseContent, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                if (uploadResponse != null)
                 {
-                    
-                    Console.WriteLine($"Ответ сервера: {responseContent}"); 
-                    try
-                    {
-                        var uploadResponse = JsonSerializer.Deserialize<UploadResponse>(responseContent, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-                        if (uploadResponse != null)
-                        {
-                            uploadFileInfId = uploadResponse.UploadFileId; 
-                            fileUploaded = true; 
-                            successMessage = "Файл успешно загружен!";
-                            Console.WriteLine(uploadFileInfId);
-                        }
-                    }
-                    catch (JsonException ex)
-                    {
-                        errorMessage = $"Ошибка десериализации JSON: {ex.Message}";
-                        Console.WriteLine($"Ошибка JSON: {ex.Message}");
-                    }
-                }
-                else
-                {
-                    try
-                    {
-                        var errorResponse = JsonSerializer.Deserialize<ErrorResponse>(responseContent, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-                        if (errorResponse != null && errorResponse.Errors != null && errorResponse.Errors.Any())
-                        {
-                            errorList = errorResponse.Errors;
-                            errorMessage = errorResponse.Message ?? "На сервере произошли ошибки валидации.";
-                        }
-                        else if (errorResponse != null && !string.IsNullOrEmpty(errorResponse.Message))
-                        {
-                            errorMessage = errorResponse.Message;
-                        }
-                        else
-                        {
-                            errorMessage = $"Неожиданный формат ошибки. Подробности смотрите в консоли.";
-                            Console.WriteLine($"Неожиданный ответ с ошибкой: {responseContent}");
-                        }
-                    }
-                    catch (JsonException ex)
-                    {
-                        errorMessage = "Не удалось разобрать ответ с ошибкой. Подробности смотрите в консоли.";
-                        Console.WriteLine($"Ошибка разбора JSON: {ex.Message}\nСодержимое ответа: {responseContent}");
-                    }
+                    uploadFileInfId = uploadResponse.UploadFileId;
+                    fileUploaded = true;
+                    successMessage = "Файл успешно загружен!";
                 }
             }
-            catch (Exception ex)
+            else
             {
-                errorMessage = $"An error occurred: {ex.Message}";
+                HandleErrorResponse(responseContent);
             }
         }
-        else
+        catch (Exception ex)
         {
-            errorMessage = "Please select a file.";
+            errorMessage = $"Произошла ошибка при загрузке файла: {ex.Message}";
+        }
+        finally
+        {
+            isSubmitting = false;
         }
     }
 
-    // Метод для обработки файла
     private async Task ProcessFile()
     {
-        errorMessage = string.Empty;
-        successMessage = string.Empty;
-        errorList.Clear();
-
         if (uploadFileInfId <= 0)
         {
             errorMessage = "Файл был загружен некорректно.";
             return;
         }
+
+        errorMessage = string.Empty;
+        successMessage = string.Empty;
+        errorList.Clear();
+        isProcessing = true;
 
         var Http = HttpClientFactory.CreateClient("BackendAPI");
         try
@@ -205,20 +213,24 @@
         }
         catch (Exception ex)
         {
-            errorMessage = $"Произошла ошибка: {ex.Message}";
+            errorMessage = $"Произошла ошибка при обработке файла: {ex.Message}";
+        }
+        finally
+        {
+            isProcessing = false;
         }
     }
 
-    // Метод для скачивания файла
     private async Task DownloadFile()
     {
-        errorMessage = string.Empty;
-
         if (uploadFileInfId <= 0)
         {
             errorMessage = "Файл не был загружен корректно.";
             return;
         }
+
+        errorMessage = string.Empty;
+        isDownloading = true;
 
         var Http = HttpClientFactory.CreateClient("BackendAPI");
         try
@@ -232,10 +244,11 @@
                 await fileStream.CopyToAsync(memoryStream);
 
                 var fileBytes = memoryStream.ToArray();
-                var base64String = Convert.ToBase64String(fileBytes); 
+                var base64String = Convert.ToBase64String(fileBytes);
 
                 var fileName = "DispensaryListResults.xlsx";
-                await JS.InvokeVoidAsync("saveAsFile", fileName, base64String); 
+                await JS.InvokeVoidAsync("saveAsFile", fileName, base64String);
+                successMessage = "Файл успешно скачан!";
             }
             else
             {
@@ -244,7 +257,11 @@
         }
         catch (Exception ex)
         {
-            errorMessage = $"Произошла ошибка при скачивании: {ex.Message}";
+            errorMessage = $"Произошла ошибка при скачивании файла: {ex.Message}";
+        }
+        finally
+        {
+            isDownloading = false;
         }
     }
 
@@ -268,12 +285,13 @@
             errorMessage = "Не удалось разобрать ответ с ошибкой.";
         }
     }
-    
+
     private class ProcessResponse
     {
         public bool Success { get; set; }
         public string Message { get; set; }
     }
+
     private class UploadResponse
     {
         public int UploadFileId { get; set; }

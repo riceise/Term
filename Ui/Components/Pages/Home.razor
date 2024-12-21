@@ -5,24 +5,65 @@
 <CascadingAuthenticationState>
     <AuthorizeView>
         <Authorized>
-            Красава, наш пацан, аварец
+            <div class="container mt-5">
+                <div class="welcome-card card p-4">
+                    <p class="card-text">
+                        Спасибо, что вы с нами! В "Веб-сервисе загрузки списков на диспансеризацию неприкрепленного населения" вы можете эффективно управлять 
+                        данными, загружать новые списки и отслеживать процесс диспансеризации. Наш сервис разработан для упрощения ваших задач 
+                        и повышения эффективности работы.
+                    </p>
+                    <p class="card-text">
+                        Используйте боковую навигационную панель для доступа к различным функциям системы. Если у вас возникнут вопросы или 
+                        потребуется помощь, наша поддержка всегда готова помочь.
+                    </p>
+                </div>
+            </div>
         </Authorized>
 
         <NotAuthorized>
-            
-            <h1>
-                Добро пожаловать в систему загрузки списков неприкреплённого населения на диспансеризацию.  
-            </h1>
-
-            <h3>
-                Для продолжения работы, пожалуйста, войдите под своей учётной записью или заведите новую
-            </h3>
-
-            <div>
-                <img src="img.jpg" width="400" height="400"/>
+            <div class="container mt-5">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <h1 class="mb-4">Добро пожаловать в наш веб-сервис!</h1>
+                        <p class="lead">
+                            "Веб-сервис загрузки списков на диспансеризацию неприкрепленного населения" предназначен для упрощения процесса 
+                            подготовки и загрузки списков граждан для диспансеризации. Наш сервис обеспечивает удобный интерфейс для 
+                            управления данными и автоматизации рутинных задач.
+                        </p>
+                        <p>
+                            Зарегистрируйтесь или войдите в систему через верхнее меню, чтобы начать работу и воспользоваться всеми 
+                            доступными функциями.
+                        </p>
+                        <div class="mt-4 text-center">
+                            <img src="img.jpg" class="img-fluid rounded shadow" alt="Диспансеризация" />
+                        </div>
+                    </div>
+                    <div class="col-md-6 d-none d-md-block">
+                        <img src="img.jpg" class="img-fluid rounded shadow" alt="Диспансеризация" />
+                    </div>
+                </div>
             </div>
-            
         </NotAuthorized>
-
     </AuthorizeView>
 </CascadingAuthenticationState>
+
+<style>
+    .welcome-card {
+        background-color: #f8f9fa;
+        border: none;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .welcome-card h2 {
+        color: #343a40;
+    }
+
+    .welcome-card p {
+        color: #495057;
+    }
+
+    .shadow {
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+</style>

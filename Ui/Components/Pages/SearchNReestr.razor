@@ -1,119 +1,203 @@
 ﻿@page "/nreest"
 @attribute [Authorize]
-@inject IHttpClientFactory HttpClientFactory
 @using Share.DTOs
 @using Ui.Components.Helper
 @using System.ComponentModel.DataAnnotations
 @using Microsoft.AspNetCore.Components.Forms
+@inject IHttpClientFactory HttpClientFactory
 @inject IJSRuntime JSRuntime
 
-<h3>Поиск по номеру реестра</h3>
+<PageTitle>Поиск по номеру реестра</PageTitle>
 
-<EditForm Model="@_searchModel" OnValidSubmit="@SearchByNReest">
-    <div class="form-group">
-        <label for="nreest">Номер реестра:</label>
-        <InputNumber id="nreest" @bind-Value="_searchModel.NReest" class="form-control" />
-        <ValidationMessage For="@(() => _searchModel.NReest)" />
-    </div>
-    <button type="submit" class="btn btn-primary">Найти</button>
-</EditForm>
+<div class="container mt-5">
+    <div class="card shadow-sm">
+        <div class="card-header bg-success text-white">
+            <h3 class="mb-0">Поиск по номеру реестра</h3>
+        </div>
 
-@if (_isLoading)
-{
-    <p>Загрузка...</p>
-}
-else if (_errorMessage != null)
-{
-    <div class="alert alert-danger" role="alert">@_errorMessage</div>
-}
-else if (_items != null && _items.Any())
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>ПП</th>
-                <th>Имя</th>
-                <th>Фамилия</th>
-                <th>Отчество</th>
-                <th>Дата рождения</th>
-                <th>СНИЛС</th>
-                <th>Номер реестра</th>
-                <th>Период</th>
-                <th>Организация</th>
-                <th>Действия</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in _items)
+        <div class="card-body">
+            <!-- Форма поиска -->
+            <EditForm Model="@_searchModel" OnValidSubmit="@SearchByNReest">
+                <DataAnnotationsValidator />
+                <ValidationSummary class="text-danger mb-3" />
+
+                <div class="mb-3">
+                    <label for="nreest" class="form-label fw-bold">Номер реестра:</label>
+                    <InputNumber id="nreest"
+                                 @bind-Value="_searchModel.NReest"
+                                 class="form-control"
+                                 placeholder="Введите номер реестра" />
+                    <ValidationMessage For="@(() => _searchModel.NReest)" />
+                </div>
+
+                <button type="submit" class="btn btn-primary" disabled="@_isLoading">
+                    @if (_isLoading)
+                    {
+                        <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                    }
+                    else
+                    {
+                        <i>Поиск</i>
+                    }
+                </button>
+            </EditForm>
+
+            <!-- Сообщения об успехе -->
+            @if (!string.IsNullOrEmpty(_successMessage))
             {
-                @if (_isEditing && _selectedItem == item)
-                {
-                    <tr class="vertical-table-row">
-                        <td colspan="10">
-                            <table class ='table table-borderless'>
-                                <tbody>
-                                <tr>
-                                    <th>Порядковый номер:</th>
-                                    <td><InputNumber @bind-Value="item.Npp" class="form-control" /></td>
-                                </tr>
-                                <tr>
-                                    <th>Имя:</th>
-                                    <td><InputText @bind-Value="item.Name" class="form-control" /></td>
-                                </tr>
-                                <tr>
-                                    <th>Фамилия:</th>
-                                    <td><InputText @bind-Value="item.LastName" class="form-control" /></td>
-                                </tr>
-                                <tr>
-                                    <th>Отчество:</th>
-                                    <td><InputText @bind-Value="item.Patronymic" class="form-control" /></td>
-                                </tr>
-                                <tr>
-                                    <th>Дата рождения:</th>
-                                    <td><InputDate @bind-Value="item.BirthDay" class="form-control" /></td>
-                                </tr>
-                                <tr>
-                                    <th>Период:</th>
-                                    <td><InputNumber @bind-Value="item.Period" class="form-control" /></td>
-                                </tr>
-                                <tr>
-                                    <th>Организация:</th>
-                                    <td><InputText @bind-Value="item.Organizaciya" class="form-control" /></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2">
-                                        <button @onclick="@(async () => await SaveEdit(item))" class="btn btn-success me-2">Сохранить</button>
-                                        <button @onclick="CancelEdit" class="btn btn-secondary me-2">Отмена</button>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </td>
-                    </tr>
-                }
-                else
-                {
-                    <tr>
-                        <td>@item.Npp</td>
-                        <td>@item.Name</td>
-                        <td>@item.LastName</td>
-                        <td>@item.Patronymic</td>
-                        <td>@item.BirthDay.ToString("yyyy-MM-dd")</td>
-                        <td>@item.Snils</td>
-                        <td>@item.N_reest</td>
-                        <td>@item.Period</td>
-                        <td>@item.Organizaciya</td>
-                        <td>
-                            <button @onclick="@(() => StartEdit(item))" class="btn btn-primary me-2">Изменить</button>
-                            <button class="btn btn-danger me-2" @onclick="@(async () => await DeleteItem(item))">Удалить</button>
-                        </td>
-                    </tr>
-                }
-                
+                <div class="alert alert-success alert-dismissible fade show mt-4" role="alert">
+                    <strong>Успех!</strong> @_successMessage
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Закрыть"></button>
+                </div>
             }
-        </tbody>
-    </table>
-}
+
+            <!-- Сообщения об ошибках -->
+            @if (!string.IsNullOrEmpty(_errorMessage))
+            {
+                <div class="alert alert-danger alert-dismissible fade show mt-4" role="alert">
+                    <strong>Ошибка!</strong> @_errorMessage
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Закрыть"></button>
+                </div>
+            }
+
+            <!-- Отображение процесса загрузки -->
+            @if (_isLoading)
+            {
+                <div class="mt-3">
+                    <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                    Загрузка...
+                </div>
+            }
+
+            <!-- Отображение найденных элементов -->
+            @if (!_isLoading && _items != null && _items.Any())
+            {
+                <div class="table-responsive mt-4">
+                    <table class="table table-bordered table-hover align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>ПП</th>
+                                <th>Имя</th>
+                                <th>Фамилия</th>
+                                <th>Отчество</th>
+                                <th>Дата рождения</th>
+                                <th>СНИЛС</th>
+                                <th>Номер реестра</th>
+                                <th>Период</th>
+                                <th>Организация</th>
+                                <th>Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in _items)
+                            {
+                                @if (_isEditing && _selectedItem == item)
+                                {
+                                    <tr class="vertical-table-row">
+                                        <td colspan="10">
+                                            <div class="card mb-2">
+                                                <div class="card-header bg-secondary text-white">
+                                                    Редактирование записи (ID: @item.Id)
+                                                </div>
+                                                <div class="card-body">
+                                                    <table class="table table-borderless mb-0">
+                                                        <tbody>
+                                                            <tr>
+                                                                <th>Порядковый номер:</th>
+                                                                <td>
+                                                                    <InputNumber @bind-Value="item.Npp" class="form-control" />
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>Имя:</th>
+                                                                <td>
+                                                                    <InputText @bind-Value="item.Name" class="form-control" />
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>Фамилия:</th>
+                                                                <td>
+                                                                    <InputText @bind-Value="item.LastName" class="form-control" />
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>Отчество:</th>
+                                                                <td>
+                                                                    <InputText @bind-Value="item.Patronymic" class="form-control" />
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>Дата рождения:</th>
+                                                                <td>
+                                                                    <InputDate @bind-Value="item.BirthDay" class="form-control" />
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>Период:</th>
+                                                                <td>
+                                                                    <InputNumber @bind-Value="item.Period" class="form-control" />
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>Организация:</th>
+                                                                <td>
+                                                                    <InputText @bind-Value="item.Organizaciya" class="form-control" />
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td colspan="2">
+                                                                    <button @onclick="@(async () => await SaveEdit(item))"
+                                                                            disabled="@_isLoading">
+                                                                        Сохранить
+                                                                    </button>
+                                                                    <button @onclick="CancelEdit"
+                                                                            disabled="@_isLoading">
+                                                                        Отмена
+                                                                    </button>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td>@item.Npp</td>
+                                        <td>@item.Name</td>
+                                        <td>@item.LastName</td>
+                                        <td>@item.Patronymic</td>
+                                        <td>@item.BirthDay.ToString("yyyy-MM-dd")</td>
+                                        <td>@item.Snils</td>
+                                        <td>@item.N_reest</td>
+                                        <td>@item.Period</td>
+                                        <td>@item.Organizaciya</td>
+                                        <td>
+                                            <button @onclick="@(() => StartEdit(item))"
+                                                    class="btn btn-primary btn-sm me-2"
+                                                    disabled="@_isLoading">
+                                                Изменить
+                                            </button>
+                                            <button class="btn btn-danger btn-sm"
+                                                    @onclick="@(async () => await DeleteItem(item))"
+                                                    disabled="@_isLoading">
+                                                Удалить
+                                            </button>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
 <style>
     .vertical-table-row > td {
         vertical-align: top;
@@ -123,6 +207,18 @@ else if (_items != null && _items.Any())
         width: auto;
         margin: 0;
     }
+
+    /* Уменьшаем отступы в таблице для более компактного вида */
+    .table > :not(caption) > * > * {
+        padding: 0.55rem 0.75rem;
+    }
+
+    /* Адаптивное поведение таблицы на узких экранах */
+    @@media (max-width: 768px) {
+        th, td {
+            white-space: nowrap;
+        }
+    }
 </style>
 
 @code {
@@ -131,12 +227,14 @@ else if (_items != null && _items.Any())
     private SearchModel _searchModel = new();
     private List<SpiskiNaDDFromMODTO>? _items;
     private string? _errorMessage;
+    private string? _successMessage; // Для сообщений об успехе
     private bool _isLoading;
 
     private async Task SearchByNReest()
     {
         _isLoading = true;
         _errorMessage = null;
+        _successMessage = null;
         _items = null;
 
         var Http = HttpClientFactory.CreateClient("BackendAPI");
@@ -147,6 +245,10 @@ else if (_items != null && _items.Any())
             if (response.IsSuccessStatusCode)
             {
                 _items = await response.Content.ReadFromJsonAsync<List<SpiskiNaDDFromMODTO>>();
+                if (_items == null || !_items.Any())
+                {
+                    _errorMessage = "Записи не найдены.";
+                }
             }
             else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
             {
@@ -166,13 +268,14 @@ else if (_items != null && _items.Any())
             _isLoading = false;
         }
     }
-    
+
     private void StartEdit(SpiskiNaDDFromMODTO item)
     {
         _isEditing = true;
         _selectedItem = item;
         StateHasChanged();
     }
+
     private async Task SaveEdit(SpiskiNaDDFromMODTO item)
     {
         var Http = HttpClientFactory.CreateClient("BackendAPI");
@@ -181,20 +284,24 @@ else if (_items != null && _items.Any())
         {
             _isLoading = true;
             _errorMessage = null;
+            _successMessage = null;
 
             var response = await Http.PutAsJsonAsync($"api/SpiskiNaDDFromMO/{item.Id}", item);
             string json = System.Text.Json.JsonSerializer.Serialize(item);
             Console.WriteLine($"Sending JSON: {json}");
-            
+
             if (response.IsSuccessStatusCode)
             {
+                // Сохраняем успех
+                _successMessage = "Изменения успешно сохранены.";
                 _isEditing = false;
                 _selectedItem = null;
+                // Повторно ищем, чтобы подтянуть актуальные данные (или можно обновить локально)
                 await SearchByNReest();
             }
             else
             {
-                 _errorMessage = $"Ошибка при сохранении изменений: {response.StatusCode}";
+                _errorMessage = $"Ошибка при сохранении изменений: {response.StatusCode}";
             }
         }
         catch (Exception ex)
@@ -212,24 +319,29 @@ else if (_items != null && _items.Any())
     {
         _isEditing = false;
         _selectedItem = null;
+        _successMessage = null; // или оставляем, если нужно
+        _errorMessage = null;   // или оставляем
         StateHasChanged();
     }
+
     private async Task DeleteItem(SpiskiNaDDFromMODTO item)
     {
-        bool confirmed = await JSRuntime.InvokeAsync<bool>("confirm", "Вы уверены, что хотите удалить эту запись?"); // <-- Confirmation dialog
+        bool confirmed = await JSRuntime.InvokeAsync<bool>("confirm", "Вы уверены, что хотите удалить эту запись?");
         var Http = HttpClientFactory.CreateClient("BackendAPI");
-        
-        if (confirmed) 
+
+        if (confirmed)
         {
             try
             {
                 _isLoading = true;
-                _errorMessage = string.Empty;
+                _errorMessage = null;
+                _successMessage = null;
 
                 var response = await Http.DeleteAsync($"api/SpiskiNaDDFromMO/{item.Id}");
 
                 if (response.IsSuccessStatusCode)
                 {
+                    _successMessage = "Элемент успешно удален.";
                     await SearchByNReest();
                 }
                 else

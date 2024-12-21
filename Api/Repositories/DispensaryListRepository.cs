@@ -121,10 +121,10 @@ namespace Api.Repositories
                 const string insertQuery = @"
                     INSERT INTO DispensaryListResults 
                     (SpiskiNaDDFromMOId, SourceMOCode, SourceMOName, LastName, Name, Patronymic, BirthDay, 
-                     Snils, Period, Organization, ProcessingDate, DateLastDD, AttachmentMOCode, AttachmentMOName, ProcessingResult)
+                     Snils, Period, ProcessingDate, DateLastDD, ProcessingResult)
                     VALUES 
                     (@SpiskiNaDDFromMOId, @SourceMOCode, @SourceMOName, @LastName, @Name, @Patronymic, @BirthDay, 
-                     @Snils, @Period, @Organization, @ProcessingDate, @DateLastDD, @AttachmentMOCode, @AttachmentMOName, @ProcessingResult)";
+                     @Snils, @Period, @ProcessingDate, @DateLastDD, @ProcessingResult)";
 
                 var currentYear = DateTime.Now.Year; 
 
@@ -202,7 +202,7 @@ namespace Api.Repositories
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"SaveDispensaryListResultsAsync не сработал: {ex.StackTrace}");
+                Console.WriteLine($"SaveDispensaryListResultsAsync не сработал: {ex}");
                 throw;
             }
         }
@@ -244,15 +244,8 @@ namespace Api.Repositories
                 worksheet.Cells["F1"].Value = "Дата рождения";
                 worksheet.Cells["G1"].Value = "СНИЛС";
                 worksheet.Cells["H1"].Value = "Период";
-                worksheet.Cells["I1"].Value = "Код МО Прикрепления";
-                worksheet.Cells["J1"].Value = "МО Прикрепления";
-                worksheet.Cells["K1"].Value = "Состоит/не состоит на ДН";
-                worksheet.Cells["L1"].Value = "Код МО, в которой пациент состоит на ДН";
-                worksheet.Cells["M1"].Value = "МО, в которой пациент состоит на ДН";
-                worksheet.Cells["N1"].Value = "Диспансерная группа";
-                worksheet.Cells["O1"].Value = "Организация";
                 worksheet.Cells["P1"].Value = "Результат обработки ТФОМС";
-                worksheet.Cells["Q1"].Value = "Дата прохождения ДН";
+                worksheet.Cells["Q1"].Value = "Дата прохождения";
                 worksheet.Cells["R1"].Value = "Дата обработки(Актуальность)";
 
                 int row = 2;

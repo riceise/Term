@@ -1,145 +1,293 @@
 ﻿@page "/files"
 @attribute [Authorize]
-@inject IHttpClientFactory HttpClientFactory
 @using Share.DTOs
+@inject IHttpClientFactory HttpClientFactory
 @inject IJSRuntime JSRuntime
 @using System.ComponentModel.DataAnnotations
 
+<PageTitle>Список загруженных файлов</PageTitle>
 
-
-<h3>Список загруженных файлов</h3>
-
-@if (_isLoading)
-{
-    <p>Загрузка...</p>
-}
-else if (_errorMessage != null)
-{
-    <div class="alert alert-danger" role="alert">@_errorMessage</div>
-}
-else if (_files != null && _files.Any() && !_showRecords)
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Имя файла</th>
-                <th>Дата загрузки</th>
-                <th>Действия</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var file in _files)
-            {
-                <tr>
-                    <td>@file.Id</td>
-                    <td>@file.FileName</td>
-                    <td>@file.UploadDate.ToString("yyyy-MM-dd")</td>
-                    <td>
-                        <button class="btn btn-primary" @onclick="() => LoadRecords(file.Id)">Посмотреть записи</button>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
-else if (_showRecords)
-{
-    <h3>Записи файла</h3>
-    <button class="btn btn-secondary mb-3" @onclick="BackToFiles">Назад к файлам</button>
-
-    @if (_records != null && _records.Any())
-    {
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>ПП</th>
-                    <th>Имя</th>
-                    <th>Фамилия</th>
-                    <th>Отчество</th>
-                    <th>Дата рождения</th>
-                    <th>СНИЛС</th>
-                    <th>Номер реестра</th>
-                    <th>Период</th>
-                    <th>Организация</th>
-                    <th>Действия</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var record in _records)
-                {
-                    @if (_isEditing && _selectedItem == record)
-                    {
-                        <tr class="vertical-table-row">
-                            <td colspan="10">
-                                <table class='table table-borderless'>
+<div class="container mt-5">
+    <div class="row">
+        <!-- Блок для списка файлов -->
+        @if (!_showRecords)
+        {
+            <div class="col-12">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-success text-white">
+                        <h3 class="mb-0">Список загруженных файлов</h3>
+                    </div>
+                    <div class="card-body">
+                        @if (_isLoading)
+                        {
+                            <div class="mt-2">
+                                <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                                Загрузка...
+                            </div>
+                        }
+                        else if (!string.IsNullOrEmpty(_errorMessage))
+                        {
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <strong>Ошибка: </strong>@_errorMessage
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        }
+                        else if (_files != null && _files.Any())
+                        {
+                            <div class="table-responsive mt-3">
+                                <table class="table table-bordered table-hover align-middle">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Id</th>
+                                            <th>Имя файла</th>
+                                            <th>Дата загрузки</th>
+                                            <th style="min-width: 230px;">Действия</th>
+                                        </tr>
+                                    </thead>
                                     <tbody>
-                                    <tr>
-                                        <th>Порядковый номер:</th>
-                                        <td><InputNumber @bind-Value="record.Npp" class="form-control" /></td>
-                                    </tr>
-                                    <tr>
-                                        <th>Имя:</th>
-                                        <td><InputText @bind-Value="record.Name" class="form-control" /></td>
-                                    </tr>
-                                    <tr>
-                                        <th>Фамилия:</th>
-                                        <td><InputText @bind-Value="record.LastName" class="form-control" /></td>
-                                    </tr>
-                                    <tr>
-                                        <th>Отчество:</th>
-                                        <td><InputText @bind-Value="record.Patronymic" class="form-control" /></td>
-                                    </tr>
-                                    <tr>
-                                        <th>Дата рождения:</th>
-                                        <td><InputDate @bind-Value="record.BirthDay" class="form-control" /></td>
-                                    </tr>
-                                    <tr>
-                                        <th>Период:</th>
-                                        <td><InputNumber @bind-Value="record.Period" class="form-control" /></td>
-                                    </tr>
-                                    <tr>
-                                        <th>Организация:</th>
-                                        <td><InputText @bind-Value="record.Organizaciya" class="form-control" /></td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2">
-                                            <button @onclick="@(async () => await SaveEdit(record))" class="btn btn-success me-2">Сохранить</button>
-                                            <button @onclick="CancelEdit" class="btn btn-secondary me-2">Отмена</button>
-                                        </td>
-                                    </tr>
+                                        @foreach (var file in _files)
+                                        {
+                                            <tr>
+                                                <td>@file.Id</td>
+                                                <td>@file.FileName</td>
+                                                <td>@file.UploadDate.ToString("yyyy-MM-dd")</td>
+                                                <td>
+                                                    <div class="d-flex flex-wrap gap-2">
+                                                        <button class="btn btn-primary btn-sm"
+                                                                @onclick="() => LoadRecords(file.Id)">
+                                                            Посмотреть записи
+                                                        </button>
+                                                        <button class="btn btn-secondary btn-sm"
+                                                                @onclick="() => DownloadRecords(file.Id)">
+                                                            Скачать отчёт
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        }
                                     </tbody>
                                 </table>
-                            </td>
-                        </tr>
-                    }
-                    else
-                    {
-                        <tr>
-                            <td>@record.Npp</td>
-                            <td>@record.Name</td>
-                            <td>@record.LastName</td>
-                            <td>@record.Patronymic</td>
-                            <td>@record.BirthDay.ToString("yyyy-MM-dd")</td>
-                            <td>@record.Snils</td>
-                            <td>@record.N_reest</td>
-                            <td>@record.Period</td>
-                            <td>@record.Organizaciya</td>
-                            <td>
-                                <button @onclick="() => StartEdit(record)" class="btn btn-primary me-2">Изменить</button>
-                                <button class="btn btn-danger me-2" @onclick="@(async () => await DeleteItem(record))">Удалить</button>
-                            </td>
-                        </tr>
-                    }
-                }
-            </tbody>
-        </table>
+                            </div>
+                        }
+                        else
+                        {
+                            <p>Нет загруженных файлов.</p>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <!-- Блок для записей конкретного файла -->
+            <div class="col-12">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-secondary text-white d-flex align-items-center">
+                        <h3 class="mb-0 flex-grow-1">Записи выбранного файла</h3>
+                        <button class="btn btn-light btn-sm" @onclick="BackToFiles">Назад к файлам</button>
+                    </div>
+                    <div class="card-body">
+                        @if (_isLoading)
+                        {
+                            <div class="mt-2">
+                                <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                                Загрузка...
+                            </div>
+                        }
+                        else if (!string.IsNullOrEmpty(_errorMessage))
+                        {
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <strong>Ошибка: </strong>@_errorMessage
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        }
+                        else if (_records != null && _records.Any())
+                        {
+                            <div class="table-responsive mt-3">
+                                <table class="table table-bordered table-hover align-middle">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>ПП</th>
+                                            <th>Имя</th>
+                                            <th>Фамилия</th>
+                                            <th>Отчество</th>
+                                            <th>Дата рождения</th>
+                                            <th>СНИЛС</th>
+                                            <th>Номер реестра</th>
+                                            <th>Период</th>
+                                            <th>Организация</th>
+                                            <th>Действия</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var record in _records)
+                                        {
+                                            @if (_isEditing && _selectedItem == record)
+                                            {
+                                                <tr class="vertical-table-row">
+                                                    <td colspan="10">
+                                                        <div class="card">
+                                                            <div class="card-header bg-info text-white">
+                                                                Редактирование записи (ID: @record.Id)
+                                                            </div>
+                                                            <div class="card-body">
+                                                                <table class="table table-borderless">
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <th>Порядковый номер:</th>
+                                                                            <td>
+                                                                                <InputNumber @bind-Value="record.Npp"
+                                                                                             class="form-control" />
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th>Имя:</th>
+                                                                            <td>
+                                                                                <InputText @bind-Value="record.Name"
+                                                                                           class="form-control" />
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th>Фамилия:</th>
+                                                                            <td>
+                                                                                <InputText @bind-Value="record.LastName"
+                                                                                           class="form-control" />
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th>Отчество:</th>
+                                                                            <td>
+                                                                                <InputText @bind-Value="record.Patronymic"
+                                                                                           class="form-control" />
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th>Дата рождения:</th>
+                                                                            <td>
+                                                                                <InputDate @bind-Value="record.BirthDay"
+                                                                                           class="form-control" />
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th>Период:</th>
+                                                                            <td>
+                                                                                <InputNumber @bind-Value="record.Period"
+                                                                                             class="form-control" />
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th>Организация:</th>
+                                                                            <td>
+                                                                                <InputText @bind-Value="record.Organizaciya"
+                                                                                           class="form-control" />
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td colspan="2">
+                                                                                <button @onclick="@(async () => await SaveEdit(record))"
+                                                                                        class="btn btn-success me-2"
+                                                                                        disabled="@_isLoading">
+                                                                                    Сохранить
+                                                                                </button>
+                                                                                <button @onclick="CancelEdit"
+                                                                                        class="btn btn-secondary me-2"
+                                                                                        disabled="@_isLoading">
+                                                                                    Отмена
+                                                                                </button>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            }
+                                            else
+                                            {
+                                                <tr>
+                                                    <td>@record.Npp</td>
+                                                    <td>@record.Name</td>
+                                                    <td>@record.LastName</td>
+                                                    <td>@record.Patronymic</td>
+                                                    <td>@record.BirthDay.ToString("yyyy-MM-dd")</td>
+                                                    <td>@record.Snils</td>
+                                                    <td>@record.N_reest</td>
+                                                    <td>@record.Period</td>
+                                                    <td>@record.Organizaciya</td>
+                                                    <td>
+                                                        <div class="d-flex flex-wrap gap-2">
+                                                            <button class="btn btn-primary btn-sm"
+                                                                    @onclick="() => StartEdit(record)"
+                                                                    disabled="@_isLoading">
+                                                                Изменить
+                                                            </button>
+                                                            <button class="btn btn-danger btn-sm"
+                                                                    @onclick="@(async () => await DeleteItem(record))"
+                                                                    disabled="@_isLoading">
+                                                                Удалить
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+                        else
+                        {
+                            <p>Нет записей для отображения.</p>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<style>
+    /* Немного стилей для улучшения внешнего вида */
+    
+    /* Уменьшаем вертикальные отступы в таблице */
+    .table > :not(caption) > * > * {
+        padding: 0.55rem 0.75rem;
     }
-    else
-    {
-        <p>Нет записей для отображения.</p>
+
+    /* Подчеркиваем, что таблица может быть «очень широкой», даем горизонтальный скролл */
+    .table-responsive {
+        overflow-x: auto;
     }
-}
+
+    /* Для узких экранов убираем перенос слов */
+    @@media (max-width: 768px) {
+        th, td {
+            white-space: nowrap;
+        }
+    }
+
+    .vertical-table-row > td {
+        vertical-align: top;
+    }
+
+    .vertical-table-row > td > div.card {
+        margin: 0; /* убираем внешние отступы вложенной карточки */
+    }
+</style>
+
+<script>
+    // Метод для сохранения файла, если он вам нужен
+    function saveAsFile(filename, byteBase64) {
+        const blob = new Blob([new Uint8Array(atob(byteBase64).split("").map(char => char.charCodeAt(0)))]);
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = filename;
+        a.click();
+        URL.revokeObjectURL(url);
+    }
+</script>
 
 @code {
     private bool _isLoading;
@@ -153,6 +301,37 @@ else if (_showRecords)
     protected override async Task OnInitializedAsync()
     {
         await LoadFiles();
+    }
+
+    private async Task DownloadRecords(int fileId)
+    {
+        var Http = HttpClientFactory.CreateClient("BackendAPI");
+
+        try
+        {
+            var response = await Http.GetAsync($"api/DispensaryList/download/{fileId}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var fileStream = await response.Content.ReadAsStreamAsync();
+                using var memoryStream = new MemoryStream();
+                await fileStream.CopyToAsync(memoryStream);
+
+                var fileBytes = memoryStream.ToArray();
+                var base64String = Convert.ToBase64String(fileBytes);
+
+                var fileName = "DispensaryListResults.xlsx";
+                await JSRuntime.InvokeVoidAsync("saveAsFile", fileName, base64String);
+            }
+            else
+            {
+                _errorMessage = "Ошибка при скачивании файла.";
+            }
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = $"Произошла ошибка при скачивании: {ex.Message}";
+        }
     }
 
     private async Task LoadFiles()
@@ -218,6 +397,8 @@ else if (_showRecords)
     {
         _showRecords = false;
         _records = null;
+        _isEditing = false;
+        _selectedItem = null;
     }
 
     private async Task SaveEdit(SpiskiNaDDFromMODTO record)
@@ -234,6 +415,7 @@ else if (_showRecords)
             {
                 _isEditing = false;
                 _selectedItem = null;
+                // Обновляем список записей, чтобы отразить изменения
                 await LoadRecords(record.Id);
             }
             else
@@ -269,7 +451,7 @@ else if (_showRecords)
             var response = await Http.DeleteAsync($"api/records/{record.Id}");
             if (response.IsSuccessStatusCode)
             {
-                _records.Remove(record);
+                _records?.Remove(record);
             }
             else
             {
@@ -292,14 +474,3 @@ else if (_showRecords)
         _selectedItem = record;
     }
 }
-
-<style>
-    .vertical-table-row > td {
-        vertical-align: top;
-    }
-
-    .vertical-table-row > td > table {
-        width: auto;
-        margin: 0;
-    }
-</style>
