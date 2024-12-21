@@ -23,7 +23,7 @@ namespace Data
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=127.0.0.1, 1433;Database=test1;User Id=sa;Password=furi0so35;Trusted_Connection=True;Encrypt=True;TrustServerCertificate=True;");
+                optionsBuilder.UseSqlServer("Server=127.0.0.1, 1433;Database=testNikitos;User Id=sa;Password=furi0so35;Trusted_Connection=True;Encrypt=True;TrustServerCertificate=True;");
             }
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -45,6 +45,7 @@ namespace Data
 
         public DbSet<Diagnosis> Diagnosis => Set<Diagnosis>();
         public DbSet<MedProfileDictionary> MedProfileDictionary => Set<MedProfileDictionary>();
+        public DbSet<InvoiceFileType> InvoiceFileTypes => Set<InvoiceFileType>();
         
         #endregion
         
@@ -52,6 +53,7 @@ namespace Data
 
         public DbSet<ZAP> ZAP => Set<ZAP>();
         public DbSet<Person> Persons => Set<Person>();
+        public DbSet<Invoice> Invoices => Set<Invoice>();
         
         #endregion
         
@@ -70,11 +72,7 @@ namespace Data
 
         #endregion
 
-
         public DbSet<DispensaryObservation> DispensaryObservation => Set<DispensaryObservation>();
-
-
-
 
     }
 }

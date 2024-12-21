@@ -6,8 +6,6 @@ using Data.Model;
 using OfficeOpenXml;
 using Microsoft.EntityFrameworkCore; 
 using System.Text.Json;
-using Data.Model.Entities.Dictionary;
-using Data.Model.Entities.Invoice;
 
 namespace Api.Repositories
 {
@@ -39,14 +37,14 @@ namespace Api.Repositories
         
         public async Task<int> GetInvoiceFileTypeId(int InvoceId)
         {
-            var query = "SELECT invoiceFileTypeId FROM Invoice WHERE Id = @InvoceId";
+            var query = "SELECT invoiceFileTypeId FROM Invoices WHERE Id = @InvoceId";
 
             return await _dbConnection.QueryFirstOrDefaultAsync<int>(query, new { InvoceId });
         }
 
         public async Task<bool> CheckPersonExistsAsync(string Name, string LastName, DateTime BirthDay, string snils)
         {
-            var query = "SELECT COUNT(1) FROM Person WHERE Name1 = @Name AND Surname = @LastName AND Birthday = @BirthDay AND SNILS = @snils";
+            var query = "SELECT COUNT(1) FROM Persons WHERE Name1 = @Name AND Surname = @LastName AND Birthday = @BirthDay AND SNILS = @snils";
 
             return await _dbConnection.ExecuteScalarAsync<bool>(query, new { Name, LastName, BirthDay, snils });
         }
