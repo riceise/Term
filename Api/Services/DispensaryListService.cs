@@ -37,26 +37,7 @@ namespace Api.Services
                     ProcessingDate = DateTime.Now
                 };
 
-                var zapExists = await _repository.CheckIfExistsInZapAsync(entry.Snils);
-                if (zapExists)
-                {
-                    var observations = await _repository.GetDispensaryObservationsAsync(entry.Snils);
-                    if (observations.Any())
-                    {
-                        var observation = observations.First();
-                        result.AttachmentMOCode = int.Parse(observation.LpuType);
-                        result.AttachmentMOName = await _repository.GetMedicalCompanyShortNameAsync(observation.LpuType);
-                        
-                        if (string.IsNullOrEmpty(result.AttachmentMOName))
-                        {
-                            result.AttachmentMOName = "Не найден";
-                        }
-                    }
-                    else
-                    {
-                        result.AttachmentMOName = "Не найден";
-                    }
-                }
+                Console.WriteLine($"Снилс в списках: {entry.Snils}");
                 
                 results.Add(result);
             }

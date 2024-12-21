@@ -3,7 +3,7 @@ using Data.Model.Entities.Common;
 
 namespace Data.Model.Entities.Dictionary
 {
-    public class InvoiceFileType : BaseGUIDEntity
+    public class InvoiceFileType : BaseEntity
     {
         [MaxLength(10)]
         [Display(Name = "Расширение файла")]

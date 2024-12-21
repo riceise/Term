@@ -42,11 +42,11 @@ namespace Data.Model.Entities.UploadedFile
         [Display(Name = "Период")]
         public int Period { get; set; }                  
 
-        [Display(Name = "Код МО прикрепления")]
-        public int AttachmentMOCode { get; set; }
+        // [Display(Name = "Код МО прикрепления")]
+        // public int AttachmentMOCode { get; set; }
 
-        [Display(Name = "МО прикрепления")]
-        public string AttachmentMOName { get; set; } = string.Empty;
+        // [Display(Name = "МО прикрепления")]
+        // public string AttachmentMOName { get; set; } = string.Empty;
 
         // [Display(Name = "Состоит/не состоит на ДН")]
         // public string DispensaryRegistrationStatus { get; set; } = string.Empty;
@@ -60,8 +60,8 @@ namespace Data.Model.Entities.UploadedFile
         // [Display(Name = "Группа ДН")]
         // public string DispensaryGroup { get; set; } = string.Empty;
 
-        [Display(Name = "Организация")]
-        public string Organization { get; set; } = String.Empty; 
+        // [Display(Name = "Организация")]
+        // public string Organization { get; set; } = String.Empty; 
 
         [Display(Name = "Результат обработки ТФОМС")]
         public string ProcessingResult { get; set; } = string.Empty;

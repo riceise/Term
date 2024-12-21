@@ -18,9 +18,9 @@ namespace Api.Repositories
         Task<IEnumerable<DispensaryListResult>> GetDispensaryListResultsAsync(int uploadFileInfId);
         Task<byte[]> GenerateExcelFileAsync(int uploadFileInfId);
         Task<string> GetInvoiceFileTypeAsync(int invoiceFileTypeId);
-        Task<int> GetInvoiceIdFromZAPAsync(string Name, string LastName, DateTime BirthDay, string snils);
+        Task<int> GetInvoiceIdFromZAPAsync(string Name, string LastName, string snils);
         Task<int> GetInvoiceFileTypeId(int InvoceId);
-        Task<bool> CheckPersonExistsAsync(string Name, string LastName, DateTime BirthDay, string snils);
+        Task<bool> CheckPersonExistsAsync(string Name, string LastName, string snils);
     }
 }
 

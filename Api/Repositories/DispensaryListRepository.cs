@@ -28,11 +28,11 @@ namespace Api.Repositories
             return await _dbConnection.QueryFirstOrDefaultAsync<string>(query, new { invoiceFileTypeId });
         }
 
-        public async Task<int> GetInvoiceIdFromZAPAsync(string Name, string LastName, DateTime BirthDay, string snils)
+        public async Task<int> GetInvoiceIdFromZAPAsync(string Name, string LastName, string snils)
         {
-            var query = "SELECT InvoiceId FROM ZAP WHERE Name1 = @Name AND Surname = @LastName AND Birthday = @BirthDay AND SNILS = @snils";
+            var query = "SELECT InvoiceId FROM ZAP WHERE Name1 = @Name AND Surname = @LastName AND SNILS = @snils";
 
-            return await _dbConnection.QueryFirstOrDefaultAsync<int>(query, new { Name, LastName, BirthDay, snils });
+            return await _dbConnection.QueryFirstOrDefaultAsync<int>(query, new { Name, LastName, snils });
         }
         
         public async Task<int> GetInvoiceFileTypeId(int InvoceId)
@@ -42,11 +42,11 @@ namespace Api.Repositories
             return await _dbConnection.QueryFirstOrDefaultAsync<int>(query, new { InvoceId });
         }
 
-        public async Task<bool> CheckPersonExistsAsync(string Name, string LastName, DateTime BirthDay, string snils)
+        public async Task<bool> CheckPersonExistsAsync(string Name, string LastName, string snils)
         {
-            var query = "SELECT COUNT(1) FROM Persons WHERE Name1 = @Name AND Surname = @LastName AND Birthday = @BirthDay AND SNILS = @snils";
+            var query = "SELECT COUNT(1) FROM Persons WHERE Name1 = @Name AND Surname = @LastName AND SNILS = @snils";
 
-            return await _dbConnection.ExecuteScalarAsync<bool>(query, new { Name, LastName, BirthDay, snils });
+            return await _dbConnection.ExecuteScalarAsync<bool>(query, new { Name, LastName, snils });
         }
 
         public async Task<IEnumerable<SpiskiNaDDFromMO>> GetSpiskiAsync(int uploadFileInfId)
@@ -118,18 +118,8 @@ namespace Api.Repositories
         {
             try
             {
-                // const string insertQuery = @"
-                //     INSERT INTO DispensaryListResults 
-                //     (SpiskiNaDDFromMOId, SourceMOCode, SourceMOName, LastName, Name, Patronymic, BirthDay, 
-                //      Snils, Period, Organization, ProcessingDate, DispensaryRegistrationStatus, DateLastDD, 
-                //      DispensaryGroup, RegisteredMOCode, RegisteredMOName, AttachmentMOCode, AttachmentMOName, ProcessingResult)
-                //     VALUES 
-                //     (@SpiskiNaDDFromMOId, @SourceMOCode, @SourceMOName, @LastName, @Name, @Patronymic, @BirthDay, 
-                //      @Snils, @Period, @Organization, @ProcessingDate, @DispensaryRegistrationStatus, @DateLastDD, 
-                //      @DispensaryGroup, @RegisteredMOCode, @RegisteredMOName, @AttachmentMOCode, @AttachmentMOName, @ProcessingResult)";
-
                 const string insertQuery = @"
-                    INSERT INTO DispansaryListResults 
+                    INSERT INTO DispensaryListResults 
                     (SpiskiNaDDFromMOId, SourceMOCode, SourceMOName, LastName, Name, Patronymic, BirthDay, 
                      Snils, Period, Organization, ProcessingDate, DateLastDD, AttachmentMOCode, AttachmentMOName, ProcessingResult)
                     VALUES 
@@ -140,7 +130,9 @@ namespace Api.Repositories
 
                 foreach (var result in results)
                 {
-                    bool personExist = await CheckPersonExistsAsync(result.Name, result.LastName, result.BirthDay, result.Snils);
+                    bool personExist = await CheckPersonExistsAsync(result.Name, result.LastName, result.Snils);
+
+                    Console.WriteLine($"personExist: {personExist}");
 
                     if (!personExist)
                     {
@@ -148,13 +140,17 @@ namespace Api.Repositories
                     }
                     else
                     {
-                        var InvoiceId = await GetInvoiceIdFromZAPAsync(result.Name, result.LastName, result.BirthDay, result.Snils);
-                        
+                        var InvoiceId = await GetInvoiceIdFromZAPAsync(result.Name, result.LastName, result.Snils);
+                        System.Console.WriteLine($"InvoiceId: {InvoiceId}");
+
                         if(InvoiceId != 0)
                         {
                             var invoiceFileTypeId = await GetInvoiceFileTypeId(InvoiceId);
                             var fileType = await GetInvoiceFileTypeAsync(invoiceFileTypeId);
                             var dateLastDD = await GetZapDateDnAsync(result.Snils);
+                            result.DateLastDD = dateLastDD;
+
+                            Console.WriteLine($"Найденый dateLastDD: {dateLastDD} по снилсу {result.Snils}");
 
                             if (fileType == "DP")
                             {
@@ -195,9 +191,6 @@ namespace Api.Repositories
                     Console.WriteLine($"  BirthDay: {result.BirthDay}");
                     Console.WriteLine($"  Snils: {result.Snils}");
                     Console.WriteLine($"  Period: {result.Period}");
-                    Console.WriteLine($"  AttachmentMoCode: {result.AttachmentMOCode}");
-                    Console.WriteLine($"  AttachmentMoName: {result.AttachmentMOName}");
-                    Console.WriteLine($"  Organization: {result.Organization}");
                     Console.WriteLine($"  ProcessingResult: {result.ProcessingResult}");
                     Console.WriteLine($"  DateLastDD: {result.DateLastDD}");
                     Console.WriteLine($"  ProcessingDate: {result.ProcessingDate}");
@@ -209,7 +202,7 @@ namespace Api.Repositories
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"SaveDispensaryListResultsAsync не сработал: {ex.Message}");
+                Console.WriteLine($"SaveDispensaryListResultsAsync не сработал: {ex.StackTrace}");
                 throw;
             }
         }
@@ -274,9 +267,6 @@ namespace Api.Repositories
                     worksheet.Cells[row, 6].Value = result.BirthDay.ToString("dd.MM.yyyy") ?? "";
                     worksheet.Cells[row, 7].Value = result.Snils;
                     worksheet.Cells[row, 8].Value = result.Period;
-                    worksheet.Cells[row, 12].Value = result.AttachmentMOCode;
-                    worksheet.Cells[row, 13].Value = result.AttachmentMOName;
-                    worksheet.Cells[row, 15].Value = result.Organization;
                     worksheet.Cells[row, 16].Value = result.ProcessingResult;
                     worksheet.Cells[row, 17].Value = result.DateLastDD?.ToString("dd.MM.yyyy") ?? "";
                     worksheet.Cells[row, 18].Value = result.ProcessingDate.ToString("dd.MM.yyyy") ?? "";

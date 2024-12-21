@@ -4,6 +4,7 @@ using Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(TFOMSContext))]
-    partial class TFOMSContextModelSnapshot : ModelSnapshot
+    [Migration("20241221203234_Nikit0sMigrationsV2Fixes")]
+    partial class Nikit0sMigrationsV2Fixes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -135,52 +138,6 @@ namespace Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Diagnosis");
-                });
-
-            modelBuilder.Entity("Data.Model.Entities.Dictionary.InvoiceFileType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("ApiAdress")
-                        .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
-
-                    b.Property<DateTime>("CreateDate")
-                        .HasColumnType("date");
-
-                    b.Property<DateTime?>("DeleteDate")
-                        .HasColumnType("date");
-
-                    b.Property<int>("DeletedUserId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("EditDate")
-                        .HasColumnType("date");
-
-                    b.Property<int>("EditUserId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("FileExt")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
-
-                    b.Property<string>("FileType")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("InvoiceFileTypes");
                 });
 
             modelBuilder.Entity("Data.Model.Entities.Dictionary.MedProfileDictionary", b =>
@@ -504,6 +461,13 @@ namespace Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("AttachmentMOCode")
+                        .HasColumnType("int");
+
+                    b.Property<string>("AttachmentMOName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("BirthDay")
                         .HasColumnType("datetime2");
 
@@ -515,6 +479,10 @@ namespace Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Organization")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
