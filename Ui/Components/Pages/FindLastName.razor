@@ -5,6 +5,7 @@
 @using Share.DTOs
 @using Ui.Components.Helper
 @using System.ComponentModel.DataAnnotations
+@inject AuthenticationService AuthStateProvider
 
 <PageTitle>Поиск по фамилии</PageTitle>
 
@@ -80,7 +81,7 @@
                                 <th style="min-width: 120px;">Номер реестра</th>
                                 <th style="min-width: 80px;">Период</th>
                                 <th style="min-width: 120px;">Организация</th>
-                                <th style="min-width: 160px;">Действия</th>
+                                <th style="min-width: 160px;" hidden="@(!_isAdmin)">Действия</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -163,16 +164,16 @@
                                         <td>@item.N_reest</td>
                                         <td>@item.Period</td>
                                         <td>@item.Organizaciya</td>
-                                        <td>
+                                        <td hidden="@(!_isAdmin)">
                                             <div class="d-flex flex-wrap gap-1">
                                                 <button @onclick="@(() => StartEdit(item))"
                                                         class="btn btn-primary btn-sm"
-                                                        disabled="@_isLoading">
+                                                        disabled="@(!_isAdmin)">
                                                     <i>Изменить</i>
                                                 </button>
                                                 <button class="btn btn-danger btn-sm"
                                                         @onclick="@(async () => await DeleteItem(item))"
-                                                        disabled="@_isLoading">
+                                                        disabled="@(!_isAdmin)">
                                                     <i>Удалить</i>
                                                 </button>
                                             </div>
@@ -245,6 +246,24 @@
         Delete,
         Save,
         Search
+    }
+
+    private bool _isAdmin = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+        var username = authState.User.Identity.Name;
+
+        Console.WriteLine($"Is ADMIN: {username == "ADMIN"}");
+
+        if (username == "ADMIN")
+        {
+            _isAdmin = true;
+        }
+
+        await Task.Yield();
+        StateHasChanged();
     }
 
     private SearchModel _searchModel = new();

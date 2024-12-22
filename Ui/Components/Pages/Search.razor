@@ -5,6 +5,7 @@
 @using System.Net
 @using Share.DTOs
 @using Ui.Components.Helper
+@inject AuthenticationService AuthStateProvider
 
 <PageTitle>Поиск по ID</PageTitle>
 
@@ -177,7 +178,7 @@
 
                     <!-- Кнопки действий -->
                     <div class="mt-3 d-flex flex-wrap gap-2">
-                        <button class="btn btn-danger" @onclick="DeleteItem" disabled="@(_isloading)">
+                        <button class="btn btn-danger" @onclick="DeleteItem" hidden="@(!_isAdmin)">
                             @if (_isloading && _currentAction == ActionType.Delete)
                             {
                                 <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
@@ -187,7 +188,7 @@
                                 <span>Удалить</span>
                             }
                         </button>
-                        <button class="btn btn-primary" @onclick="StartEdit" disabled="@(_isloading || _isEditing)">
+                        <button class="btn btn-primary" @onclick="StartEdit" hidden="@(!_isAdmin)">
                             Изменить
                         </button>
                         @if (_isEditing)
@@ -252,6 +253,25 @@
     </script>
 
     @code {
+        
+        private bool _isAdmin = false;
+
+        protected override async Task OnInitializedAsync()
+        {
+            var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+            var username = authState.User.Identity.Name;
+
+            Console.WriteLine($"Is ADMIN: {username == "ADMIN"}");
+
+            if (username == "ADMIN")
+            {
+                _isAdmin = true;
+            }
+
+            await Task.Yield();
+            StateHasChanged();
+        }
+
         private enum ActionType
         {
             None,

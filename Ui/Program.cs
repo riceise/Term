@@ -17,6 +17,9 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<TFOMSContext>()
     .AddDefaultTokenProviders();
 
+builder.Services.AddScoped<UserManager<ApplicationUser>>();
+builder.Services.AddScoped<SignInManager<ApplicationUser>>();
+
 // Настраиваем куки
 // builder.Services.ConfigureApplicationCookie(options =>
 // {

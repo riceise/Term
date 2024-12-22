@@ -4,6 +4,7 @@
 @inject IHttpClientFactory HttpClientFactory
 @inject IJSRuntime JSRuntime
 @using System.ComponentModel.DataAnnotations
+@inject AuthenticationService AuthStateProvider
 
 <PageTitle>Список загруженных файлов</PageTitle>
 
@@ -116,7 +117,7 @@
                                             <th>Номер реестра</th>
                                             <th>Период</th>
                                             <th>Организация</th>
-                                            <th>Действия</th>
+                                            <th hidden="@(!_isAdmin)">Действия</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -215,7 +216,7 @@
                                                     <td>@record.N_reest</td>
                                                     <td>@record.Period</td>
                                                     <td>@record.Organizaciya</td>
-                                                    <td>
+                                                    <td hidden="@(!_isAdmin)">
                                                         <div class="d-flex flex-wrap gap-2">
                                                             <button class="btn btn-primary btn-sm"
                                                                     @onclick="() => StartEdit(record)"
@@ -297,10 +298,24 @@
     private bool _showRecords;
     private SpiskiNaDDFromMODTO? _selectedItem;
     private bool _isEditing;
+    private bool _isAdmin = false;
 
     protected override async Task OnInitializedAsync()
     {
         await LoadFiles();
+
+        var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+        var username = authState.User.Identity.Name;
+
+        Console.WriteLine($"Is ADMIN: {username == "ADMIN"}");
+
+        if (username == "ADMIN")
+        {
+            _isAdmin = true;
+        }
+
+        await Task.Yield();
+        StateHasChanged();
     }
 
     private async Task DownloadRecords(int fileId)

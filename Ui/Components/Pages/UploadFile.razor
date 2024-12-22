@@ -149,7 +149,7 @@
         try
         {
             var content = new MultipartFormDataContent();
-            var fileStream = selectedFile.OpenReadStream(maxAllowedSize: 10 * 1024 * 1024); // Ограничение размера файла (например, 10 МБ)
+            var fileStream = selectedFile.OpenReadStream(maxAllowedSize: 10 * 1024 * 1024); // Ограничение размера файла
             var streamContent = new StreamContent(fileStream);
             streamContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(selectedFile.ContentType);
             content.Add(streamContent, "file", selectedFile.Name);
