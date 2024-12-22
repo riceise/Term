@@ -54,19 +54,6 @@ namespace Ui.Components.Services
             _navigationManager.NavigateTo("/");
         }
 
-        // public override Task<AuthenticationState> GetAuthenticationStateAsync()
-        // {
-        //     if (string.IsNullOrEmpty(_token))
-        //     {
-        //         return Task.FromResult(new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity())));
-        //     }
-
-        //     var claims = ParseClaimsFromJwt(_token);
-        //     var identity = new ClaimsIdentity(claims, "jwt");
-        //     var user = new ClaimsPrincipal(identity);
-        //     return Task.FromResult(new AuthenticationState(user));
-        // }
-
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {
             if (string.IsNullOrEmpty(_token))
@@ -86,22 +73,6 @@ namespace Ui.Components.Services
             var jwtIdentity = new ClaimsIdentity(jwtClaims, "jwt");
             return new AuthenticationState(new ClaimsPrincipal(jwtIdentity));
         }
-
-        // private IEnumerable<Claim> ParseClaimsFromJwt(string jwt)
-        // {
-        //     var claims = new List<Claim>();
-        //     var payload = jwt.Split('.')[1];
-        //     var jsonBytes = ParseBase64WithoutPadding(payload);
-        //     var keyValuePairs = JsonSerializer.Deserialize<Dictionary<string, object>>(jsonBytes);
-
-        //     keyValuePairs.TryGetValue(ClaimTypes.Name, out object name);
-        //     if (name != null)
-        //     {
-        //         claims.Add(new Claim(ClaimTypes.Name, name.ToString()));
-        //     }
-
-        //     return claims;
-        // }
 
         private IEnumerable<Claim> ParseClaimsFromJwt(string jwt)
         {

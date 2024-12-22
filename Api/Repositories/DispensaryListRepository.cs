@@ -244,9 +244,9 @@ namespace Api.Repositories
                 worksheet.Cells["F1"].Value = "Дата рождения";
                 worksheet.Cells["G1"].Value = "СНИЛС";
                 worksheet.Cells["H1"].Value = "Период";
-                worksheet.Cells["P1"].Value = "Результат обработки ТФОМС";
-                worksheet.Cells["Q1"].Value = "Дата прохождения";
-                worksheet.Cells["R1"].Value = "Дата обработки(Актуальность)";
+                worksheet.Cells["I1"].Value = "Результат обработки ТФОМС";
+                worksheet.Cells["J1"].Value = "Дата прохождения";
+                worksheet.Cells["K1"].Value = "Дата обработки(Актуальность)";
 
                 int row = 2;
 
@@ -260,9 +260,9 @@ namespace Api.Repositories
                     worksheet.Cells[row, 6].Value = result.BirthDay.ToString("dd.MM.yyyy") ?? "";
                     worksheet.Cells[row, 7].Value = result.Snils;
                     worksheet.Cells[row, 8].Value = result.Period;
-                    worksheet.Cells[row, 16].Value = result.ProcessingResult;
-                    worksheet.Cells[row, 17].Value = result.DateLastDD?.ToString("dd.MM.yyyy") ?? "";
-                    worksheet.Cells[row, 18].Value = result.ProcessingDate.ToString("dd.MM.yyyy") ?? "";
+                    worksheet.Cells[row, 9].Value = result.ProcessingResult;
+                    worksheet.Cells[row, 10].Value = result.DateLastDD?.ToString("dd.MM.yyyy") ?? "";
+                    worksheet.Cells[row, 11].Value = result.ProcessingDate.ToString("dd.MM.yyyy") ?? "";
                     
                     row++;
                 }
