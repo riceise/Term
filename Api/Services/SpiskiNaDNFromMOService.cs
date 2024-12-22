@@ -80,24 +80,36 @@ namespace Api.Services
                             errors.Add($"Ошибка: Поле 'Имя' в строке {row.RowNumber()} обязательно.");
                         }
 
-                        // DateTime birthDay;
-                        // string dateString = row.Cell(5).GetString();
-                        //
-                        // if (dateString.Length > 10)
-                        // {
-                        //     dateString = dateString.Substring(0, 10);
-                        // }
-                        // Console.WriteLine("datestring"+dateString);
-                        //
-                        // if (!DateTime.TryParseExact(dateString, "dd.MM.yyyy", null, System.Globalization.DateTimeStyles.None, out birthDay))
-                        // {
-                        //     errors.Add($"Ошибка: Поле 'Дата рождения' в строке {row.RowNumber()} имеет неверный формат: '{dateString}'");
-                        // }
-                        // else
-                        // {
-                        //     birthDay = birthDay.Date; 
-                        //     
-                        // }
+                        string dateString = row.Cell(5).GetString();
+
+                        if (!string.IsNullOrWhiteSpace(dateString))
+                        {
+                            dateString = dateString.Trim(); // Убираем лишние пробелы
+
+                            DateTime birthDay;
+                            // Пробуем распознать дату, игнорируя возможное время
+                            if (DateTime.TryParse(dateString, out birthDay))
+                            {
+                                // Приводим дату к формату "dd.MM.yyyy" для проверки и дальнейшего использования
+                                string formattedDate = birthDay.ToString("dd.MM.yyyy");
+
+                                // Проверяем, соответствует ли формат ожидаемому
+                                if (dateString.Split(' ')[0] != formattedDate) // Сравниваем только часть с датой
+                                {
+                                    errors.Add($"Ошибка: Поле 'Дата рождения' в строке {row.RowNumber()} имеет неверный формат: '{dateString}'");
+                                }
+                            }
+                            else
+                            {
+                                errors.Add($"Ошибка: Поле 'Дата рождения' в строке {row.RowNumber()} имеет неверный формат: '{dateString}'");
+                            }
+                        }
+                        else
+                        {
+                            errors.Add($"Ошибка: Поле 'Дата рождения' в строке {row.RowNumber()} обязательно.");
+                        }
+
+
 
 
                         // Проверка "СНИЛС"
@@ -106,6 +118,20 @@ namespace Api.Services
                         {
                             errors.Add($"Ошибка: Поле 'СНИЛС' в строке {row.RowNumber()} обязательно.");
                         }
+                        else
+                        {
+                            string sanitizedSnils = snils.Replace(" ", "").Replace("-", "");
+
+                            if (sanitizedSnils.Length != 11 || !sanitizedSnils.All(char.IsDigit))
+                            {
+                                errors.Add($"Ошибка: Поле 'СНИЛС' в строке {row.RowNumber()} должно содержать 11 цифр.");
+                            }
+                            else if (!System.Text.RegularExpressions.Regex.IsMatch(snils, @"^\d{3}-\d{3}-\d{3} \d{2}$"))
+                            {
+                                errors.Add($"Ошибка: Поле 'СНИЛС' в строке {row.RowNumber()} должно быть в формате 'xxx-xxx-xxx xx'.");
+                            }
+                        }
+
                         
 
                         // Проверка "№ реестра"
