@@ -88,7 +88,7 @@ namespace Api.Repositories
             }
             
         }
-
+        
         public async Task SaveDispensaryListResultsAsync(IEnumerable<DispensaryListResult> results)
         {
             try
@@ -103,11 +103,23 @@ namespace Api.Repositories
                      @Snils, @Period, @Organization, @ProcessingDate, @DispensaryRegistrationStatus, @DateLastDD, 
                      @DispensaryGroup, @RegisteredMOCode, @RegisteredMOName, @AttachmentMOCode, @AttachmentMOName, @ProcessingResult)";
 
-                var currentYear = DateTime.Now.Year; 
+                var currentYear = DateTime.Now.Year;
 
                 foreach (var result in results)
                 {
-                    if (result.DateLastDD.HasValue && result.DateLastDD.Value.Year == currentYear)
+                    var existsInZap = await CheckIfExistsInZapAsync(result.Snils);
+
+                    if (!existsInZap)
+                    {
+                        result.ProcessingResult = "Неидентифицированы";
+                        result.AttachmentMOCode = null;
+                        result.AttachmentMOName = "";
+                        result.RegisteredMOCode = null;
+                        result.RegisteredMOName = "";
+                        result.DispensaryGroup = "";
+                        result.DateLastDD = null;
+                    }
+                    else if (result.DateLastDD.HasValue && result.DateLastDD.Value.Year == currentYear)
                     {
                         result.ProcessingResult = "Ок. Проведена ДДвзр в текущем году";
                     }
@@ -148,7 +160,6 @@ namespace Api.Repositories
                 throw;
             }
         }
-
 
         public async Task<IEnumerable<DispensaryListResult>> GetDispensaryListResultsAsync(int uploadFileInfId)
         {

@@ -43,7 +43,7 @@ namespace Data.Model.Entities.UploadedFile
         public int Period { get; set; }                  
 
         [Display(Name = "Код МО прикрепления")]
-        public int AttachmentMOCode { get; set; }
+        public int? AttachmentMOCode { get; set; }
 
         [Display(Name = "МО прикрепления")]
         public string AttachmentMOName { get; set; } = string.Empty;
