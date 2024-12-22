@@ -1,11 +1,13 @@
 ﻿using Api.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class DispensaryListController : ControllerBase
     {
         private readonly DispensaryListService _service;
