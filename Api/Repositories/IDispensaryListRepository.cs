@@ -15,6 +15,7 @@ namespace Api.Repositories
         Task SaveDispensaryListResultsAsync(IEnumerable<DispensaryListResult> results);
         Task<IEnumerable<DispensaryListResult>> GetDispensaryListResultsAsync(int uploadFileInfId);
         Task<byte[]> GenerateExcelFileAsync(int uploadFileInfId);
+        Task<IEnumerable<DispensaryListResult>> GetDispensaryListResultsByFileIdAsync(int uploadFileInfId);
 
     }
 }

@@ -74,6 +74,11 @@ namespace Api.Services
             await _repository.SaveDispensaryListResultsAsync(results);
             return results;
         }
+        
+        public async Task<IEnumerable<DispensaryListResult>> GetDispensaryListResultsAsync(int uploadFileInfId)
+        {
+            return await _repository.GetDispensaryListResultsByFileIdAsync(uploadFileInfId);
+        }
 
         public async Task<byte[]> GenerateExcelFileAsync(int uploadFileInfId)
         {

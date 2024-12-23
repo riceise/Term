@@ -84,17 +84,14 @@ namespace Api.Services
 
                         if (!string.IsNullOrWhiteSpace(dateString))
                         {
-                            dateString = dateString.Trim(); // Убираем лишние пробелы
+                            dateString = dateString.Trim(); 
 
                             DateTime birthDay;
-                            // Пробуем распознать дату, игнорируя возможное время
                             if (DateTime.TryParse(dateString, out birthDay))
                             {
-                                // Приводим дату к формату "dd.MM.yyyy" для проверки и дальнейшего использования
                                 string formattedDate = birthDay.ToString("dd.MM.yyyy");
 
-                                // Проверяем, соответствует ли формат ожидаемому
-                                if (dateString.Split(' ')[0] != formattedDate) // Сравниваем только часть с датой
+                                if (dateString.Split(' ')[0] != formattedDate) 
                                 {
                                     errors.Add($"Ошибка: Поле 'Дата рождения' в строке {row.RowNumber()} имеет неверный формат: '{dateString}'");
                                 }

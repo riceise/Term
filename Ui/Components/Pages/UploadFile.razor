@@ -3,6 +3,7 @@
 @inject IHttpClientFactory HttpClientFactory
 @inject IJSRuntime JS
 @using System.Text.Json
+@using Data.Model.Entities.UploadedFile
 @using Share.DTOs
 @using Ui.Components.Helper
 
@@ -39,10 +40,61 @@
 <div>
     <InputFile OnChange="OnInputFileChange" />
 </div>
+@if (tableData != null && tableData.Any())
+{
+    <h4>Результаты обработки</h4>
+    <div class="table-container">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Код МО источник списка</th>
+                    <th>МО источник списка</th>
+                    <th>Фамилия</th>
+                    <th>Имя</th>
+                    <th>Отчество</th>
+                    <th>Дата рождения</th>
+                    <th>СНИЛС</th>
+                    <th>Период</th>
+                    <th>МО прикрепления</th>
+                    <th>Состоит/не состоит на ДН</th>
+                    <th>МО, в которой пациент состоит на ДН</th>
+                    <th>Группа ДН</th>
+                    <th>Организация</th>
+                    <th>Результат обработки ТФОМС</th>
+                    <th>Дата прохождения ДН</th>
+                    <th>Дата обработки (Актуальность)</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var record in tableData)
+                {
+                    <tr>
+                        <td>@record.SourceMOCode</td>
+                        <td>@record.SourceMOName</td>
+                        <td>@record.LastName</td>
+                        <td>@record.Name</td>
+                        <td>@record.Patronymic</td>
+                        <td>@record.BirthDay.ToString("dd.MM.yyyy")</td>
+                        <td>@record.Snils</td>
+                        <td>@record.Period</td>
+                        <td>@record.AttachmentMOName</td>
+                        <td>@record.DispensaryRegistrationStatus</td>
+                        <td>@record.RegisteredMOName</td>
+                        <td>@record.DispensaryGroup</td>
+                        <td>@record.Organization</td>
+                        <td>@record.ProcessingResult</td>
+                        <td>@(record.DateLastDD?.ToString("dd.MM.yyyy") ?? "—")</td>
+                        <td>@record.ProcessingDate.ToString("dd.MM.yyyy HH:mm")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
 
 <div class="mt-2">
     <button class="btn btn-primary" @onclick="SubmitFile">Загрузка</button>
-    <button class="btn btn-success" @onclick="ProcessFile" disabled="@(!fileUploaded)">Обработать</button>
+    <button class="btn btn-success" @onclick="ProcessFileAndFetchResults" disabled="@(!fileUploaded)">Обработать</button>
     <button class="btn btn-secondary" @onclick="DownloadFile" disabled="@(!fileProcessed)">Скачать</button>
 </div>
 
@@ -62,6 +114,44 @@
 
     .alert-danger h5 {
         margin-bottom: 10px;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        padding: 10px;
+        text-align: left;
+        border: 1px solid #ddd;
+    }
+
+    @@media (max-width: 768px) {
+    table {
+        font-size: 12px;
+    }
+
+    th, td {
+        padding: 5px;
+    }
+
+    .table-container {
+        overflow-x: auto;
+    }
+    }
+
+    @@media (max-width: 480px) {
+    table {
+        font-size: 10px;
+    }
+
+    th, td {
+        padding: 3px;
+    }
+
+    th {
+        font-size: 11px;
+    }
     }
 </style>
 <script>
@@ -171,6 +261,54 @@
         }
     }
 
+    private List<DispensaryListResult> tableData = new();
+
+    private async Task ProcessFileAndFetchResults()
+    {
+        await ProcessFile(); 
+        if (fileProcessed) 
+        {
+            await FetchDispensaryListResults(); 
+        }
+    }
+
+    private async Task FetchDispensaryListResults()
+    {
+        errorMessage = string.Empty;
+        successMessage = string.Empty;
+
+        var Http = HttpClientFactory.CreateClient("BackendAPI");
+        try
+        {
+            var response = await Http.GetAsync($"api/DispensaryList/results/{uploadFileInfId}");
+            if (response.IsSuccessStatusCode)
+            {
+                try
+                {
+                    var jsonResponse = await response.Content.ReadAsStringAsync();
+                    tableData = JsonSerializer.Deserialize<List<DispensaryListResult>>(jsonResponse, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? new List<DispensaryListResult>();
+                    Console.WriteLine($"Загружено записей: {tableData.Count}");
+
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
+                // var jsonResponse = await response.Content.ReadAsStringAsync();
+                // tableData = JsonSerializer.Deserialize<List<DispensaryListResult>>(jsonResponse, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? new List<DispensaryListResult>();
+            }
+            // else()
+            // {
+            //     errorMessage = "Ошибка при получении данных.";
+            //     Console.WriteLine();
+            // }
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Произошла ошибка: {ex.Message}";
+        }
+    }
     // Метод для обработки файла
     private async Task ProcessFile()
     {

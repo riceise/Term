@@ -177,6 +177,13 @@ namespace Api.Repositories
             }
             
         }
+        public async Task<IEnumerable<DispensaryListResult>> GetDispensaryListResultsByFileIdAsync(int uploadFileInfId)
+        {
+            return await _context.DispensaryListResults
+                //.Include(d =>d.SpiskiNaDNFromMO)    
+                .Where(d => d.SpiskiNaDNFromMO.UploadFileInfId == uploadFileInfId)
+                .ToListAsync();
+        }
 
         public async Task<byte[]> GenerateExcelFileAsync(int uploadFileInfId)
         {
