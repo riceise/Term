@@ -45,6 +45,18 @@
     <div class="register-container">
         <h3 class="mb-4 text-center">Регистрация</h3>
 
+        @if (errorMessages.Any())
+        {
+            <div class="error-messages">
+                <ul>
+                    @foreach (var error in errorMessages)
+                    {
+                        <li>@error</li>
+                    }
+                </ul>
+            </div>
+        }
+
         <EditForm Model="@registerModel" OnValidSubmit="HandleRegistration">
             <DataAnnotationsValidator />
             <ValidationSummary class="text-danger mb-3" />
@@ -61,18 +73,6 @@
                 <label for="password" class="form-label">Пароль:</label>
                 <InputText id="password" type="password" class="form-control" @bind-Value="registerModel.Password" />
             </div>
-
-            @if (errorMessages.Any())
-            {
-                <div class="error-messages">
-                    <ul>
-                        @foreach (var error in errorMessages)
-                        {
-                            <li>@error</li>
-                        }
-                    </ul>
-                </div>
-            }
 
             <button type="submit" class="btn btn-primary w-100">Зарегистрироваться</button>
         </EditForm>
