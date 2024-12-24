@@ -48,7 +48,7 @@ namespace Api.Services
                     if (observations.Any())
                     {
                         var observation = observations.First();
-                        result.RegisteredMOCode = int.Parse(observation.LpuType);
+                        result.RegisteredMOCode = int.Parse(observation.LpuType);// TODO: нет того откуда брать ето придумаем
                         result.RegisteredMOName = await _repository.GetMedicalCompanyShortNameAsync(observation.LpuType);
                         result.AttachmentMOCode = int.Parse(observation.LpuType);
                         result.AttachmentMOName = await _repository.GetMedicalCompanyShortNameAsync(observation.LpuType);
