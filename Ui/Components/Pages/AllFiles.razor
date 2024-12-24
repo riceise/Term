@@ -39,7 +39,6 @@
                                 <table class="table table-bordered table-hover align-middle">
                                     <thead class="table-light">
                                         <tr>
-                                            <th>Id</th>
                                             <th>Имя файла</th>
                                             <th>Дата загрузки</th>
                                             <th style="min-width: 230px;">Действия</th>
@@ -49,7 +48,6 @@
                                         @foreach (var file in _files)
                                         {
                                             <tr>
-                                                <td>@file.Id</td>
                                                 <td>@file.FileName</td>
                                                 <td>@file.UploadDate.ToString("yyyy-MM-dd")</td>
                                                 <td>
@@ -299,6 +297,7 @@
     private SpiskiNaDDFromMODTO? _selectedItem;
     private bool _isEditing;
     private bool _isAdmin = false;
+    private int? _currentFileId;
 
     protected override async Task OnInitializedAsync()
     {
@@ -386,6 +385,7 @@
         {
             _isLoading = true;
             _errorMessage = null;
+            _currentFileId = fileId;
 
             var response = await Http.GetAsync($"api/SpiskiNaDDFromMO/byUploadFileId/{fileId}");
             if (response.IsSuccessStatusCode)
@@ -431,7 +431,10 @@
                 _isEditing = false;
                 _selectedItem = null;
                 // Обновляем список записей, чтобы отразить изменения
-                await LoadRecords(record.Id);
+                if (_currentFileId.HasValue)
+                {
+                    await LoadRecords(_currentFileId.Value);
+                }
             }
             else
             {
@@ -463,7 +466,7 @@
             _isLoading = true;
             _errorMessage = null;
 
-            var response = await Http.DeleteAsync($"api/records/{record.Id}");
+            var response = await Http.DeleteAsync($"api/SpiskiNaDNFromMO/{record.Id}");
             if (response.IsSuccessStatusCode)
             {
                 _records?.Remove(record);

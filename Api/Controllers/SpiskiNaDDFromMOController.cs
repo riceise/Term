@@ -187,7 +187,7 @@ namespace Api.Controllers
                 return NotFound("Запись с указанным ID не найдена.");
             }
             
-            _SpiskiNaDDFromMOService.DeleteByIdAsync(id);
+            await _SpiskiNaDDFromMOService.DeleteByIdAsync(id);
             return Ok("Запись удалена.");
         }
 

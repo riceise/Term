@@ -224,6 +224,7 @@ namespace Api.Services
         public async Task DeleteByIdAsync(int id)
         {
             await _repository.DeleteByIdAsync(id);
+            await _repository.SaveChangesAsync();
         }
         
 
