@@ -295,14 +295,8 @@
                     Console.WriteLine(e);
                     throw;
                 }
-                // var jsonResponse = await response.Content.ReadAsStringAsync();
-                // tableData = JsonSerializer.Deserialize<List<DispensaryListResult>>(jsonResponse, new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? new List<DispensaryListResult>();
             }
-            // else()
-            // {
-            //     errorMessage = "Ошибка при получении данных.";
-            //     Console.WriteLine();
-            // }
+            
         }
         catch (Exception ex)
         {
@@ -371,7 +365,9 @@
                 var base64String = Convert.ToBase64String(fileBytes); 
 
                 var fileName = "DispensaryListResults.xlsx";
-                await JS.InvokeVoidAsync("saveAsFile", fileName, base64String); 
+                await JS.InvokeVoidAsync("saveAsFile", fileName, base64String);
+
+                successMessage = "Файл успешно скачен!";
             }
             else
             {

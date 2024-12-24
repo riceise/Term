@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Api.Controllers
 {   
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     
@@ -180,7 +180,7 @@ namespace Api.Controllers
                 return NotFound("Запись с указанным ID не найдена.");
             }
             
-            _spiskiNaDnFromMoService.DeleteByIdAsync(id);
+             await _spiskiNaDnFromMoService.DeleteByIdAsync(id);
             return Ok("Запись удалена.");
         }
 

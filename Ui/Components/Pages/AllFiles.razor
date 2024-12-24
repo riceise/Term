@@ -149,6 +149,8 @@ else if (_showRecords)
     private bool _showRecords;
     private SpiskiNaDNFromMODTO? _selectedItem;
     private bool _isEditing;
+    private int? _currentFileId;
+
 
     protected override async Task OnInitializedAsync()
     {
@@ -193,6 +195,8 @@ else if (_showRecords)
             _isLoading = true;
             _errorMessage = null;
 
+            _currentFileId = fileId; 
+
             var response = await Http.GetAsync($"api/SpiskiNaDNFromMO/byUploadFileId/{fileId}");
             if (response.IsSuccessStatusCode)
             {
@@ -214,6 +218,7 @@ else if (_showRecords)
         }
     }
 
+
     private void BackToFiles()
     {
         _showRecords = false;
@@ -234,7 +239,11 @@ else if (_showRecords)
             {
                 _isEditing = false;
                 _selectedItem = null;
-                await LoadRecords(record.Id);
+
+                if (_currentFileId.HasValue)
+                {
+                    await LoadRecords(_currentFileId.Value);
+                }
             }
             else
             {
@@ -251,6 +260,7 @@ else if (_showRecords)
         }
     }
 
+
     private void CancelEdit()
     {
         _isEditing = false;
@@ -266,7 +276,7 @@ else if (_showRecords)
             _isLoading = true;
             _errorMessage = null;
 
-            var response = await Http.DeleteAsync($"api/records/{record.Id}");
+            var response = await Http.DeleteAsync($"api/SpiskiNaDNFromMO/{record.Id}");
             if (response.IsSuccessStatusCode)
             {
                 _records.Remove(record);
