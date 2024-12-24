@@ -100,6 +100,7 @@
         else
         {
             var result = await response.Content.ReadFromJsonAsync<ErrorResponse>();
+                
             errorMessages = result.Errors?.ToList() ?? new List<string>();
 
             // Если нет подробных ошибок, добавляем общее сообщение
