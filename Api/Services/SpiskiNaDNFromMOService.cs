@@ -140,9 +140,9 @@ namespace Api.Services
 
                         // Проверка "Период"
                         int period;
-                        if (!int.TryParse(row.Cell(8).GetString(), out period))
+                        if (!int.TryParse(row.Cell(8).GetString(), out period) || period < 1 || period > 12)
                         {
-                            errors.Add($"Ошибка: Поле 'Период' в строке {row.RowNumber()} имеет неверный формат.");
+                            errors.Add($"Ошибка: Поле 'Период' в строке {row.RowNumber()} имеет неверный формат или находится вне допустимого диапазона.");
                         }
 
                         // Проверка "Организация"
