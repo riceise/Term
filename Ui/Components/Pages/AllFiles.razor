@@ -426,6 +426,9 @@
             _errorMessage = null;
 
             var response = await Http.PutAsJsonAsync($"api/SpiskiNaDDFromMO/{record.Id}", record);
+
+            Console.WriteLine($"Id изменияемой записи: {record.Id}");
+
             if (response.IsSuccessStatusCode)
             {
                 _isEditing = false;
@@ -466,7 +469,10 @@
             _isLoading = true;
             _errorMessage = null;
 
-            var response = await Http.DeleteAsync($"api/SpiskiNaDNFromMO/{record.Id}");
+            var response = await Http.DeleteAsync($"api/SpiskiNaDDFromMO/{record.Id}");
+
+            Console.WriteLine($"Id удаляемой записи: {record.Id}");
+
             if (response.IsSuccessStatusCode)
             {
                 _records?.Remove(record);
