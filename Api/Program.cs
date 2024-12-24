@@ -10,6 +10,7 @@ using System.Text;
 using Data.Model.Entities.Users;
 using Api.Middlewares;
 using Microsoft.Data.SqlClient;
+using Api.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,7 +32,8 @@ builder.Services.AddScoped<IDbConnection>(sp =>
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<TFOMSContext>()
-    .AddDefaultTokenProviders();
+    .AddDefaultTokenProviders()
+    .AddErrorDescriber<RussianIdentityErrorDescriber>();
 
 builder.Services.AddScoped<ISpiskiNaDnFromMoRepository, SpiskiNaDNFromMORepository>();
 builder.Services.AddScoped<ISpiskiNaDNFromMOService, SpiskiNaDnFromMoService>();

@@ -22,7 +22,6 @@ else if (_files != null && _files.Any() && !_showRecords)
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Имя файла</th>
                 <th>Дата загрузки</th>
                 <th>Действия</th>
@@ -32,7 +31,6 @@ else if (_files != null && _files.Any() && !_showRecords)
             @foreach (var file in _files)
             {
                 <tr>
-                    <td>@file.Id</td>
                     <td>@file.FileName</td>
                     <td>@file.UploadDate.ToString("yyyy-MM-dd")</td>
                     <td>

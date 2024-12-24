@@ -4,14 +4,14 @@ namespace Data.Model.Entities.Users
 {
     public class RegisterModel
     {
-        [Required]
+        [Required(ErrorMessage = "Поле Имя обязательно для заполнения.")]
         public string UserName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Поле Email обязательно для заполнения.")]
         [EmailAddress]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Поле Пароль обязательно для заполнения.")]
         public string Password { get; set; }
     }
 }
