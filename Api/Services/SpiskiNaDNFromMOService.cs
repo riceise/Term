@@ -75,9 +75,9 @@ namespace Api.Services
 
                         // Проверка "Имя"
                         string name = row.Cell(3).GetString();
-                        if (string.IsNullOrEmpty(name))
+                        if (string.IsNullOrWhiteSpace(name)) 
                         {
-                            errors.Add($"Ошибка: Поле 'Имя' в строке {row.RowNumber()} обязательно.");
+                            errors.Add($"Ошибка: Поле 'Имя' в строке {row.RowNumber()} не должно быть пустым или содержать только пробелы.");
                         }
 
                         string dateString = row.Cell(5).GetString();
