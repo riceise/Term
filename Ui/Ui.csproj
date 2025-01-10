@@ -16,9 +16,5 @@
   <ItemGroup>
     <Folder Include="Components\Icons\" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="wwwroot\invisible.png" />
-    <None Include="wwwroot\see.png" />
-  </ItemGroup>
 
 </Project>
