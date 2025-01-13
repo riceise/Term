@@ -1,6 +1,6 @@
 ﻿<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="">Ui</a>
+        <a class="navbar-brand" href="">ТФОМС АО</a>
     </div>
 </div>
 
@@ -34,7 +34,8 @@
                     </div>
                     <div class="nav-item px-1">
                         <NavLink class="nav-link" href="files">
-                            <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Список загружененных файлов
+                            <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span>
+                            <span class="nav-text">Список загруженных файлов</span>
                         </NavLink>
                     </div>
                 </Authorized>          
@@ -43,4 +44,24 @@
 
     </nav>
 </div>
+
+<style>
+    .nav-item {
+        display: flex;
+        align-items: center;
+    }
+
+    .nav-link {
+        flex: 1;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .nav-scrollable {
+        min-width: 350px; 
+        width: auto; 
+    }
+
+</style>
 
